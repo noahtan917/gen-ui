@@ -39,9 +39,11 @@ for (const rel of requiredSpecFiles) {
   }
 }
 
-if (!existsSync(join(root, "branding/demo/tokens.json"))) {
-  console.error("Missing branding/demo/tokens.json");
-  failed = true;
+for (const brandFile of ["branding/demo/tokens.json", "branding/youtube/tokens.json"]) {
+  if (!existsSync(join(root, brandFile))) {
+    console.error(`Missing ${brandFile}`);
+    failed = true;
+  }
 }
 
 for (const rel of [...adapterFiles, ...sessionProviders]) {

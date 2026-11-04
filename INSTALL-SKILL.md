@@ -21,7 +21,7 @@ Repo must be **public** for hosts that can fetch URLs. Many **cannot** (includin
 Install the GenUI skill for this session from {REPO_URL}
 Provider: generic-chat
 
-Load spec/session-bootstrap.md and follow it. Default brand: demo.
+Load spec/session-bootstrap.md and follow it. Brand: youtube.
 Confirm when ready.
 ```
 

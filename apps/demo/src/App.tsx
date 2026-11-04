@@ -30,8 +30,9 @@ export function App() {
   return (
     <div className="app">
       <header className="app-header">
+        <span className="app-header__brand">YOUTUBE BRAND PACK</span>
         <h1>GenUI Demo</h1>
-        <p>Click a meal card to emit a structured AI request.</p>
+        <p>YouTube red #FF0000 — click a meal card to emit a structured AI request.</p>
       </header>
       <div className="app-grid">
         <section className="app-panel">

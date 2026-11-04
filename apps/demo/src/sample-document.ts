@@ -4,17 +4,22 @@ export const mealDemoDocument: GenUIDocument = {
   genuiVersion: "1.0.0",
   meta: {
     title: "Weeknight dinner picker",
-    description: "Interactive meal planning demo",
+    description: "Interactive meal planning demo (YouTube brand pack)",
   },
   themeRef: {
-    source: "demo",
+    source: "youtube",
+    id: "youtube",
     colors: {
-      primary: "#0d6efd",
-      surface: "#f8f9fa",
-      text: "#212529",
+      primary: "#FF0000",
+      primaryHover: "#CC0000",
+      surface: "#FFFFFF",
+      surfaceAlt: "#F9F9F9",
+      text: "#0F0F0F",
+      textMuted: "#606060",
+      border: "#E5E5E5",
     },
     typography: {
-      fontFamily: "system-ui, sans-serif",
+      fontFamily: "Roboto, Arial, Helvetica, sans-serif",
     },
     radius: { md: "12px" },
   },

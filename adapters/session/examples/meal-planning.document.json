@@ -1,8 +1,8 @@
 {
   "genuiVersion": "1.0.0",
   "themeRef": {
-    "source": "demo",
-    "id": "demo"
+    "source": "youtube",
+    "id": "youtube"
   },
   "actions": {
     "planMeal": {

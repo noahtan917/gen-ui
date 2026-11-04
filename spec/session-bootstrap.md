@@ -9,7 +9,7 @@ User message pattern:
 ```text
 Install the GenUI skill for this session from {REPO_URL}
 Provider: {provider_id}   # optional; see providers/README.md
-Brand: demo                 # optional; default branding/demo
+Brand: youtube               # optional; default branding/youtube (#FF0000)
 ```
 
 ## Load order (from `{REPO_URL}`)
@@ -20,7 +20,7 @@ Resolve `{owner}`, `{repo}`, ref `main` unless URL specifies a branch/tag.
 2. `spec/GENUI.md`
 3. `spec/interaction-contract.md`
 4. `spec/rendering-profiles.md`
-5. `branding/demo/tokens.json` (or `branding/{brand}/tokens.json`)
+5. `branding/youtube/tokens.json` (or `branding/{brand}/tokens.json`; default **youtube** for demos)
 6. `adapters/session/interactive-ui-guide.md`
 7. `adapters/session/providers/{provider_id}.md` — if `{provider_id}` omitted, infer from product or use `generic-chat.md`
 

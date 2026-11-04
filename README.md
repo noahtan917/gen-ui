@@ -11,7 +11,7 @@ pnpm test
 pnpm demo
 ```
 
-Open the demo at the URL Vite prints (default `http://localhost:5173`). Click **Sheet-pan salmon** to see a structured contextual AI request payload in the panel.
+Open the demo at the URL Vite prints (default `http://localhost:5173`). **YouTube brand pack** (red `#FF0000`, dark header) — click **Sheet-pan salmon** for the AI request payload panel.
 
 ## Chat / web GenAI (session install)
 
@@ -43,6 +43,12 @@ Project skill path: [`.cursor/skills/genui/SKILL.md`](adapters/cursor/.cursor/sk
 ## Adding an AI provider
 
 See [adapters/README.md](adapters/README.md).
+
+## Progress & presentation
+
+- [docs/PROGRESS-REPORT.md](docs/PROGRESS-REPORT.md) — status, architecture, demo script  
+- [docs/PRESENTATION.md](docs/PRESENTATION.md) — slide-by-slide deck for stakeholders  
+- [docs/LIMITATIONS-AND-CAUSES.md](docs/LIMITATIONS-AND-CAUSES.md) — provider limits, root causes, mitigations  
 
 ## License
 

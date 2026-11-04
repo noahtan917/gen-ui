@@ -1,25 +1,58 @@
 :root {
-  --genui-color-primary: #0d6efd;
-  --genui-color-surface: #f8f9fa;
-  --genui-color-text: #212529;
+  --genui-color-primary: #ff0000;
+  --genui-color-primary-hover: #cc0000;
+  --genui-color-surface: #f9f9f9;
+  --genui-color-surface-elevated: #ffffff;
+  --genui-color-text: #0f0f0f;
+  --genui-color-text-muted: #606060;
+  --genui-color-border: #e5e5e5;
+  --genui-color-header: #0f0f0f;
   --genui-radius-md: 12px;
 }
 
 body {
   margin: 0;
-  font-family: system-ui, sans-serif;
+  font-family: Roboto, Arial, Helvetica, sans-serif;
   color: var(--genui-color-text);
-  background: #fff;
+  background: var(--genui-color-surface-elevated);
 }
 
 .app {
   max-width: 960px;
   margin: 0 auto;
-  padding: 24px;
+  padding: 0 24px 24px;
 }
 
 .app-header {
-  margin-bottom: 24px;
+  margin: 0 -24px 24px;
+  padding: 16px 24px;
+  background: var(--genui-color-header);
+  color: #fff;
+  border-bottom: 3px solid var(--genui-color-primary);
+}
+
+.app-header h1 {
+  margin: 0 0 4px;
+  font-size: 1.35rem;
+  font-weight: 500;
+}
+
+.app-header p {
+  margin: 0;
+  color: #aaaaaa;
+  font-size: 0.9rem;
+}
+
+.app-header__brand {
+  display: inline-block;
+  background: var(--genui-color-primary);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-bottom: 8px;
 }
 
 .app-grid {
@@ -36,7 +69,7 @@ body {
 
 .app-panel {
   padding: 16px;
-  border: 1px solid #dee2e6;
+  border: 1px solid var(--genui-color-border);
   border-radius: var(--genui-radius-md);
   background: var(--genui-color-surface);
 }
@@ -47,10 +80,11 @@ body {
   background: #fff;
   padding: 12px;
   border-radius: 8px;
+  border: 1px solid var(--genui-color-border);
 }
 
 .muted {
-  color: #6c757d;
+  color: var(--genui-color-text-muted);
 }
 
 .genui-button,
@@ -64,12 +98,17 @@ body {
   color: #fff;
   border: none;
   padding: 8px 16px;
-  border-radius: 8px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.genui-button:hover {
+  background: var(--genui-color-primary-hover);
 }
 
 .genui-card {
-  background: #fff;
-  border: 1px solid #dee2e6;
+  background: var(--genui-color-surface-elevated);
+  border: 1px solid var(--genui-color-border);
   border-radius: var(--genui-radius-md);
   padding: 16px;
   text-align: left;
@@ -78,17 +117,23 @@ body {
 
 .genui-card--interactive:hover {
   border-color: var(--genui-color-primary);
+  box-shadow: 0 0 0 1px var(--genui-color-primary);
 }
 
 .genui-card__title {
   margin: 0 0 4px;
   font-size: 1.1rem;
+  color: var(--genui-color-text);
 }
 
 .genui-card__subtitle {
   margin: 0;
-  color: #6c757d;
+  color: var(--genui-color-text-muted);
   font-size: 0.9rem;
+}
+
+.genui-text--heading {
+  color: var(--genui-color-text);
 }
 
 .genui-form {

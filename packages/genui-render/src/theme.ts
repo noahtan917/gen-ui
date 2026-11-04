@@ -11,8 +11,11 @@ export function themeToCssVars(themeRef?: GenUIDocument["themeRef"]): CSSPropert
 
   const vars: Record<string, string> = {};
   if (colors?.primary) vars["--genui-color-primary"] = colors.primary;
+  if (colors?.primaryHover) vars["--genui-color-primary-hover"] = colors.primaryHover;
   if (colors?.surface) vars["--genui-color-surface"] = colors.surface;
   if (colors?.text) vars["--genui-color-text"] = colors.text;
+  if (colors?.textMuted) vars["--genui-color-text-muted"] = colors.textMuted;
+  if (colors?.border) vars["--genui-color-border"] = colors.border;
   if (radius?.md) vars["--genui-radius-md"] = radius.md;
 
   return {

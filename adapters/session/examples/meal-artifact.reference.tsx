@@ -4,11 +4,12 @@
 import { useState } from "react";
 
 const tokens = {
-  primary: "#2563eb",
-  surface: "#f8fafc",
-  text: "#0f172a",
-  textMuted: "#64748b",
-  border: "#e2e8f0",
+  primary: "#FF0000",
+  surface: "#F9F9F9",
+  text: "#0F0F0F",
+  textMuted: "#606060",
+  border: "#E5E5E5",
+  header: "#0F0F0F",
   radius: "12px",
 };
 
@@ -34,7 +35,10 @@ export default function MealGenUIReference() {
   const active = meals.find((m) => m.id === selected);
 
   return (
-    <div style={{ fontFamily: "system-ui, sans-serif", color: tokens.text, background: tokens.surface, padding: 16 }}>
+    <div style={{ fontFamily: "Roboto, Arial, sans-serif", color: tokens.text, background: tokens.surface, padding: 16 }}>
+      <div style={{ background: tokens.header, color: "#fff", padding: "8px 12px", margin: "-16px -16px 16px", borderBottom: `3px solid ${tokens.primary}` }}>
+        <span style={{ fontSize: 11, fontWeight: 700, color: tokens.primary, background: "#fff", padding: "2px 6px", borderRadius: 4 }}>YOUTUBE</span>
+      </div>
       <h2 style={{ marginTop: 0 }}>What do you want to cook?</h2>
       <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
         {meals.map((m) => (
