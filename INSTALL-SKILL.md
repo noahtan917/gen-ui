@@ -64,3 +64,4 @@ cd gen-ui && pnpm install && pnpm build && pnpm demo
 | Gemini | [docs/install-gemini.md](docs/install-gemini.md) |
 | ChatGPT | [docs/install-chatgpt.md](docs/install-chatgpt.md) |
 | Limits | [docs/LIMITATIONS-AND-CAUSES.md](docs/LIMITATIONS-AND-CAUSES.md) |
+| Provider overlays | [adapters/session/providers/](adapters/session/providers/) |
