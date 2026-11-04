@@ -6,11 +6,12 @@ Repeat on each host you care about.
 
 - Public `{REPO_URL}` pointing at this repo
 - Host can fetch GitHub raw files **or** you paste [PASTE-BUNDLE.md](../adapters/session/PASTE-BUNDLE.md) (includes **youtube** #FF0000)
+- Current `installVersion` from the top of [SESSION-INSTALL.md](../adapters/session/SESSION-INSTALL.md) on GitHub
 
 ## Steps
 
-1. Send install prompt from [INSTALL-SKILL.md](../INSTALL-SKILL.md) with correct `Provider:`.
-2. Confirm assistant acknowledges spec + brand + rendering profile.
+1. **Fresh chat.** Send the raw-URL install prompt from [INSTALL-SKILL.md](../INSTALL-SKILL.md) (add `Provider:` only if auto-detect is wrong).
+2. Confirm assistant acknowledges **installVersion** (must match GitHub) + brand + rendering profile, and reports **no** “robots disallowed” / extra fetch attempts.
 3. Ask: *Help me pick a weeknight dinner — show clickable meal options.*
 4. Verify:
    - [ ] UI uses **YouTube** brand (#FF0000 primary, dark chrome — not legacy demo blue or host default)
@@ -22,6 +23,14 @@ Repeat on each host you care about.
 6. In a later turn, ask for dinner options again; verify the same branded reference UI is rebuilt (not a host-native planner).
 
 If the host shows its own planner instead, see [LIMITATIONS-AND-CAUSES.md](LIMITATIONS-AND-CAUSES.md) (L10 ChatGPT, L12 Claude) for the drift-recovery prompt.
+
+## Claude web install variants
+
+Run the dinner checks (steps 3–6) for each:
+
+- [ ] Raw-URL prompt (primary)
+- [ ] Uploaded Skill ([genui.zip](../adapters/claude-skill/genui.zip)) — no install message; ask for dinner directly
+- [ ] PASTE-BUNDLE pasted
 
 ## Expected profile by provider
 

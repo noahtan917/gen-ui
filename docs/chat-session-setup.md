@@ -13,12 +13,13 @@ Replace `{REPO_URL}` in [INSTALL-SKILL.md](../INSTALL-SKILL.md). No code changes
 
 ## Fetch failures
 
-If the model cannot read GitHub:
+If the model cannot read GitHub (see [LIMITATIONS L13](LIMITATIONS-AND-CAUSES.md)):
 
-1. Paste contents of `adapters/session/SKILL.md`
-2. Paste [PASTE-BUNDLE.md](../adapters/session/PASTE-BUNDLE.md) **or** `branding/youtube/tokens.json` (not legacy `branding/demo` blue)
-3. Paste the provider overlay from `adapters/session/providers/{id}.md`
+1. Make sure the install message contains the **raw** SESSION-INSTALL URL, not only the repo URL ([INSTALL-SKILL.md](../INSTALL-SKILL.md)).
+2. Stale copy (wrong `installVersion`)? Use a commit-pinned raw URL.
+3. Still blocked? Paste [PASTE-BUNDLE.md](../adapters/session/PASTE-BUNDLE.md) — it is self-contained (tokens, overlays, reference layout inlined).
 
 ## Persistent install (optional)
 
-Upload the same files to a Claude Project / custom GPT / Gemini Gem knowledge base — still one spec, not per-provider copies.
+- **Claude web:** upload [adapters/claude-skill/genui.zip](../adapters/claude-skill/genui.zip) as a Skill (Settings → Capabilities → Skills).
+- **Others:** upload `SESSION-INSTALL.md` to a Claude Project / custom GPT / Gemini Gem knowledge base — still one spec, not per-provider copies.

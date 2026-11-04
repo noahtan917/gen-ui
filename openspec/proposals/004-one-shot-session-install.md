@@ -14,6 +14,10 @@ Fetch-capable hosts (Claude web) treated “install from GitHub URL” as opport
 - [README.md](../../README.md) and [GENUI-SESSION.md](../../GENUI-SESSION.md) direct models to fetch one raw URL first
 - Paste path reserved for no-fetch hosts (Gemini)
 
+## Follow-up
+
+Repo-URL-only prompt still failed on Claude web (robots, link provenance, stale cache) — see [005-fetch-resilient-install.md](005-fetch-resilient-install.md).
+
 ## Acceptance
 
 - [x] User message unchanged (repo URL only)

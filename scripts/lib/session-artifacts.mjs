@@ -1,0 +1,112 @@
+// Builds every generated session artifact in memory. Used by the generator (writes
+// to disk) and by check-adapter-paths.mjs (compares against disk) so the two can
+// never disagree about what "in sync" means.
+import { createHash } from "node:crypto";
+import { readFileSync, readdirSync } from "node:fs";
+import { join } from "node:path";
+import { createStoredZip } from "./zip.mjs";
+
+export const REPO_URL = "https://github.com/noahtan917/gen-ui";
+export const REPO_RAW_BASE = "https://raw.githubusercontent.com/noahtan917/gen-ui/main";
+export const SESSION_INSTALL_PATH = "adapters/session/SESSION-INSTALL.md";
+export const RAW_SESSION_INSTALL_URL = `${REPO_RAW_BASE}/${SESSION_INSTALL_PATH}`;
+
+const SESSION_DIR = "adapters/session";
+const PROVIDERS_DIR = `${SESSION_DIR}/providers`;
+const REFERENCE_ARTIFACT_PATH = `${SESSION_DIR}/examples/meal-artifact.reference.tsx`;
+const CLAUDE_SKILL_DIR = "adapters/claude-skill";
+const CLAUDE_SKILL_NAME = "genui";
+
+const read = (root, rel) => readFileSync(join(root, rel), "utf8").replace(/\r\n/g, "\n");
+
+/** Provider overlay as standalone text: drop the "Rules:" link line and unwrap links. */
+function inlineOverlay(text) {
+  return text
+    .split("\n")
+    .filter((line) => !line.startsWith("Rules:"))
+    .join("\n")
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+    .replace(/^# Provider overlay: (.+)$/m, "#### $1")
+    .replace(/^## /gm, "##### ")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+}
+
+function loadProviderOverlays(root) {
+  return readdirSync(join(root, PROVIDERS_DIR))
+    .filter((name) => name.endsWith(".md") && name !== "README.md")
+    .sort()
+    .map((name) => inlineOverlay(read(root, `${PROVIDERS_DIR}/${name}`)))
+    .join("\n\n");
+}
+
+/**
+ * @param {string} root repository root
+ * @returns {{ brandId: string, primaryHex: string, installVersion: string,
+ *             files: Map<string, string | Buffer> }}
+ */
+export function buildSessionArtifacts(root) {
+  const config = JSON.parse(read(root, "spec/session-config.json"));
+  const brandId = config.defaultBrandPack;
+  const tokens = JSON.parse(read(root, `branding/${brandId}/tokens.json`));
+  const primaryHex = tokens.colors?.primary ?? "";
+  const refDoc = JSON.parse(read(root, config.referenceDocument));
+  const referenceArtifact = read(root, REFERENCE_ARTIFACT_PATH).trim();
+  const providerOverlays = loadProviderOverlays(root);
+
+  const tokensForPaste = {
+    source: tokens.source ?? brandId,
+    id: tokens.id ?? brandId,
+    colors: tokens.colors,
+    typography: tokens.typography,
+    radius: tokens.radius,
+  };
+
+  const templates = {
+    body: read(root, `${SESSION_DIR}/session-artifact-body.template.md`),
+    sessionInstall: read(root, `${SESSION_DIR}/SESSION-INSTALL.template.md`),
+    pasteBundle: read(root, `${SESSION_DIR}/PASTE-BUNDLE.template.md`),
+    claudeSkill: read(root, `${CLAUDE_SKILL_DIR}/SKILL.template.md`),
+  };
+
+  // Hash of every input — changes whenever any generated output would change.
+  const installVersion = createHash("sha256")
+    .update(
+      JSON.stringify({ config, tokensForPaste, refDoc, referenceArtifact, providerOverlays, templates }),
+    )
+    .digest("hex")
+    .slice(0, 8);
+
+  const forbiddenPacks = (config.forbiddenBrandPacks ?? []).join("`, `");
+
+  const applyPlaceholders = (template) =>
+    template
+      .replaceAll("{{BRAND_ID}}", brandId)
+      .replaceAll("{{PRIMARY_HEX}}", primaryHex)
+      .replaceAll("{{INSTALL_VERSION}}", installVersion)
+      .replaceAll("{{FORBIDDEN_PACKS}}", forbiddenPacks ? `\`${forbiddenPacks}\`` : "(none)")
+      .replaceAll("{{CONFIG_JSON}}", JSON.stringify(config, null, 2))
+      .replaceAll("{{TOKENS_JSON}}", JSON.stringify(tokensForPaste, null, 2))
+      .replaceAll("{{REFERENCE_DOCUMENT_JSON}}", JSON.stringify(refDoc, null, 2))
+      .replaceAll("{{REFERENCE_ARTIFACT_TSX}}", referenceArtifact)
+      .replaceAll("{{PROVIDER_OVERLAYS}}", providerOverlays)
+      .replaceAll("{{REPO_URL}}", REPO_URL)
+      .replaceAll("{{RAW_SESSION_INSTALL_URL}}", RAW_SESSION_INSTALL_URL);
+
+  const body = applyPlaceholders(templates.body);
+  const render = (template) => applyPlaceholders(template).replace("{{BODY}}", () => body);
+
+  const skillMd = render(templates.claudeSkill);
+
+  const files = new Map([
+    [`${SESSION_DIR}/SESSION-INSTALL.md`, render(templates.sessionInstall)],
+    [`${SESSION_DIR}/PASTE-BUNDLE.md`, render(templates.pasteBundle)],
+    [`${CLAUDE_SKILL_DIR}/${CLAUDE_SKILL_NAME}/SKILL.md`, skillMd],
+    [
+      `${CLAUDE_SKILL_DIR}/${CLAUDE_SKILL_NAME}.zip`,
+      createStoredZip([{ name: `${CLAUDE_SKILL_NAME}/SKILL.md`, data: skillMd }]),
+    ],
+  ]);
+
+  return { brandId, primaryHex, installVersion, files };
+}

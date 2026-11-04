@@ -1,14 +1,16 @@
 <!-- GENERATED: do not edit; run pnpm generate:session-artifacts -->
 
-# GenUI session install — fetch this file first (one-shot)
+# GenUI session install — one-shot (this file is the whole install)
 
-When the user says **install GenUI from https://github.com/noahtan917/gen-ui** (or pastes that GitHub URL), you **must** fetch and read **this entire file** before any other repo file:
+**installVersion: `401e4c93`**
 
-**https://raw.githubusercontent.com/noahtan917/gen-ui/main/adapters/session/SESSION-INSTALL.md**
+The user loads this file with a message like *“Load GenUI for this chat from https://raw.githubusercontent.com/noahtan917/gen-ui/main/adapters/session/SESSION-INSTALL.md”* (or by referencing the repo https://github.com/noahtan917/gen-ui). Reading **this entire file** completes the install — **do not fetch any other repo file** (GitHub blocks most repo paths for AI fetchers, and nothing else is required).
 
-Install is **incomplete** until you confirm brand **`youtube`** and primary **`#FF0000`**. Do **not** browse the repo randomly, use `branding/demo`, or fall back to neutral styling.
+This is a **conversation-scoped** install: you do **not** need a skills folder or any persistent storage.
 
-You are now configured with the **GenUI** skill for **this conversation**.
+Install is **incomplete** until you confirm installVersion **`401e4c93`**, brand **`youtube`** and primary **`#FF0000`**. Do **not** use `branding/demo` or fall back to neutral styling.
+
+You are now configured with **GenUI** for **this conversation**.
 
 **Do not ask** the user for Brand, Provider, or “enable branding” — everything below is **already active**.
 
@@ -45,7 +47,7 @@ You are now configured with the **GenUI** skill for **this conversation**.
 - Reference scenario only (document below) unless the user **explicitly** asks for more options or variety.
 - Each option: **Send this next:** with fully interpolated `ai.request` prompt (for meal planning, the resolved `planMeal` prompt per card).
 - **Forbidden substitutions when GenUI was invoked:** host-native recipe/meal carousels or planners, card-grid pickers, stock photo cards, time/"weeknight" filters, "Plan this"-style chips, and any blue/neutral/default host chrome. Use the token **primary** color, not the host default.
-- **embedded-ui-host:** build a **custom React Artifact** bound to **exactly** these option cards, with inlined `#FF0000` accent styling (titles, borders, buttons), mirroring the structure of `adapters/session/examples/meal-artifact.reference.tsx` (copy structure, not any demo colors). On click, update Artifact state **and** surface **Send this next:** with the fully interpolated prompt. Do **not** emit Claude's built-in interactive meal/recipe UI.
+- **embedded-ui-host:** build a **custom React Artifact** bound to **exactly** these option cards, with inlined `#FF0000` accent styling (titles, borders, buttons), mirroring the structure of the **reference Artifact layout** below (inlined — do not fetch it). On click, update Artifact state **and** surface **Send this next:** with the fully interpolated prompt. Do **not** emit Claude's built-in interactive meal/recipe UI.
 
 ### Brand tokens (`themeRef`)
 
@@ -159,15 +161,164 @@ You are now configured with the **GenUI** skill for **this conversation**.
 
 ---
 
-## Optional secondary fetch (after this artifact)
+### Reference Artifact layout (`embedded-ui-host`)
 
-If the host can fetch more files from the repo, optionally load: `spec/GENUI.md`, `spec/interaction-contract.md`, `spec/rendering-profiles.md`, `adapters/session/providers/{detected}.md`. **Session is already valid** for branding and meal scenario without them.
+Copy this structure for the Artifact (two cards, **Send this next:** on select). Keep every option bound to the reference document above.
+
+```tsx
+/**
+ * Reference only — for embedded-ui-host (Artifacts / canvas-style UIs).
+ */
+import { useState } from "react";
+
+const tokens = {
+  primary: "#FF0000",
+  surface: "#F9F9F9",
+  text: "#0F0F0F",
+  textMuted: "#606060",
+  border: "#E5E5E5",
+  header: "#0F0F0F",
+  radius: "12px",
+};
+
+const meals = [
+  {
+    id: "card-salmon",
+    title: "Sheet-pan salmon",
+    cuisine: "Mediterranean",
+    bridgePrompt:
+      "Help me cook Sheet-pan salmon (Mediterranean): ingredient list, steps, and total time for a weeknight dinner.",
+  },
+  {
+    id: "card-ramen",
+    title: "Miso ramen bowl",
+    cuisine: "Japanese",
+    bridgePrompt:
+      "Help me cook Miso ramen bowl (Japanese): ingredient list, steps, and total time for a weeknight dinner.",
+  },
+];
+
+export default function MealGenUIReference() {
+  const [selected, setSelected] = useState<string | null>(null);
+  const active = meals.find((m) => m.id === selected);
+
+  return (
+    <div style={{ fontFamily: "Roboto, Arial, sans-serif", color: tokens.text, background: tokens.surface, padding: 16 }}>
+      <div style={{ background: tokens.header, color: "#fff", padding: "8px 12px", margin: "-16px -16px 16px", borderBottom: `3px solid ${tokens.primary}` }}>
+        <span style={{ fontSize: 11, fontWeight: 700, color: tokens.primary, background: "#fff", padding: "2px 6px", borderRadius: 4 }}>YOUTUBE</span>
+      </div>
+      <h2 style={{ marginTop: 0 }}>What do you want to cook?</h2>
+      <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+        {meals.map((m) => (
+          <button
+            key={m.id}
+            type="button"
+            onClick={() => setSelected(m.id)}
+            style={{
+              textAlign: "left",
+              cursor: "pointer",
+              background: "#fff",
+              border: `1px solid ${selected === m.id ? tokens.primary : tokens.border}`,
+              borderRadius: tokens.radius,
+              padding: 16,
+              minWidth: 160,
+            }}
+          >
+            <strong>{m.title}</strong>
+            <div style={{ color: tokens.textMuted, fontSize: 14 }}>{m.cuisine}</div>
+          </button>
+        ))}
+      </div>
+      {active ? (
+        <p style={{ marginTop: 16 }}>
+          <strong>Send this next:</strong> {active.bridgePrompt}
+        </p>
+      ) : null}
+    </div>
+  );
+}
+```
+
+### Host overlays (inlined — pick the one for your host)
+
+Detect your host and apply its overlay. Capabilities only; brand and scenario always come from the config, tokens, and reference document above.
+
+#### chatgpt-web
+
+**Profile:** Prefer `embedded-ui-host` (Canvas / HTML). If unavailable → `markdown-ui-host`.
+
+##### Host drift (L10)
+
+| Symptom | Cause |
+|---------|--------|
+| Unrelated recipes, stock photos | ChatGPT native widgets override GenUI |
+| Missing **Send this next:** | Overlay profile not applied |
+
+Do **not** use the host’s default recipe carousel when the user invoked GenUI. Follow session-visual-guide.md and the reference document from config.
+
+Brand and meals: **only** session-config.json + loaded tokens — not this file.
+
+#### claude-web
+
+**Profile:** `embedded-ui-host`
+
+- **Build a React Artifact every turn** that an option-picker is needed (e.g. any weeknight-dinner / "what should I cook" prompt) — not just at install. Re-apply these rules on each reply; a prose "GenUI loaded" confirmation on an earlier turn does **not** exempt later turns.
+- Bind the Artifact to **exactly** the cards in the reference document (for meal planning: the two meals only). Do **not** invent extra options.
+- Style using colors from the loaded brand token file (see config `defaultBrandPack`); use the token **primary** for accents, not Claude's default.
+- Layout example: meal-artifact.reference.tsx (inlined in SESSION-INSTALL — do not fetch) — copy structure, not hardcoded colors from this file.
+- **Install:** the user message must contain the raw SESSION-INSTALL URL (Claude only fetches user-supplied links; GitHub robots-blocks repo browsing). Persistent alternative: the generated Claude Skill (`adapters/claude-skill/genui.zip`).
+- On click: update artifact state **and** chat-bridge text (**Send this next:** with the fully interpolated prompt) per interactive-ui-guide.md.
+- **Do not** emit Claude's native patterns here: the built-in meal/recipe planner, card-grid pickers, time/"weeknight" filters, "Plan this"-style chips, invented meals, or blue/default chrome.
+- If Artifacts unavailable → `markdown-ui-host` per session-visual-guide.md.
+
+#### deepseek-chat
+
+**Profile:** `markdown-ui-host`
+
+- Present branded markdown cards per session-visual-guide.md.
+- Each card includes **Send this next:** with the interpolated `ai.request` message.
+- Optional collapsible GenUI JSON for developers.
+- If embedded UI becomes available, switch to `embedded-ui-host` without changing spec.
+
+#### gemini-app
+
+**Profile:** `markdown-ui-host` by default in Gemini chat. Do **not** dump raw GenUI JSON as the first response.
+
+Use `embedded-ui-host` only when Gemini Canvas explicitly supports an interactive panel (product-dependent).
+
+**GitHub:** Gemini chat **cannot** fetch from a URL. User must paste ../PASTE-BUNDLE.md (same policy as ../SESSION-INSTALL.md; see ../../../docs/install-gemini.md).
+
+Interactions: session-visual-guide.md.
+
+**Gemini CLI:** ../../gemini/GEMINI.md, not this overlay.
+
+#### generic-chat
+
+Detect the product (Claude, ChatGPT, Gemini, DeepSeek, Grok, other).
+
+1. Embedded React/HTML UI available → `embedded-ui-host` (claude-web.md capabilities).
+2. Else → `markdown-ui-host` (deepseek-chat.md capabilities).
+
+Brand, scenario, and colors: session-config.json + session-visual-guide.md only.
+
+#### grok-chat
+
+**Profile:** `markdown-ui-host`
+
+- Branded markdown cards + **Send this next:** per session-visual-guide.md.
+- Same GenUI JSON and reference document as other providers.
+
+---
+
+## No further fetches
+
+This file is **complete**. Do **not** fetch other repo files (spec, tokens, overlays, examples) — they are already inlined above, and GitHub blocks most repo paths for AI fetchers. If a fetch was attempted and failed, **ignore the failure and continue**: the install is still valid.
 
 ---
 
 ## Confirm activation
 
-Reply with: GenUI loaded · brand **youtube** (#FF0000) · profile {id} · include a **primary-color confirmation line**. Say: *Ask for weeknight dinner — branding applies automatically.*
+Reply with: GenUI loaded · installVersion **401e4c93** · brand **youtube** (#FF0000) · profile {id} · include a **primary-color confirmation line**. Say: *Ask for weeknight dinner — branding applies automatically.*
 
 **Repo (human reference):** https://github.com/noahtan917/gen-ui
 

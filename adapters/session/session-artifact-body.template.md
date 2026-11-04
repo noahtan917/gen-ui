@@ -26,7 +26,7 @@
 - Reference scenario only (document below) unless the user **explicitly** asks for more options or variety.
 - Each option: **Send this next:** with fully interpolated `ai.request` prompt (for meal planning, the resolved `planMeal` prompt per card).
 - **Forbidden substitutions when GenUI was invoked:** host-native recipe/meal carousels or planners, card-grid pickers, stock photo cards, time/"weeknight" filters, "Plan this"-style chips, and any blue/neutral/default host chrome. Use the token **primary** color, not the host default.
-- **embedded-ui-host:** build a **custom React Artifact** bound to **exactly** these option cards, with inlined `{{PRIMARY_HEX}}` accent styling (titles, borders, buttons), mirroring the structure of `adapters/session/examples/meal-artifact.reference.tsx` (copy structure, not any demo colors). On click, update Artifact state **and** surface **Send this next:** with the fully interpolated prompt. Do **not** emit Claude's built-in interactive meal/recipe UI.
+- **embedded-ui-host:** build a **custom React Artifact** bound to **exactly** these option cards, with inlined `{{PRIMARY_HEX}}` accent styling (titles, borders, buttons), mirroring the structure of the **reference Artifact layout** below (inlined — do not fetch it). On click, update Artifact state **and** surface **Send this next:** with the fully interpolated prompt. Do **not** emit Claude's built-in interactive meal/recipe UI.
 
 ### Brand tokens (`themeRef`)
 
@@ -42,14 +42,30 @@
 
 ---
 
-## Optional secondary fetch (after this artifact)
+### Reference Artifact layout (`embedded-ui-host`)
 
-If the host can fetch more files from the repo, optionally load: `spec/GENUI.md`, `spec/interaction-contract.md`, `spec/rendering-profiles.md`, `adapters/session/providers/{detected}.md`. **Session is already valid** for branding and meal scenario without them.
+Copy this structure for the Artifact (two cards, **Send this next:** on select). Keep every option bound to the reference document above.
+
+```tsx
+{{REFERENCE_ARTIFACT_TSX}}
+```
+
+### Host overlays (inlined — pick the one for your host)
+
+Detect your host and apply its overlay. Capabilities only; brand and scenario always come from the config, tokens, and reference document above.
+
+{{PROVIDER_OVERLAYS}}
+
+---
+
+## No further fetches
+
+This file is **complete**. Do **not** fetch other repo files (spec, tokens, overlays, examples) — they are already inlined above, and GitHub blocks most repo paths for AI fetchers. If a fetch was attempted and failed, **ignore the failure and continue**: the install is still valid.
 
 ---
 
 ## Confirm activation
 
-Reply with: GenUI loaded · brand **{{BRAND_ID}}** ({{PRIMARY_HEX}}) · profile {id} · include a **primary-color confirmation line**. Say: *Ask for weeknight dinner — branding applies automatically.*
+Reply with: GenUI loaded · installVersion **{{INSTALL_VERSION}}** · brand **{{BRAND_ID}}** ({{PRIMARY_HEX}}) · profile {id} · include a **primary-color confirmation line**. Say: *Ask for weeknight dinner — branding applies automatically.*
 
 **Repo (human reference):** {{REPO_URL}}

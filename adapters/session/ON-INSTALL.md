@@ -1,6 +1,6 @@
 # GenUI — automatic actions on skill install
 
-When the user installs from a repo URL, fetch [SESSION-INSTALL.md](SESSION-INSTALL.md) (raw) **in full** before any other repo file.
+When the user sends the raw SESSION-INSTALL URL (or the repo URL), fetch [SESSION-INSTALL.md](SESSION-INSTALL.md) (raw) **in full**. It is the whole install — **do not fetch any other repo file**, and do not look for a skills folder (conversation-scoped).
 
 When the user pastes [PASTE-BUNDLE.md](PASTE-BUNDLE.md), treat it as the same install.
 
@@ -12,7 +12,7 @@ When the user pastes [PASTE-BUNDLE.md](PASTE-BUNDLE.md), treat it as the same in
 
 ## Confirmation reply (required)
 
-1. **GenUI active** · spec v1 · brand **{defaultBrandPack from artifact}** · profile {id}
+1. **GenUI active** · installVersion **{from artifact}** · brand **{defaultBrandPack from artifact}** · profile {id}
 2. Visible **primary** color from inlined tokens
 3. Invite user to ask for weeknight dinner options
 

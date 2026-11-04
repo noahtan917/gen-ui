@@ -4,13 +4,15 @@ Centralized engineering specification, JSON Schema contracts, provider adapters,
 
 ## AI session install (Claude, ChatGPT, …)
 
-If the user asks to install GenUI from this repo, **fetch and read in full** (do not browse random spec files):
+**Users:** send this one message (the raw URL must be in your message — GitHub blocks AI fetchers from browsing the repo):
 
-https://raw.githubusercontent.com/noahtan917/gen-ui/main/adapters/session/SESSION-INSTALL.md
+```text
+Load GenUI for this chat from https://raw.githubusercontent.com/noahtan917/gen-ui/main/adapters/session/SESSION-INSTALL.md
+```
 
-See also [GENUI-SESSION.md](GENUI-SESSION.md). Never use `branding/demo` for session; brand comes from the generated artifact only.
+**AI assistants:** if asked to install GenUI from this repo, fetch and read **only** that file in full — it is the whole install. Do not browse other repo files; never use `branding/demo`.
 
-**Gemini chat** cannot fetch GitHub — paste [PASTE-BUNDLE.md](adapters/session/PASTE-BUNDLE.md) instead ([guide](docs/install-gemini.md)).
+**Claude web (persistent):** upload [adapters/claude-skill/genui.zip](adapters/claude-skill/genui.zip) as a Skill. **Fetch blocked / Gemini:** paste [PASTE-BUNDLE.md](adapters/session/PASTE-BUNDLE.md) ([guide](docs/install-gemini.md)). Details: [INSTALL-SKILL.md](INSTALL-SKILL.md).
 
 ## Quick start
 
@@ -37,6 +39,7 @@ Maintainers: [spec/session-config.json](spec/session-config.json) → `pnpm gene
 |------|---------|
 | [`spec/`](spec/) | Authoritative GenUI specification and contracts |
 | [`adapters/session/`](adapters/session/) | Centralized chat session skill + per-provider overlays |
+| [`adapters/claude-skill/`](adapters/claude-skill/) | Generated Claude Skill (`genui.zip`) for persistent install on claude.ai |
 | [`adapters/`](adapters/) | Coding-agent entry points (Cursor, Gemini CLI, Claude Code, OpenAI) |
 | [`branding/`](branding/) | Brand token packs (`demo`, future `917v`) |
 | [`INSTALL-SKILL.md`](INSTALL-SKILL.md) | Copy-paste install prompt for any chat provider |

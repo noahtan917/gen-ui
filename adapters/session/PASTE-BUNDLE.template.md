@@ -2,8 +2,10 @@
 
 # GenUI session skill — paste this entire file (= full install, no other commands)
 
-For hosts that **cannot fetch GitHub** (e.g. Gemini chat). Same policy as [SESSION-INSTALL.md](SESSION-INSTALL.md).
+**installVersion: `{{INSTALL_VERSION}}`**
 
-You are now configured with the **GenUI** skill for **this conversation**.
+For any host that **cannot fetch** the raw install URL (Gemini chat, or Claude / ChatGPT when the fetch is blocked or stale). Same policy as SESSION-INSTALL.md. Do **not** fetch any repo file — everything required is below.
+
+You are now configured with **GenUI** for **this conversation**.
 
 {{BODY}}

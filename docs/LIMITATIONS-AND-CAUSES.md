@@ -56,8 +56,8 @@ We document four profiles in [spec/rendering-profiles.md](../spec/rendering-prof
 | Observation | Cause | Mitigation |
 |-------------|-------|------------|
 | Gemini says it cannot clone/pull the repo | **No file fetch** from arbitrary URLs in chat | Paste [PASTE-BUNDLE.md](../adapters/session/PASTE-BUNDLE.md) or use a **Gem** with instructions |
-| Claude sometimes works with URL | May fetch/browse depending on plan/settings | Same paste fallback if fetch fails |
-| Skill not persistent in chat | Session-only unless **Project / Gem** | Upload bundle to Gem or Claude Project |
+| Claude fails with repo URL (“robots disallowed”) | GitHub robots.txt + link-provenance + cache — see **L13** / root cause #8 | Raw SESSION-INSTALL URL in the message; Claude Skill zip; paste |
+| Skill not persistent in chat | Session-only unless **Skill / Project / Gem** | Claude: upload `adapters/claude-skill/genui.zip`; others: Gem or Project knowledge |
 
 ---
 
@@ -118,6 +118,7 @@ Details: [why-gemini-shows-json.md](why-gemini-shows-json.md).
 | L10 | ChatGPT generic recipe UI | Host **native widgets** (images, badges) override GenUI; model improvises meals | Strict [chatgpt-web.md](../adapters/session/providers/chatgpt-web.md) overlay; user follow-up prompt; prefer `pnpm demo` for brand proof |
 | L11 | Partial repo browse on URL install | Host reads random spec files, skips tokens | Fetch [SESSION-INSTALL.md](../adapters/session/SESSION-INSTALL.md) one-shot; [README.md](../README.md) / [GENUI-SESSION.md](../GENUI-SESSION.md) hooks |
 | L12 | Claude web native interactive planner | Host ships a prefab meal UI (card grid, time filter, “Plan this” chips) instead of a custom Artifact; model invents meals; install rules not re-applied on later turns | Hardened install rules (exact reference options, rebuild Artifact every turn, forbidden-substitution list) + strict [claude-web.md](../adapters/session/providers/claude-web.md) overlay; drift-recovery prompt (root cause #7); prefer `pnpm demo` for proof |
+| L13 | Claude web cannot install from repo URL (“robots disallowed”, reads outdated files) | GitHub `robots.txt` blocks `/tree/`, `/raw/`, `/commits/` for AI fetchers; Claude only fetches user-supplied/previously-seen URLs; fetch results can be cached | Raw SESSION-INSTALL URL in the user message (self-contained, no follow-up fetch); `installVersion` stamp exposes stale copies; commit-pinned URL; Claude Skill zip; paste (root cause #8) |
 
 ---
 
@@ -165,6 +166,21 @@ Send this next with the planMeal prompt on each, and no extra meals or filters.
 ```
 
 **Correct result:** confirmation names youtube / #FF0000; two red-accent cards; each option has **Send this next:** with the full cooking prompt. Anything else means Claude is in planner mode, not GenUI mode.
+
+---
+
+## Root cause #8 — Claude web: “robots disallowed” on repo URL install
+
+Observed: *“Install the GenUI skill for this session from https://github.com/noahtan917/gen-ui”* → Claude read only `INSTALL-SKILL.md` and `spec/session-bootstrap.md` (an **outdated** version listing `branding/demo`), every other file returned “robots disallowed”, and it said its skills folder is read-only.
+
+| Factor | Cause |
+|--------|--------|
+| “robots disallowed” | `github.com/robots.txt` disallows `/*/tree/`, `/*/raw/`, `/*/*/commits/` for `ClaudeBot` / `anthropic-ai`. `/blob/` file pages pass; directory navigation does not. `raw.githubusercontent.com` has no robots.txt. |
+| Can’t reach the raw file | Claude only fetches URLs from the user message or earlier fetch results — it will not construct `raw.githubusercontent.com/...` |
+| Outdated content | Fetch results can be served from cache, so fixes on `main` may not reach the model |
+| “Skills folder is read-only” | “Install the skill” wording targets Claude’s persistent Skills feature |
+
+**Mitigation (shipped, OpenSpec 005):** the install prompt carries the **raw** SESSION-INSTALL URL and says “load … for this chat”; SESSION-INSTALL inlines everything (reference layout, overlays) and forbids follow-up fetches; `installVersion` in the confirmation exposes stale copies (fix: commit-pinned URL); persistent install via generated Claude Skill (`adapters/claude-skill/genui.zip`); paste works on any host.
 
 ---
 

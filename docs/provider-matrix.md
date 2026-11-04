@@ -11,7 +11,7 @@
 | DeepSeek chat | `deepseek-chat` | [deepseek-chat.md](../adapters/session/providers/deepseek-chat.md) | markdown-ui-host |
 | Grok chat | `grok-chat` | [grok-chat.md](../adapters/session/providers/grok-chat.md) | markdown-ui-host |
 
-**Install:** [INSTALL-SKILL.md](../INSTALL-SKILL.md) · **Bootstrap SSOT:** [spec/session-bootstrap.md](../spec/session-bootstrap.md)
+**Install:** [INSTALL-SKILL.md](../INSTALL-SKILL.md) (raw SESSION-INSTALL URL in the message) · **Claude persistent:** [genui.zip Skill](../adapters/claude-skill/) · **Bootstrap SSOT:** [spec/session-bootstrap.md](../spec/session-bootstrap.md)
 
 ## Coding agents
 

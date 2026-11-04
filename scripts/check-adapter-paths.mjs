@@ -1,6 +1,7 @@
 import { readFileSync, existsSync, readdirSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { buildSessionArtifacts, RAW_SESSION_INSTALL_URL } from "./lib/session-artifacts.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -26,6 +27,8 @@ const adapterFiles = [
   "adapters/session/SESSION-INSTALL.template.md",
   "adapters/session/session-artifact-body.template.md",
   "adapters/session/ON-INSTALL.md",
+  "adapters/claude-skill/SKILL.template.md",
+  "adapters/claude-skill/genui/SKILL.md",
   ".cursor/skills/genui/SKILL.md",
   "INSTALL-SKILL.md",
   "GENUI-SESSION.md",
@@ -124,6 +127,49 @@ for (const rel of sessionProviders) {
 
 assertGeneratedArtifact("adapters/session/PASTE-BUNDLE.md", "PASTE-BUNDLE.md");
 assertGeneratedArtifact("adapters/session/SESSION-INSTALL.md", "SESSION-INSTALL.md");
+assertGeneratedArtifact("adapters/claude-skill/genui/SKILL.md", "Claude Skill SKILL.md");
+
+// Every generated file on disk must equal a fresh in-memory build (OpenSpec 005).
+const generated = buildSessionArtifacts(root);
+const normalizeEol = (text) => text.replace(/\r\n/g, "\n");
+for (const [rel, expected] of generated.files) {
+  const full = join(root, rel);
+  if (!existsSync(full)) {
+    fail(`Missing generated file ${rel} — run pnpm generate:session-artifacts`);
+    continue;
+  }
+  const actual = readFileSync(full);
+  const inSync = Buffer.isBuffer(expected)
+    ? actual.equals(expected)
+    : normalizeEol(actual.toString("utf8")) === expected;
+  if (!inSync) {
+    fail(`${rel} is out of sync with its sources — run pnpm generate:session-artifacts`);
+  }
+  if (!Buffer.isBuffer(expected)) {
+    if (!expected.includes(`installVersion: \`${generated.installVersion}\``)) {
+      fail(`${rel} must carry installVersion ${generated.installVersion}`);
+    }
+    // Chat installs must be self-contained: no wording that invites follow-up fetches.
+    if (/optional(ly)? secondary fetch|optionally (load|fetch)/i.test(expected)) {
+      fail(`${rel} must not invite follow-up repo fetches (see OpenSpec 005)`);
+    }
+  }
+}
+
+const skillMd = generated.files.get("adapters/claude-skill/genui/SKILL.md");
+const frontmatter = /^---\nname: ([a-z0-9-]{1,64})\ndescription: (.+)\n---\n/.exec(skillMd);
+if (!frontmatter) {
+  fail("Claude Skill SKILL.md must start with name/description frontmatter");
+} else if (frontmatter[2].length > 1024) {
+  fail(`Claude Skill description is ${frontmatter[2].length} chars (max 1024)`);
+}
+
+// User-facing install prompts must carry the raw URL so link-provenance hosts can fetch it.
+for (const rel of ["INSTALL-SKILL.md", "README.md", "GENUI-SESSION.md", "spec/session-bootstrap.md"]) {
+  if (!readFileSync(join(root, rel), "utf8").includes(RAW_SESSION_INSTALL_URL)) {
+    fail(`${rel} must include the raw install URL ${RAW_SESSION_INSTALL_URL}`);
+  }
+}
 
 const sessionSkill = readFileSync(join(root, "adapters/session/SKILL.md"), "utf8");
 if (!sessionSkill.includes("SESSION-INSTALL")) {
