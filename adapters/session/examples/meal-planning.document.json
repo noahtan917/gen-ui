@@ -1,0 +1,55 @@
+{
+  "genuiVersion": "1.0.0",
+  "themeRef": {
+    "source": "demo",
+    "id": "demo"
+  },
+  "actions": {
+    "planMeal": {
+      "type": "ai.request",
+      "promptTemplate": "Help me cook {{meal}} ({{cuisine}}): ingredient list, steps, and total time for a weeknight dinner.",
+      "contextKeys": ["meal", "cuisine"]
+    }
+  },
+  "components": [
+    {
+      "id": "layout",
+      "type": "Stack",
+      "props": { "direction": "column", "gap": 16 },
+      "children": [
+        {
+          "id": "heading",
+          "type": "Text",
+          "props": { "variant": "heading", "content": "What do you want to cook?" }
+        },
+        {
+          "id": "cards",
+          "type": "Stack",
+          "props": { "direction": "row", "gap": 12 },
+          "children": [
+            {
+              "id": "card-salmon",
+              "type": "Card",
+              "actionId": "planMeal",
+              "props": {
+                "title": "Sheet-pan salmon",
+                "subtitle": "Mediterranean",
+                "context": { "meal": "Sheet-pan salmon", "cuisine": "Mediterranean" }
+              }
+            },
+            {
+              "id": "card-ramen",
+              "type": "Card",
+              "actionId": "planMeal",
+              "props": {
+                "title": "Miso ramen bowl",
+                "subtitle": "Japanese",
+                "context": { "meal": "Miso ramen bowl", "cuisine": "Japanese" }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

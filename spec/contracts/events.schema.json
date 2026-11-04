@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gen-ui.local/contracts/events.schema.json",
+  "title": "GenUIEvents",
+  "$defs": {
+    "action": {
+      "type": "object",
+      "required": ["type"],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["ai.request", "state.update"]
+        },
+        "promptTemplate": { "type": "string" },
+        "contextKeys": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "updates": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        },
+        "context": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "type": { "const": "ai.request" } },
+            "required": ["type"]
+          },
+          "then": { "required": ["promptTemplate"] }
+        }
+      ]
+    },
+    "interactEvent": {
+      "type": "object",
+      "required": ["type", "actionId", "componentId", "context", "timestamp"],
+      "additionalProperties": false,
+      "properties": {
+        "type": { "const": "genui.interact" },
+        "actionId": { "type": "string" },
+        "componentId": { "type": "string" },
+        "context": { "type": "object", "additionalProperties": true },
+        "timestamp": { "type": "string", "format": "date-time" }
+      }
+    }
+  }
+}

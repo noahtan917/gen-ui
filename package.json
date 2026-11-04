@@ -1,0 +1,15 @@
+{
+  "name": "gen-ui",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "pnpm -r run build",
+    "test": "pnpm -r run test",
+    "demo": "pnpm --filter @gen-ui/demo dev",
+    "lint:adapters": "node scripts/check-adapter-paths.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "packageManager": "pnpm@9.15.0"
+}

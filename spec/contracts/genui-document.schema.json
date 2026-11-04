@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gen-ui.local/contracts/genui-document.schema.json",
+  "title": "GenUIDocument",
+  "type": "object",
+  "required": ["genuiVersion", "actions", "components"],
+  "additionalProperties": false,
+  "properties": {
+    "genuiVersion": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "meta": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "title": { "type": "string" },
+        "description": { "type": "string" }
+      }
+    },
+    "themeRef": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "state": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "actions": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "events.schema.json#/$defs/action"
+      }
+    },
+    "components": {
+      "type": "array",
+      "items": {
+        "$ref": "components.schema.json#/$defs/component"
+      },
+      "minItems": 1
+    }
+  }
+}

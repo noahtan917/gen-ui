@@ -1,0 +1,67 @@
+/**
+ * Reference only — for embedded-ui-host (Artifacts / canvas-style UIs).
+ */
+import { useState } from "react";
+
+const tokens = {
+  primary: "#2563eb",
+  surface: "#f8fafc",
+  text: "#0f172a",
+  textMuted: "#64748b",
+  border: "#e2e8f0",
+  radius: "12px",
+};
+
+const meals = [
+  {
+    id: "card-salmon",
+    title: "Sheet-pan salmon",
+    cuisine: "Mediterranean",
+    bridgePrompt:
+      "Help me cook Sheet-pan salmon (Mediterranean): ingredient list, steps, and total time for a weeknight dinner.",
+  },
+  {
+    id: "card-ramen",
+    title: "Miso ramen bowl",
+    cuisine: "Japanese",
+    bridgePrompt:
+      "Help me cook Miso ramen bowl (Japanese): ingredient list, steps, and total time for a weeknight dinner.",
+  },
+];
+
+export default function MealGenUIReference() {
+  const [selected, setSelected] = useState<string | null>(null);
+  const active = meals.find((m) => m.id === selected);
+
+  return (
+    <div style={{ fontFamily: "system-ui, sans-serif", color: tokens.text, background: tokens.surface, padding: 16 }}>
+      <h2 style={{ marginTop: 0 }}>What do you want to cook?</h2>
+      <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+        {meals.map((m) => (
+          <button
+            key={m.id}
+            type="button"
+            onClick={() => setSelected(m.id)}
+            style={{
+              textAlign: "left",
+              cursor: "pointer",
+              background: "#fff",
+              border: `1px solid ${selected === m.id ? tokens.primary : tokens.border}`,
+              borderRadius: tokens.radius,
+              padding: 16,
+              minWidth: 160,
+            }}
+          >
+            <strong>{m.title}</strong>
+            <div style={{ color: tokens.textMuted, fontSize: 14 }}>{m.cuisine}</div>
+          </button>
+        ))}
+      </div>
+      {active ? (
+        <p style={{ marginTop: 16 }}>
+          <strong>Send this next:</strong> {active.bridgePrompt}
+        </p>
+      ) : null}
+    </div>
+  );
+}

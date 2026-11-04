@@ -1,0 +1,111 @@
+:root {
+  --genui-color-primary: #0d6efd;
+  --genui-color-surface: #f8f9fa;
+  --genui-color-text: #212529;
+  --genui-radius-md: 12px;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  color: var(--genui-color-text);
+  background: #fff;
+}
+
+.app {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.app-header {
+  margin-bottom: 24px;
+}
+
+.app-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+@media (max-width: 768px) {
+  .app-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.app-panel {
+  padding: 16px;
+  border: 1px solid #dee2e6;
+  border-radius: var(--genui-radius-md);
+  background: var(--genui-color-surface);
+}
+
+.app-panel--log pre {
+  font-size: 12px;
+  overflow: auto;
+  background: #fff;
+  padding: 12px;
+  border-radius: 8px;
+}
+
+.muted {
+  color: #6c757d;
+}
+
+.genui-button,
+.genui-card--interactive {
+  cursor: pointer;
+  font: inherit;
+}
+
+.genui-button {
+  background: var(--genui-color-primary);
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+}
+
+.genui-card {
+  background: #fff;
+  border: 1px solid #dee2e6;
+  border-radius: var(--genui-radius-md);
+  padding: 16px;
+  text-align: left;
+  min-width: 140px;
+}
+
+.genui-card--interactive:hover {
+  border-color: var(--genui-color-primary);
+}
+
+.genui-card__title {
+  margin: 0 0 4px;
+  font-size: 1.1rem;
+}
+
+.genui-card__subtitle {
+  margin: 0;
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+.genui-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.genui-select {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.genui-fallback {
+  padding: 12px;
+  background: #fff3cd;
+  border: 1px solid #ffc107;
+  border-radius: 8px;
+}
