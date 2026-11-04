@@ -4,7 +4,7 @@
 
 Create a valid document (see [spec/GENUI.md](../../spec/GENUI.md)) with:
 
-- `themeRef` from loaded brand tokens
+- `themeRef` from loaded brand tokens (**session default: `youtube` / #FF0000** — not legacy `demo` blue)
 - `actions.planMeal` (or similar) with `ai.request` + `promptTemplate`
 - Clickable `Card` nodes for meal or product options
 

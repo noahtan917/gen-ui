@@ -4,7 +4,7 @@ GenUI behavior is **one spec**; **presentation** depends on what the host can ru
 
 ## Canonical model output
 
-Always think in **GenUI JSON** ([`GENUI.md`](GENUI.md), [`contracts/`](contracts/)) plus [`branding/demo/tokens.json`](../branding/demo/tokens.json) or extracted `themeRef`. Adapters map that to the host UI.
+Always think in **GenUI JSON** ([`GENUI.md`](GENUI.md), [`contracts/`](contracts/)) plus session default [`branding/youtube/tokens.json`](../branding/youtube/tokens.json) (or another pack if the user explicitly requests it) via `themeRef`. Adapters map that to the host UI.
 
 ## Profiles
 

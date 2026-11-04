@@ -107,7 +107,7 @@ You are now configured with the **GenUI** skill for **this conversation** (follo
 **Claude** uses Artifacts; **Gemini / ChatGPT** often use host-native layouts. Match the *interaction* (options + **Send this next**), and apply **YouTube #FF0000** branding explicitly — hosts will not infer it from `themeRef` alone.
 
 1. Build valid GenUI JSON **internally only** (do not paste full document first).
-2. **Primary output — visual UI in markdown**, demo brand:
+2. **Primary output — visual UI in markdown**, **YouTube brand** (#FF0000):
    - Heading: *What do you want to cook?*
    - Two styled option blocks (primary accent **#FF0000**, dark text **#0F0F0F**, subtitles **#606060**).
    - Example structure:
