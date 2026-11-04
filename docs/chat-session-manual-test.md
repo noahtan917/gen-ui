@@ -5,7 +5,7 @@ Repeat on each host you care about.
 ## Prerequisites
 
 - Public `{REPO_URL}` pointing at this repo
-- Host can fetch GitHub raw files **or** you paste `adapters/session/SKILL.md` + `branding/demo/tokens.json`
+- Host can fetch GitHub raw files **or** you paste [PASTE-BUNDLE.md](../adapters/session/PASTE-BUNDLE.md) (includes **youtube** #FF0000)
 
 ## Steps
 
@@ -13,7 +13,7 @@ Repeat on each host you care about.
 2. Confirm assistant acknowledges spec + brand + rendering profile.
 3. Ask: *Help me pick a weeknight dinner — show clickable meal options.*
 4. Verify:
-   - [ ] UI uses demo brand (blue primary, clean cards — not random styling)
+   - [ ] UI uses **YouTube** brand (#FF0000 primary, dark chrome — not legacy demo blue)
    - [ ] At least two meal options appear (e.g. salmon, ramen)
    - [ ] Interaction exposes planning follow-up (artifact click and/or **Send this next:** message)
    - [ ] Follow-up text matches interaction contract template (ingredients, steps, time)

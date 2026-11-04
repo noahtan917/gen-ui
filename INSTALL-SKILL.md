@@ -72,10 +72,17 @@ cd gen-ui && pnpm install && pnpm build && pnpm demo
 
 ---
 
+## Claude web
+
+Use the same one-line install. After fetch, the model must load **youtube** tokens and build Artifacts per [adapters/session/providers/claude-web.md](adapters/session/providers/claude-web.md) (red **#FF0000**, not `branding/demo` blue).
+
+If the Artifact is blue, start a **new chat** (old sessions keep wrong instructions) or paste [PASTE-BUNDLE.md](adapters/session/PASTE-BUNDLE.md).
+
 ## Docs
 
 | Host | Guide |
 |------|--------|
+| Claude web | [adapters/session/providers/claude-web.md](adapters/session/providers/claude-web.md) |
 | Gemini | [docs/install-gemini.md](docs/install-gemini.md) |
 | ChatGPT | [docs/install-chatgpt.md](docs/install-chatgpt.md) |
 | Limits | [docs/LIMITATIONS-AND-CAUSES.md](docs/LIMITATIONS-AND-CAUSES.md) |

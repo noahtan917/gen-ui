@@ -16,7 +16,7 @@ Replace `{REPO_URL}` in [INSTALL-SKILL.md](../INSTALL-SKILL.md). No code changes
 If the model cannot read GitHub:
 
 1. Paste contents of `adapters/session/SKILL.md`
-2. Paste `branding/demo/tokens.json`
+2. Paste [PASTE-BUNDLE.md](../adapters/session/PASTE-BUNDLE.md) **or** `branding/youtube/tokens.json` (not legacy `branding/demo` blue)
 3. Paste the provider overlay from `adapters/session/providers/{id}.md`
 
 ## Persistent install (optional)
