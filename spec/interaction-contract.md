@@ -86,6 +86,6 @@ Form submit passes field values in `context`; runtime merges into local state an
 | AI agent | Generate valid GenUI JSON |
 | `genui-core` | Validate and normalize |
 | `genui-render` | Render allowlisted components, emit events |
-| Host app | Implement `onAIRequest`, optional state persistence |
+| Host app | On `onAIRequest`, call the host’s AI backend (or demo mock) and show the reply in-app — not only log payload or ask the user to copy-paste the prompt |
 
 Chat UIs that cannot run React still benefit: agents produce the same JSON; a separate host renders it.

@@ -74,13 +74,101 @@ body {
   background: var(--genui-color-surface);
 }
 
-.app-panel--log pre {
+.app-panel pre {
   font-size: 12px;
   overflow: auto;
   background: #fff;
   padding: 12px;
   border-radius: 8px;
   border: 1px solid var(--genui-color-border);
+}
+
+.assistant-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  margin-bottom: 12px;
+}
+
+.assistant-header h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.assistant-badge {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--genui-color-text-muted);
+  border: 1px solid var(--genui-color-border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  background: #fff;
+}
+
+.assistant-reply {
+  background: #fff;
+  border: 1px solid var(--genui-color-border);
+  border-left: 3px solid var(--genui-color-primary);
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 12px;
+  max-height: 420px;
+  overflow: auto;
+}
+
+.assistant-reply__text {
+  margin: 0;
+  font-family: inherit;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  white-space: pre-wrap;
+  word-break: break-word;
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+.assistant-reply--streaming .assistant-reply__text::after {
+  content: "▋";
+  color: var(--genui-color-primary);
+  animation: assistant-blink 1s step-end infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .assistant-reply--streaming .assistant-reply__text::after {
+    animation: none;
+  }
+}
+
+@keyframes assistant-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.assistant-error {
+  color: #b00020;
+  font-size: 0.9rem;
+  margin: 0 0 12px;
+}
+
+.app-details {
+  margin-top: 12px;
+  font-size: 0.85rem;
+}
+
+.app-details summary {
+  cursor: pointer;
+  color: var(--genui-color-text-muted);
+  user-select: none;
+}
+
+.app-details pre {
+  margin-top: 8px;
 }
 
 .muted {

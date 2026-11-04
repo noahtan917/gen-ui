@@ -11,7 +11,9 @@ pnpm test
 pnpm demo
 ```
 
-Open the demo at the URL Vite prints (default `http://localhost:5173`). **YouTube brand pack** (red `#FF0000`, dark header) — click **Sheet-pan salmon** for the AI request payload panel.
+Open the demo at the URL Vite prints (default `http://localhost:5173`). **YouTube brand pack** (red `#FF0000`, dark header) — click **Sheet-pan salmon** and the **Assistant** panel streams a weeknight cooking plan automatically (demo mock, no API key).
+
+Chat skill install generates branded UI in the host’s chat; **click → auto-answer** requires this reference host (`pnpm demo`) or your product’s `react-host` integration.
 
 ## Chat / web GenAI (session install)
 
@@ -32,7 +34,7 @@ Central bootstrap: [spec/session-bootstrap.md](spec/session-bootstrap.md) · Pro
 | [`INSTALL-SKILL.md`](INSTALL-SKILL.md) | Copy-paste install prompt for any chat provider |
 | [`packages/genui-core`](packages/genui-core) | Validate and normalize GenUI documents |
 | [`packages/genui-render`](packages/genui-render) | Safe React rendering and interaction dispatch |
-| [`apps/demo`](apps/demo) | Reference Vite app |
+| [`apps/demo`](apps/demo) | Reference host: `@gen-ui/render` + mock LLM reply on `onAIRequest` |
 | [`docs/`](docs/) | Architecture and provider matrix |
 | [`openspec/`](openspec/) | OpenSpec proposals |
 

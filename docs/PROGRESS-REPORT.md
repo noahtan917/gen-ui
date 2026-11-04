@@ -81,7 +81,7 @@ flowchart TB
 | ---------------- | ------------------------------------------------ |
 | `@gen-ui/core`   | Zod validation, prompt resolution, state updates |
 | `@gen-ui/render` | Allowlisted React registry, `onAIRequest`        |
-| `@gen-ui/demo`   | Meal-planning demo (click card → payload panel)  |
+| `@gen-ui/demo`   | Meal-planning host (click card → mock streamed assistant reply) |
 
 **Tests:** 8 passing (validation, render, interactions, adapter smoke, brand fixture).
 
@@ -118,7 +118,7 @@ flowchart TB
 **Topic:** Weeknight meal planning (replacing early travel/Boracay examples).
 
 - Cards: **Sheet-pan salmon** (Mediterranean), **Miso ramen bowl** (Japanese)
-- Click → structured prompt: ingredients, steps, time
+- Click → resolved `ai.request` prompt → **Assistant panel** (ingredients, steps, time; mock LLM in demo)
 - Local demo: `pnpm demo`
 
 Same JSON drives chat hosts and the Vite app.
@@ -134,7 +134,7 @@ git clone https://github.com/noahtan917/gen-ui.git
 cd gen-ui && pnpm install && pnpm build && pnpm demo
 ```
 
-Click **Sheet-pan salmon** → show **AI request payload** JSON in the side panel.
+Click **Sheet-pan salmon** → **Assistant** panel streams the weeknight plan (no copy-paste). Expand **Request details** only if the room wants to see the resolved payload.
 
 ### B. Chat AI (multi-provider story)
 
@@ -163,7 +163,7 @@ Full report: **[LIMITATIONS-AND-CAUSES.md](LIMITATIONS-AND-CAUSES.md)**
 
 **Best demos for tomorrow:**
 
-1. **`pnpm demo`** — full runtime (clicks + payload panel).  
+1. **`pnpm demo`** — full runtime (click → auto assistant reply).  
 2. **Claude web + Artifacts** — closest to “reference” chat UX.  
 3. **Gemini** — show markdown options + **Send this next**; explain limitation honestly.
 

@@ -8,9 +8,11 @@
 | Adapters | `adapters/` | Provider-specific entry points |
 | Core | `packages/genui-core` | Validate, normalize, resolve interactions |
 | Render | `packages/genui-render` | Allowlisted React registry, event dispatch |
-| Demo | `apps/demo` | Reference host integrating `onAIRequest` |
+| Demo | `apps/demo` | Reference host: `onAIRequest` → mock streamed assistant reply |
 
-## Agent time vs runtime
+## Agent time vs runtime (chat-bridge path)
+
+Many chat hosts cannot run the React runtime. The host may only surface the resolved prompt for the user to send on the next turn.
 
 ```mermaid
 sequenceDiagram
@@ -28,7 +30,25 @@ sequenceDiagram
   Host->>Agent: User message with prompt
 ```
 
-Coding agents consume skills; the host application validates and renders. Consumer chat products do not automatically execute this pipeline unless integrated.
+Coding agents consume skills; consumer chat products often stop at chat-bridge unless they embed `react-host`.
+
+## Reference host (`react-host`)
+
+[`apps/demo`](../apps/demo) implements the full loop: validate → render → resolve prompt → **invoke assistant in-app** (mock stream today; real LLM in product).
+
+```mermaid
+sequenceDiagram
+  participant User
+  participant Render as genui_render
+  participant Host as apps_demo
+  participant LLM as Assistant
+
+  User->>Render: Click control
+  Render->>Host: onAIRequest payload
+  Host->>LLM: Resolved prompt
+  LLM-->>Host: Streamed reply
+  Host-->>User: Assistant panel
+```
 
 ## Security (v1)
 

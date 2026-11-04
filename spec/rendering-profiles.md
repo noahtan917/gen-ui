@@ -10,7 +10,7 @@ Always think in **GenUI JSON** ([`GENUI.md`](GENUI.md), [`contracts/`](contracts
 
 | Profile ID | Typical hosts | Presentation | Interactivity |
 |------------|---------------|--------------|---------------|
-| `react-host` | Local app, Vite demo, embedded product | `@gen-ui/render` | Full: `genui.interact` → `onAIRequest` |
+| `react-host` | Local app, [`apps/demo`](../apps/demo), embedded product | `@gen-ui/render` | Full: `genui.interact` → `onAIRequest` → **host calls LLM** (demo: mock stream) |
 | `embedded-ui-host` | Claude Artifacts, some canvas-style UIs | React/HTML artifact styled with `themeRef` | In-ui state + **chat-bridge** (see below) |
 | `json-visible-host` | Any chat with code blocks | Show GenUI JSON + short summary | User asks follow-ups; model uses `ai.request` text |
 | `markdown-ui-host` | DeepSeek/Grok/text-only fallback | Branded markdown “cards”, numbered actions | Explicit follow-up messages per [`interaction-contract.md`](interaction-contract.md) |

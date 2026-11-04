@@ -30,3 +30,4 @@
 | Same GenUI JSON / actions | Yes | Yes |
 | Inline UI in chat | Profile-dependent | N/A |
 | Full `genui.interact` runtime | Chat-bridge or markdown | Yes |
+| Auto AI reply on interact | No (manual follow-up) | Yes (demo: mock stream) |

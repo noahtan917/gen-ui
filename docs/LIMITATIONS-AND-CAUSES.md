@@ -6,7 +6,7 @@ Report for stakeholders and presentation. Complements [provider-matrix.md](provi
 
 ## Executive summary
 
-GenUI delivers **one specification** across many AI products, but **each chat host renders differently**. The reference demo (GitHub install → branded UI → click → planning prompt) is **fully reproducible on some hosts only** (notably **Claude web with Artifacts** and our **`pnpm demo`** runtime). Other hosts (e.g. **Gemini chat**) implement the **same interaction semantics** via **markdown + “Send this next”**, not a Claude-style side panel.
+GenUI delivers **one specification** across many AI products, but **each chat host renders differently**. The full loop (click → **assistant answer in the same UI**) exists only on **`react-host`**, especially **`pnpm demo`**. Chat install (GitHub URL or paste) gives branded UI and planning **semantics** on some hosts (**Claude Artifacts**, markdown profiles), but usually **not** automatic in-app replies — those use **markdown + “Send this next”** or chat-bridge.
 
 This is a **platform capability gap**, not a failure of the centralized skill.
 
@@ -82,7 +82,7 @@ Details: [why-gemini-shows-json.md](why-gemini-shows-json.md).
 
 | In `pnpm demo` | In Gemini / markdown profile |
 |----------------|------------------------------|
-| Real DOM click → `onAIRequest` payload | User replies **1**, **2**, or pastes **Send this next** |
+| Real DOM click → `onAIRequest` → **mock assistant reply in-panel** | User replies **1**, **2**, or pastes **Send this next** |
 | `@gen-ui/core` validates events | Same **prompt templates**, manual chat-bridge |
 
 **Cause:** Chat products do not execute our monorepo packages inside the conversation.
@@ -109,7 +109,7 @@ Details: [why-gemini-shows-json.md](why-gemini-shows-json.md).
 | L1 | Not identical UI across all AI chats | Host renderers differ | Rendering profiles + overlays |
 | L2 | Gemini cannot install from GitHub URL | No repo fetch in chat | PASTE-BUNDLE, Gem instructions |
 | L3 | Gemini may append JSON blocks | Skill wording + no embed panel | Visual-first bundle; user follow-up prompt |
-| L4 | No true click→payload in markdown hosts | No shared runtime in chat | Chat-bridge copy-paste semantics |
+| L4 | No auto AI reply on click in markdown hosts | No shared runtime in chat | Chat-bridge; use **`pnpm demo`** for click→answer |
 | L5 | Chat ≠ coding agent | Cursor/CLI vs web chat | Separate adapter paths, same spec |
 | L6 | Trish not integrated yet | Phase 1 = platform only | [future-trish-integration.md](future-trish-integration.md) |
 | L7 | 917v brand not shipped | Generic demo brand first | `branding/917v/` planned |

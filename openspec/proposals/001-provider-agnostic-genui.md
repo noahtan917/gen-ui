@@ -13,7 +13,7 @@ Teams need AI agents to produce **interactive** user interfaces that respect a h
 - Lightweight provider adapters that reference the spec, not copy it.
 - A versioned UI DSL with JSON Schema contracts.
 - Reference runtime: validate, render safely, dispatch interactions to an AI handler.
-- Vite demo proving click → contextual prompt flow.
+- Vite demo proving click → resolved prompt → host assistant response (mock LLM v1).
 
 ## Non-goals (this phase)
 

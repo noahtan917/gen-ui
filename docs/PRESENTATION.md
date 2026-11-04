@@ -138,7 +138,7 @@ Example (meal demo):
 
 **Option A — Browser**
 
-`pnpm demo` → click **Sheet-pan salmon** → show JSON payload panel
+`pnpm demo` → click **Sheet-pan salmon** → **Assistant** streams ingredients, steps, and time (mock LLM)
 
 **Option B — Gemini**
 
@@ -187,7 +187,7 @@ Paste raw `PASTE-BUNDLE.md` → ask for weeknight dinner UI
 ## Appendix — Demo script (60 seconds)
 
 1. “One GenUI spec — validation, branding, interaction contract.”
-2. **`pnpm demo`** → click salmon → payload panel (real runtime).
+2. **`pnpm demo`** → click salmon → Assistant auto-reply (real `react-host` runtime).
 3. “Claude can show an **Artifact**; Gemini uses **markdown + Send this next** — same prompts, different host.”
 4. “Gemini can’t install from GitHub — we paste one bundle; JSON at the bottom is optional dev output.”
 5. “Trish embeds **react-host**, not Claude’s panel.”

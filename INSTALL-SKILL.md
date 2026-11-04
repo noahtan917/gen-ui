@@ -48,6 +48,21 @@ You should get **YouTube red** styling (where the host allows), reference meals 
 
 ---
 
+## Automatic answers (not copy-paste)
+
+Session install in ChatGPT, Gemini, Claude, etc. **does not** run `@gen-ui/render`. Clicks there usually mean **Send this next** (you paste or send the follow-up yourself).
+
+For **true GenUI** — click a card → assistant answers in the same app — use the reference host:
+
+```bash
+git clone https://github.com/noahtan917/gen-ui.git
+cd gen-ui && pnpm install && pnpm build && pnpm demo
+```
+
+Click a meal card; the **Assistant** panel streams the plan (demo uses a mock LLM; production hosts call your real AI backend from `onAIRequest`).
+
+---
+
 ## Local demo (always shows YouTube UI)
 
 ```bash

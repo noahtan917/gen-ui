@@ -37,6 +37,13 @@ Use [adapters/gemini/GEMINI.md](../adapters/gemini/GEMINI.md) in a cloned repo �
 - **Send this next:** lines with cooking prompts
 - Optional GenUI JSON in a code block
 
-## Local full runtime
+## Local full runtime (click → auto-answer)
 
-`pnpm demo` in a cloned repo — not required for Gemini chat testing.
+Gemini chat cannot run `@gen-ui/render`. For **click → assistant reply in the same UI**:
+
+```bash
+git clone https://github.com/noahtan917/gen-ui.git
+cd gen-ui && pnpm install && pnpm build && pnpm demo
+```
+
+Not required for Gemini-only chat testing; required to demo true GenUI interactivity.

@@ -33,7 +33,7 @@ GenUI JSON is the **contract** for engines and developers. **Claude adapts** by 
    Don't show JSON. Render GenUI as branded markdown cards with Send this next for each meal option.
    ```
 
-3. **For demo parity with Claude:** use `pnpm demo` (real React host) or Claude web with Artifacts for the "clickable panel" moment; use Gemini for "same skill, markdown profile."
+3. **For demo parity with real GenUI:** use `pnpm demo` — click a card → **Assistant auto-reply** (mock stream). Claude Artifacts are closest in chat; Gemini stays "same skill, markdown profile."
 
 ## For your presentation
 

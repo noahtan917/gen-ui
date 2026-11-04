@@ -28,6 +28,10 @@ Repeat on each host you care about.
 | deepseek-chat / grok-chat | Branded markdown cards + **Send this next:** |
 | generic-chat | Best effort per detection |
 
-## Local runtime (optional)
+## Local runtime (`react-host`)
 
-Same JSON as chat: `pnpm demo` validates `react-host` profile.
+Same JSON as chat. After `pnpm demo`:
+
+- [ ] Click **Sheet-pan salmon** (or ramen) — **Assistant** streams a plan without pasting **Send this next**
+- [ ] Click the other card — prior stream stops; new answer streams
+- [ ] **Request details** (collapsed) shows resolved `onAIRequest` payload
