@@ -6,8 +6,9 @@
     "build": "pnpm -r run build",
     "test": "pnpm -r run test",
     "demo": "pnpm --filter @gen-ui/demo dev",
-    "generate:paste-bundle": "node scripts/generate-paste-bundle.mjs",
-    "lint:adapters": "node scripts/generate-paste-bundle.mjs && node scripts/check-adapter-paths.mjs"
+    "generate:session-artifacts": "node scripts/generate-session-artifacts.mjs",
+    "generate:paste-bundle": "node scripts/generate-session-artifacts.mjs",
+    "lint:adapters": "node scripts/generate-session-artifacts.mjs && node scripts/check-adapter-paths.mjs"
   },
   "engines": {
     "node": ">=20"

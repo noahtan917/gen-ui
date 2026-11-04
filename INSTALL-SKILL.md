@@ -1,6 +1,6 @@
 # Install GenUI — one prompt (YouTube branding automatic)
 
-You only need **one message**. The model must load the full spec, apply **YouTube** brand (`#FF0000`), and keep it for the whole session — **no** `Brand:`, **no** extra load commands.
+You only need **one message**. The model must complete install from the **one-shot artifact** — **no** `Brand:`, **no** manual multi-file hunt, **no** paste (except Gemini).
 
 ---
 
@@ -10,12 +10,15 @@ You only need **one message**. The model must load the full spec, apply **YouTub
 Install the GenUI skill for this session from https://github.com/noahtan917/gen-ui
 ```
 
-That is enough. The assistant must automatically:
+### Mandatory behavior (for the AI — not the user)
 
-- Load [spec/session-config.json](spec/session-config.json), [spec/session-bootstrap.md](spec/session-bootstrap.md), and [adapters/session/ON-INSTALL.md](adapters/session/ON-INSTALL.md)
-- Apply brand from config (`defaultBrandPack` → `branding/{id}/tokens.json`; today **youtube**)
-- Auto-detect provider overlay (`chatgpt-web`, `claude-web`, `gemini-app`, …)
-- Confirm with a **red (#FF0000) branded** acknowledgment
+When you see that GitHub repo URL:
+
+1. **Fetch in full:** https://raw.githubusercontent.com/noahtan917/gen-ui/main/adapters/session/SESSION-INSTALL.md  
+2. Apply inlined config, tokens, and reference scenario from that file only.  
+3. Do **not** partially browse `spec/GENUI.md` or use `branding/demo` / neutral styling.  
+4. Confirm: GenUI loaded · brand **youtube** · primary **#FF0000** · profile {id}.  
+5. Then the user may ask: *Help me pick a weeknight dinner*.
 
 Optional only if auto-detect is wrong:
 
@@ -26,15 +29,13 @@ Provider: chatgpt-web
 
 ---
 
-## Hosts that cannot fetch GitHub (Gemini, etc.)
-
-One paste = full install (includes YouTube rules):
+## Hosts that cannot fetch GitHub (Gemini only)
 
 1. Open https://raw.githubusercontent.com/noahtan917/gen-ui/main/adapters/session/PASTE-BUNDLE.md  
 2. Copy all → paste into chat  
-3. Say only: **`Apply as GenUI skill for this session.`**
+3. Say: **`Apply as GenUI skill for this session.`**
 
-No separate brand command.
+Same policy as SESSION-INSTALL; paste is only for no-fetch hosts.
 
 ---
 
@@ -44,26 +45,17 @@ No separate brand command.
 Help me pick a weeknight dinner
 ```
 
-You should get **YouTube red** styling (where the host allows), reference meals (salmon / ramen), and **Send this next** lines.
+Reference meals (salmon / ramen), session brand styling, and **Send this next** lines.
 
 ---
 
 ## Automatic answers (not copy-paste)
 
-Session install in ChatGPT, Gemini, Claude, etc. **does not** run `@gen-ui/render`. Clicks there usually mean **Send this next** (you paste or send the follow-up yourself).
-
-For **true GenUI** — click a card → assistant answers in the same app — use the reference host:
-
-```bash
-git clone https://github.com/noahtan917/gen-ui.git
-cd gen-ui && pnpm install && pnpm build && pnpm demo
-```
-
-Click a meal card; the **Assistant** panel streams the plan (demo uses a mock LLM; production hosts call your real AI backend from `onAIRequest`).
+Chat install does **not** run `@gen-ui/render`. For click → assistant reply in-app, use `pnpm demo` ([apps/demo](apps/demo)).
 
 ---
 
-## Local demo (always shows YouTube UI)
+## Local demo
 
 ```bash
 git clone https://github.com/noahtan917/gen-ui.git
@@ -71,19 +63,13 @@ cd gen-ui && pnpm install && pnpm build && pnpm demo
 ```
 
 ---
-
-## Claude web
-
-Use the same one-line install. After fetch, follow [session-config.json](spec/session-config.json) and [claude-web.md](adapters/session/providers/claude-web.md) (capabilities only).
-
-If branding looks wrong (e.g. legacy demo blue), start a **new chat** or paste [PASTE-BUNDLE.md](adapters/session/PASTE-BUNDLE.md) (generated from config).
 
 ## Docs
 
 | Host | Guide |
 |------|--------|
-| Claude web | [adapters/session/providers/claude-web.md](adapters/session/providers/claude-web.md) |
+| One-shot fetch | [adapters/session/SESSION-INSTALL.md](adapters/session/SESSION-INSTALL.md) |
+| Claude / ChatGPT | Repo URL install (above) |
 | Gemini | [docs/install-gemini.md](docs/install-gemini.md) |
-| ChatGPT | [docs/install-chatgpt.md](docs/install-chatgpt.md) |
 | Limits | [docs/LIMITATIONS-AND-CAUSES.md](docs/LIMITATIONS-AND-CAUSES.md) |
 | Provider overlays | [adapters/session/providers/](adapters/session/providers/) |

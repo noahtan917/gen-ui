@@ -23,4 +23,4 @@ Change session-wide behavior in:
 - [branding/{pack}/tokens.json](../../../branding/) — colors and typography
 - [spec/session-visual-guide.md](../../../spec/session-visual-guide.md) — presentation rules
 
-Then run `pnpm generate:paste-bundle` and `pnpm lint:adapters`.
+Then run `pnpm generate:session-artifacts` and `pnpm lint:adapters`.

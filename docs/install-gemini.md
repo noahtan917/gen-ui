@@ -1,6 +1,6 @@
 # Install GenUI on Gemini (web / app)
 
-Gemini **cannot** clone or fetch files from GitHub inside the chat. Use **paste** or a **Gem**.
+Gemini **cannot** fetch files from GitHub inside the chat. **Only Gemini** needs paste; Claude/ChatGPT should fetch [SESSION-INSTALL.md](../adapters/session/SESSION-INSTALL.md) from the repo URL ([INSTALL-SKILL.md](../INSTALL-SKILL.md)).
 
 ## Option A — Paste bundle (fastest)
 

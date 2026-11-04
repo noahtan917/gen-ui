@@ -22,9 +22,14 @@ const adapterFiles = [
   "adapters/session/SKILL.md",
   "adapters/session/PASTE-BUNDLE.md",
   "adapters/session/PASTE-BUNDLE.template.md",
+  "adapters/session/SESSION-INSTALL.md",
+  "adapters/session/SESSION-INSTALL.template.md",
+  "adapters/session/session-artifact-body.template.md",
   "adapters/session/ON-INSTALL.md",
   ".cursor/skills/genui/SKILL.md",
   "INSTALL-SKILL.md",
+  "GENUI-SESSION.md",
+  "README.md",
 ];
 
 const sessionProviders = [
@@ -43,6 +48,19 @@ let failed = false;
 function fail(msg) {
   console.error(msg);
   failed = true;
+}
+
+function assertGeneratedArtifact(rel, label) {
+  const text = readFileSync(join(root, rel), "utf8");
+  if (!text.includes("GENERATED:")) {
+    fail(`${label} must be generated (missing GENERATED marker). Run pnpm generate:session-artifacts`);
+  }
+  if (expectedPrimary && !text.includes(expectedPrimary)) {
+    fail(`${label} primary ${expectedPrimary} missing — run pnpm generate:session-artifacts`);
+  }
+  if (!text.includes(`"${brandId}"`)) {
+    fail(`${label} must include brand id ${brandId}`);
+  }
 }
 
 const config = JSON.parse(readFileSync(join(root, "spec/session-config.json"), "utf8"));
@@ -76,13 +94,20 @@ for (const rel of [...adapterFiles, ...sessionProviders]) {
     continue;
   }
   const text = readFileSync(full, "utf8");
+  const skipSpecRef =
+    rel.includes("PASTE-BUNDLE.template") ||
+    rel.includes("SESSION-INSTALL.template") ||
+    rel.includes("session-artifact-body.template") ||
+    rel === "GENUI-SESSION.md" ||
+    rel === "README.md";
   const referencesSpec =
     text.includes("spec/GENUI") ||
     text.includes("GENUI.md") ||
     text.includes("session-bootstrap") ||
-    text.includes("session-config");
-  if (!referencesSpec && !rel.includes("PASTE-BUNDLE.template")) {
-    fail(`${rel} should reference spec (GENUI, session-bootstrap, or session-config)`);
+    text.includes("session-config") ||
+    text.includes("SESSION-INSTALL");
+  if (!skipSpecRef && !referencesSpec) {
+    fail(`${rel} should reference spec or SESSION-INSTALL`);
   }
 }
 
@@ -97,35 +122,27 @@ for (const rel of sessionProviders) {
   }
 }
 
-const pasteBundle = readFileSync(join(root, "adapters/session/PASTE-BUNDLE.md"), "utf8");
-if (!pasteBundle.includes("GENERATED:")) {
-  fail("PASTE-BUNDLE.md must be generated (missing GENERATED marker). Run pnpm generate:paste-bundle");
-}
-if (expectedPrimary && !pasteBundle.includes(expectedPrimary)) {
-  fail(
-    `PASTE-BUNDLE.md primary ${expectedPrimary} missing — run pnpm generate:paste-bundle`,
-  );
-}
-if (!pasteBundle.includes(`"${brandId}"`)) {
-  fail(`PASTE-BUNDLE.md must include brand id ${brandId}`);
-}
+assertGeneratedArtifact("adapters/session/PASTE-BUNDLE.md", "PASTE-BUNDLE.md");
+assertGeneratedArtifact("adapters/session/SESSION-INSTALL.md", "SESSION-INSTALL.md");
 
 const sessionSkill = readFileSync(join(root, "adapters/session/SKILL.md"), "utf8");
-if (!sessionSkill.includes("session-bootstrap.md")) {
-  fail("adapters/session/SKILL.md must reference session-bootstrap.md");
-}
-if (!sessionSkill.includes("session-config.json")) {
-  fail("adapters/session/SKILL.md must reference session-config.json");
+if (!sessionSkill.includes("SESSION-INSTALL")) {
+  fail("adapters/session/SKILL.md must reference SESSION-INSTALL.md");
 }
 
 const install = readFileSync(join(root, "INSTALL-SKILL.md"), "utf8");
-if (!install.includes("adapters/session/providers")) {
-  fail("INSTALL-SKILL.md must reference session providers");
+if (!install.includes("SESSION-INSTALL")) {
+  fail("INSTALL-SKILL.md must reference SESSION-INSTALL.md");
+}
+
+const readme = readFileSync(join(root, "README.md"), "utf8");
+if (!readme.includes("SESSION-INSTALL")) {
+  fail("README.md must reference SESSION-INSTALL.md");
 }
 
 const bootstrap = readFileSync(join(root, "spec/session-bootstrap.md"), "utf8");
-if (!bootstrap.includes("session-config.json")) {
-  fail("session-bootstrap.md must reference session-config.json");
+if (!bootstrap.includes("SESSION-INSTALL")) {
+  fail("session-bootstrap.md must reference SESSION-INSTALL as primary path");
 }
 
 const gemini = readFileSync(join(root, "adapters/gemini/GEMINI.md"), "utf8");

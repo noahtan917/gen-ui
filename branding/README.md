@@ -1,6 +1,6 @@
 # Brand packs
 
-Chat session install resolves the active pack from [spec/session-config.json](../spec/session-config.json) (`defaultBrandPack`). Provider overlays do **not** define brand — change config + tokens here, then `pnpm generate:paste-bundle`.
+Chat session install resolves the active pack from [spec/session-config.json](../spec/session-config.json) (`defaultBrandPack`). Provider overlays do **not** define brand — change config + tokens here, then `pnpm generate:session-artifacts`.
 
 | Brand | Path | Status |
 |-------|------|--------|

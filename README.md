@@ -2,6 +2,16 @@
 
 Centralized engineering specification, JSON Schema contracts, provider adapters, and a reference runtime for interactive AI-generated user interfaces.
 
+## AI session install (Claude, ChatGPT, …)
+
+If the user asks to install GenUI from this repo, **fetch and read in full** (do not browse random spec files):
+
+https://raw.githubusercontent.com/noahtan917/gen-ui/main/adapters/session/SESSION-INSTALL.md
+
+See also [GENUI-SESSION.md](GENUI-SESSION.md). Never use `branding/demo` for session; brand comes from the generated artifact only.
+
+**Gemini chat** cannot fetch GitHub — paste [PASTE-BUNDLE.md](adapters/session/PASTE-BUNDLE.md) instead ([guide](docs/install-gemini.md)).
+
 ## Quick start
 
 ```bash
@@ -17,11 +27,9 @@ Chat skill install generates branded UI in the host’s chat; **click → auto-a
 
 ## Chat / web GenAI (session install)
 
-One prompt installs everything + **YouTube branding** automatically: [INSTALL-SKILL.md](INSTALL-SKILL.md).
+One user prompt: [INSTALL-SKILL.md](INSTALL-SKILL.md) · One-shot artifact: [adapters/session/SESSION-INSTALL.md](adapters/session/SESSION-INSTALL.md) (raw URL above).
 
-**Gemini cannot fetch GitHub** — paste [adapters/session/PASTE-BUNDLE.md](adapters/session/PASTE-BUNDLE.md) ([guide](docs/install-gemini.md)).
-
-Session SSOT: [spec/session-config.json](spec/session-config.json) · Bootstrap: [spec/session-bootstrap.md](spec/session-bootstrap.md) · Provider overlays (capabilities only): [adapters/session/providers/](adapters/session/providers/)
+Maintainers: [spec/session-config.json](spec/session-config.json) → `pnpm generate:session-artifacts` · Bootstrap: [spec/session-bootstrap.md](spec/session-bootstrap.md)
 
 ## Repository layout
 

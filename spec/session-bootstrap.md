@@ -11,65 +11,66 @@ Install the GenUI skill for this session from {REPO_URL}
 Optional: `Provider: chatgpt-web` (only if auto-detect is wrong).  
 **Do not require** `Brand:`, `Load …`, or paste instructions — those are automatic (see [ON-INSTALL.md](../adapters/session/ON-INSTALL.md)).
 
-## Configuration (SSOT)
+## Primary install path (fetch-capable hosts)
 
-Read [session-config.json](session-config.json) first on every install:
+When the user references `{REPO_URL}`, the model **must** fetch and read **in full**:
+
+`https://raw.githubusercontent.com/{owner}/{repo}/main/adapters/session/SESSION-INSTALL.md`
+
+That generated file inlines [session-config.json](session-config.json), brand tokens, reference scenario, and presentation rules. **Do not** browse the repo piecemeal or install from `GENUI.md` alone.
+
+Install is **invalid** if the model cannot confirm `defaultBrandPack` and token **primary** from that artifact.
+
+## Configuration (SSOT for maintainers)
+
+Edit [session-config.json](session-config.json) and `branding/{defaultBrandPack}/tokens.json`, then run `pnpm generate:session-artifacts`.
 
 | Field | Purpose |
 |-------|---------|
-| `defaultBrandPack` | Load `branding/{id}/tokens.json` and set `themeRef.source` / `themeRef.id` |
-| `forbiddenBrandPacks` | Never use for session install (e.g. legacy `demo`) |
-| `referenceDocument` | Default scenario JSON (meals, actions, components) |
+| `defaultBrandPack` | Active brand for all providers |
+| `forbiddenBrandPacks` | Never use for session (e.g. legacy `demo`) |
+| `referenceDocument` | Default scenario JSON |
 
-To change session branding for **all** providers, edit `session-config.json` and the token file under `branding/` — not provider overlays.
+## Paste path (no GitHub fetch)
+
+**Gemini chat** and similar: user pastes [PASTE-BUNDLE.md](../adapters/session/PASTE-BUNDLE.md) (same generated body as SESSION-INSTALL).
 
 ## Automatic on install (mandatory for the model)
 
-1. **Config + brand:** load `spec/session-config.json`, then `branding/{defaultBrandPack}/tokens.json`. Apply token colors to all user-facing UI.
-2. **Provider:** infer from host (`claude-web`, `chatgpt-web`, `gemini-app`, `deepseek-chat`, `grok-chat`, or `generic-chat`).
-3. **Load all** files in the load order below (fetch from `{REPO_URL}` / raw GitHub, or use [PASTE-BUNDLE.md](../adapters/session/PASTE-BUNDLE.md) if fetch fails).
-4. **Presentation:** follow [session-visual-guide.md](session-visual-guide.md).
-5. **Host limits:** follow [adapters/session/providers/{provider_id}.md](../adapters/session/providers/) — capabilities only, no separate brand rules.
+1. Load **SESSION-INSTALL.md** (fetch) or **PASTE-BUNDLE.md** (paste) in full.
+2. **Provider:** infer overlay (`claude-web`, `chatgpt-web`, `gemini-app`, …).
+3. **Presentation:** rules inside the artifact + [session-visual-guide.md](session-visual-guide.md) if fetched optionally.
+4. **Host limits:** [adapters/session/providers/{provider_id}.md](../adapters/session/providers/) — capabilities only.
 
-If token JSON fetch fails, use the token object from [PASTE-BUNDLE.md](../adapters/session/PASTE-BUNDLE.md) or the last successfully loaded pack file.
+## Optional deep load (coding agents / debugging)
 
-## Load order (from `{REPO_URL}`)
+After the one-shot artifact, optionally fetch:
 
-Resolve `{owner}`, `{repo}`, ref `main` unless URL specifies a branch/tag.
-
-1. `spec/session-config.json`
-2. `spec/session-bootstrap.md` (this file)
-3. `adapters/session/ON-INSTALL.md`
-4. `spec/GENUI.md`
-5. `spec/interaction-contract.md`
-6. `spec/rendering-profiles.md`
-7. `spec/session-visual-guide.md`
-8. `branding/{defaultBrandPack}/tokens.json` (from config)
-9. `adapters/session/interactive-ui-guide.md`
-10. `adapters/session/providers/{provider_id}.md`
-11. `{referenceDocument}` from config (default meal-planning example)
+1. `spec/GENUI.md`
+2. `spec/interaction-contract.md`
+3. `spec/rendering-profiles.md`
+4. `adapters/session/interactive-ui-guide.md`
+5. `adapters/session/providers/{provider_id}.md`
 
 Raw GitHub: `https://raw.githubusercontent.com/{owner}/{repo}/main/{path}`
-
-If fetch fails (**Gemini chat**): user pastes [adapters/session/PASTE-BUNDLE.md](../adapters/session/PASTE-BUNDLE.md) once — generated from config + tokens.
 
 ## After load (confirmation)
 
 - GenUI spec loaded · brand **{defaultBrandPack}** · profile {id}
-- Show a **short confirmation** with visible **primary** color from loaded tokens
+- Visible **primary** color from loaded tokens
 - Do **not** ask user to enable branding or reload spec
 
 ## Session rules (provider-agnostic)
 
-1. **SSOT:** GenUI JSON internally; user-facing UI uses loaded token pack.
-2. **Branding:** `defaultBrandPack` from config unless user explicitly requests another allowed pack.
-3. **Interaction-first:** `ai.request` + **Send this next:** ([session-visual-guide.md](session-visual-guide.md))
-4. **Reference scenario:** path from `referenceDocument` in config.
-5. **Profile:** [rendering-profiles.md](rendering-profiles.md) + thin provider overlay.
+1. **SSOT:** one-shot artifact for chat install; config file for repo maintenance.
+2. **Branding:** `defaultBrandPack` unless user explicitly requests another allowed pack.
+3. **Interaction-first:** `ai.request` + **Send this next:**
+4. **Reference scenario:** `referenceDocument` in config.
+5. **Profile:** rendering profile + thin provider overlay.
 
 ## Coding agents vs chat
 
 | Context | Entry |
 |---------|--------|
-| Chat / web GenAI | This bootstrap + `adapters/session/` |
+| Chat / web GenAI | SESSION-INSTALL or PASTE-BUNDLE + `adapters/session/` |
 | Cursor / Claude Code / Gemini CLI | [adapters/README.md](../adapters/README.md) |

@@ -1,30 +1,44 @@
-<!-- GENERATED: do not edit; run pnpm generate:paste-bundle -->
+<!-- GENERATED: do not edit; run pnpm generate:session-artifacts -->
 
 # GenUI session skill — paste this entire file (= full install, no other commands)
 
-You are now configured with the **GenUI** skill for **this conversation** (follow [spec/GENUI.md](../../spec/GENUI.md), [spec/session-bootstrap.md](../../spec/session-bootstrap.md), [spec/session-config.json](../../spec/session-config.json), [ON-INSTALL.md](ON-INSTALL.md)).
+For hosts that **cannot fetch GitHub** (e.g. Gemini chat). Same policy as [SESSION-INSTALL.md](SESSION-INSTALL.md).
+
+You are now configured with the **GenUI** skill for **this conversation**.
 
 **Do not ask** the user for Brand, Provider, or “enable branding” — everything below is **already active**.
 
 **Brand (automatic):** `youtube` — primary **#FF0000** on all GenUI UI for this session.
 
-**Provider profile:** auto-detect host → `markdown-ui-host` or `embedded-ui-host` per [rendering-profiles.md](../../spec/rendering-profiles.md).
+**Forbidden for session install:** ``demo`` (e.g. legacy demo blue). Do **not** use neutral styling when tokens are inlined below.
 
-**Presentation:** [spec/session-visual-guide.md](../../spec/session-visual-guide.md)
+**Provider profile:** auto-detect host → `markdown-ui-host` or `embedded-ui-host`.
 
 ---
 
-## Rules (do not skip)
+## Session config (inlined)
 
-1. **Think in GenUI JSON internally** (`genuiVersion`, `actions`, `components`, `themeRef`). Do **not** lead the user-facing reply with a raw JSON code block unless they ask for "JSON only" or "schema output."
-2. **Allowlisted components only:** Stack, Text, Button, Card, Image, Form, Select.
-3. **Button** and **Form** must have `actionId` present in `actions`.
-4. **Interaction-first:** clickable Cards bind to `ai.request` actions with real `promptTemplate` and `{{placeholders}}`.
-5. **Branding:** use loaded token pack **`youtube`**; set `"themeRef": { "source": "youtube", "id": "youtube" }`.
-6. **No** arbitrary HTML/script injection as a substitute for the contract.
-7. Present **branded option cards** and **Send this next:** per [session-visual-guide.md](../../spec/session-visual-guide.md).
-8. **Reference scenario:** use the reference document below only (unless user asks for more variety).
-9. **Native host widgets:** do not replace GenUI with stock recipe carousels; apply token hex in HTML, Canvas, or styled markdown.
+```json
+{
+  "defaultBrandPack": "youtube",
+  "forbiddenBrandPacks": [
+    "demo"
+  ],
+  "referenceScenario": "meal-planning",
+  "referenceDocument": "adapters/session/examples/meal-planning.document.json"
+}
+```
+
+---
+
+## Presentation rules (condensed)
+
+- Visual-first: GenUI JSON internally; do not lead with raw JSON unless user asks.
+- Allowlisted components: Stack, Text, Button, Card, Image, Form, Select.
+- Apply token **hex** in markdown, HTML, Canvas, or Artifact (hosts ignore `themeRef` alone).
+- Reference scenario only (document below) unless user asks for more options.
+- Each option: **Send this next:** with fully interpolated `ai.request` prompt.
+- Do not substitute host native recipe carousels or stock photo cards when GenUI was invoked.
 
 ### Brand tokens (`themeRef`)
 
@@ -138,8 +152,15 @@ You are now configured with the **GenUI** skill for **this conversation** (follo
 
 ---
 
+## Optional secondary fetch (after this artifact)
+
+If the host can fetch more files from the repo, optionally load: `spec/GENUI.md`, `spec/interaction-contract.md`, `spec/rendering-profiles.md`, `adapters/session/providers/{detected}.md`. **Session is already valid** for branding and meal scenario without them.
+
+---
+
 ## Confirm activation
 
 Reply with: GenUI loaded · brand **youtube** (#FF0000) · profile {id} · include a **primary-color confirmation line**. Say: *Ask for weeknight dinner — branding applies automatically.*
 
-**Repo (human reference only):** https://github.com/noahtan917/gen-ui
+**Repo (human reference):** https://github.com/noahtan917/gen-ui
+

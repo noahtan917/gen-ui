@@ -116,6 +116,7 @@ Details: [why-gemini-shows-json.md](why-gemini-shows-json.md).
 | L8 | v1 component allowlist | Security / validation | Extensible catalog in spec minor versions |
 | L9 | Enterprise Gemini variants | Partner policies, model tier | Test on exact portal you demo |
 | L10 | ChatGPT generic recipe UI | Host **native widgets** (images, badges) override GenUI; model improvises meals | Strict [chatgpt-web.md](../adapters/session/providers/chatgpt-web.md) overlay; user follow-up prompt; prefer `pnpm demo` for brand proof |
+| L11 | Partial repo browse on URL install | Host reads random spec files, skips tokens | Fetch [SESSION-INSTALL.md](../adapters/session/SESSION-INSTALL.md) one-shot; [README.md](../README.md) / [GENUI-SESSION.md](../GENUI-SESSION.md) hooks |
 
 ---
 

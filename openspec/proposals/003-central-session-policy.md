@@ -16,7 +16,7 @@ Session brand and scenario rules were duplicated across provider overlays, paste
 | Presentation | `spec/session-visual-guide.md` |
 | Provider files | `adapters/session/providers/*.md` — **capabilities only**, no hex |
 | Gemini paste | `PASTE-BUNDLE.md` **generated** from template + tokens |
-| Enforcement | `scripts/check-adapter-paths.mjs` + `pnpm generate:paste-bundle` in `lint:adapters` |
+| Enforcement | `scripts/check-adapter-paths.mjs` + `pnpm generate:session-artifacts` in `lint:adapters` |
 
 ## Acceptance criteria
 
@@ -24,3 +24,7 @@ Session brand and scenario rules were duplicated across provider overlays, paste
 - [x] Provider overlays contain no color hex values
 - [x] Generated paste bundle stays in sync with tokens
 - [x] `forbiddenBrandPacks` documents legacy `demo` as non-session
+
+## Follow-up
+
+See [004-one-shot-session-install.md](004-one-shot-session-install.md) — URL install fetches `SESSION-INSTALL.md` instead of partial repo browse.
