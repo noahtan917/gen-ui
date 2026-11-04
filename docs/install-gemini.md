@@ -7,11 +7,13 @@ Gemini **cannot** clone or fetch files from GitHub inside the chat. Use **paste*
 1. Open in your browser (copy all text):
    - https://raw.githubusercontent.com/noahtan917/gen-ui/main/adapters/session/PASTE-BUNDLE.md
 2. Paste the **entire file** into Gemini.
-3. Add:
+3. Add only:
 
    ```text
-   Apply these as your GenUI skill for this chat. Confirm when loaded.
+   Apply as GenUI skill for this session.
    ```
+
+   YouTube branding (#FF0000) and full rules are inside the bundle — no `Brand:` command.
 
 4. Then ask:
 

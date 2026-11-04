@@ -1,53 +1,66 @@
-# Install GenUI for this session (any provider)
+# Install GenUI — one prompt (YouTube branding automatic)
 
-One centralized skill; pick your host via `Provider:` (optional).
+You only need **one message**. The model must load the full spec, apply **YouTube** brand (`#FF0000`), and keep it for the whole session — **no** `Brand:`, **no** extra load commands.
 
-## 1. Publish this repo
+---
 
-Repo must be **public** for hosts that can fetch URLs. Many **cannot** (including **Gemini chat**).
-
-| Host | Install method |
-|------|----------------|
-| Claude web (often) | GitHub URL prompt below |
-| **Gemini chat / app** | **[Paste bundle](adapters/session/PASTE-BUNDLE.md)** — see [docs/install-gemini.md](docs/install-gemini.md) |
-| DeepSeek / others | Same paste bundle |
-| Cursor / CLI | Clone repo |
-
-**Gemini quick path:** open https://raw.githubusercontent.com/noahtan917/gen-ui/main/adapters/session/PASTE-BUNDLE.md → copy all → paste into Gemini → *“Apply as GenUI skill for this chat.”*
-
-## 2. Copy into your GenAI chat (URL fetch works)
+## Copy this (replace URL if needed)
 
 ```text
-Install the GenUI skill for this session from {REPO_URL}
-Provider: generic-chat
-
-Load spec/session-bootstrap.md and follow it. Brand: youtube.
-Confirm when ready.
+Install the GenUI skill for this session from https://github.com/noahtan917/gen-ui
 ```
 
-**Provider ids** (see [adapters/session/providers/README.md](adapters/session/providers/README.md)):
+That is enough. The assistant must automatically:
 
-| Provider | `Provider:` value |
-|----------|-------------------|
-| Claude web | `claude-web` |
-| ChatGPT web | `chatgpt-web` |
-| Gemini app | `gemini-app` |
-| DeepSeek chat | `deepseek-chat` |
-| Grok chat | `grok-chat` |
-| Auto-detect | `generic-chat` |
+- Load [spec/session-bootstrap.md](spec/session-bootstrap.md) and [adapters/session/ON-INSTALL.md](adapters/session/ON-INSTALL.md)
+- Apply brand **youtube** from [branding/youtube/tokens.json](branding/youtube/tokens.json)
+- Auto-detect provider overlay (`chatgpt-web`, `claude-web`, `gemini-app`, …)
+- Confirm with a **red (#FF0000) branded** acknowledgment
 
-## 3. Ask for interactive UI
+Optional only if auto-detect is wrong:
 
 ```text
-Help me pick a weeknight dinner — show GenUI meal options I can click.
+Install the GenUI skill for this session from https://github.com/noahtan917/gen-ui
+Provider: chatgpt-web
 ```
 
-You should get **demo-branded** meal cards and **actionable** follow-ups (artifact, markdown cards, or JSON per host).
+---
 
-## 4. Coding agents (Cursor, CLI)
+## Hosts that cannot fetch GitHub (Gemini, etc.)
 
-Use [adapters/README.md](adapters/README.md) — same spec, different entry files.
+One paste = full install (includes YouTube rules):
 
-## Central skill file
+1. Open https://raw.githubusercontent.com/noahtan917/gen-ui/main/adapters/session/PASTE-BUNDLE.md  
+2. Copy all → paste into chat  
+3. Say only: **`Apply as GenUI skill for this session.`**
 
-[adapters/session/SKILL.md](adapters/session/SKILL.md)
+No separate brand command.
+
+---
+
+## Then ask anything (branding stays on)
+
+```text
+Help me pick a weeknight dinner
+```
+
+You should get **YouTube red** styling (where the host allows), reference meals (salmon / ramen), and **Send this next** lines.
+
+---
+
+## Local demo (always shows YouTube UI)
+
+```bash
+git clone https://github.com/noahtan917/gen-ui.git
+cd gen-ui && pnpm install && pnpm build && pnpm demo
+```
+
+---
+
+## Docs
+
+| Host | Guide |
+|------|--------|
+| Gemini | [docs/install-gemini.md](docs/install-gemini.md) |
+| ChatGPT | [docs/install-chatgpt.md](docs/install-chatgpt.md) |
+| Limits | [docs/LIMITATIONS-AND-CAUSES.md](docs/LIMITATIONS-AND-CAUSES.md) |

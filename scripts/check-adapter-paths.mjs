@@ -19,6 +19,7 @@ const adapterFiles = [
   "adapters/openai/AGENTS.md",
   "adapters/session/SKILL.md",
   "adapters/session/PASTE-BUNDLE.md",
+  "adapters/session/ON-INSTALL.md",
   ".cursor/skills/genui/SKILL.md",
   "INSTALL-SKILL.md",
 ];

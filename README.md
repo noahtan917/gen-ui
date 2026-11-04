@@ -15,7 +15,7 @@ Open the demo at the URL Vite prints (default `http://localhost:5173`). **YouTub
 
 ## Chat / web GenAI (session install)
 
-One skill for **Claude, ChatGPT, Gemini, DeepSeek, Grok**, and others: see [INSTALL-SKILL.md](INSTALL-SKILL.md).
+One prompt installs everything + **YouTube branding** automatically: [INSTALL-SKILL.md](INSTALL-SKILL.md).
 
 **Gemini cannot fetch GitHub** — paste [adapters/session/PASTE-BUNDLE.md](adapters/session/PASTE-BUNDLE.md) ([guide](docs/install-gemini.md)).
 

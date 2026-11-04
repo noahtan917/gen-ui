@@ -1,10 +1,12 @@
-# GenUI session skill — paste this entire file (Gemini / DeepSeek / no-GitHub-fetch hosts)
+# GenUI session skill — paste this entire file (= full install, no other commands)
 
-You are now configured with the **GenUI** skill for **this conversation** (follow [spec/GENUI.md](../../spec/GENUI.md) and [spec/session-bootstrap.md](../../spec/session-bootstrap.md)).
+You are now configured with the **GenUI** skill for **this conversation** (follow [spec/GENUI.md](../../spec/GENUI.md), [spec/session-bootstrap.md](../../spec/session-bootstrap.md), [ON-INSTALL.md](ON-INSTALL.md)).
 
-**Provider profile:** `gemini-app` → use `markdown-ui-host` or rich formatted cards; if the client supports canvas/code UI, use `embedded-ui-host`.
+**Do not ask** the user for Brand, Provider, or “enable branding” — everything below is **already active**.
 
-**Brand:** `youtube` (tokens below — **#FF0000** red so branding is obvious).
+**Brand (automatic):** `youtube` — **#FF0000** on all GenUI UI for this session.
+
+**Provider profile:** auto-detect host → `markdown-ui-host` or `embedded-ui-host` per [rendering-profiles.md](../../spec/rendering-profiles.md).
 
 ---
 
@@ -126,6 +128,6 @@ You are now configured with the **GenUI** skill for **this conversation** (follo
 
 ## Confirm activation
 
-Reply briefly: GenUI loaded, brand `youtube` (#FF0000), profile `markdown-ui-host` (or `embedded-ui-host` if applicable). Suggest: *“Help me pick a weeknight dinner — show clickable meal options with YouTube branding.”*
+Reply with: GenUI loaded · brand **youtube** (#FF0000) · profile {id} · include a **red-accent confirmation line** (proof branding is on). Say: *Ask for weeknight dinner — YouTube branding applies automatically.*
 
 **Repo (human reference only):** https://github.com/noahtan917/gen-ui

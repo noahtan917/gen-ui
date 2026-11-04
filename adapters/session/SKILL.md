@@ -2,31 +2,26 @@
 name: genui-session
 description: >-
   Installs provider-agnostic GenUI for the current chat session from this repo.
-  Use when the user asks to install GenUI skill, generative UI, or paste a GitHub repo URL.
+  Automatically applies YouTube brand (#FF0000). Use when the user asks to install
+  GenUI skill or paste a GitHub repo URL for gen-ui.
 ---
 
 # GenUI session skill (centralized)
 
-Do **not** duplicate engineering rules here.
+On **install**, follow [ON-INSTALL.md](ON-INSTALL.md) and [spec/session-bootstrap.md](../../spec/session-bootstrap.md) — **no extra user commands**.
 
-## Bootstrap
+## Automatic (do not ask the user)
 
-Follow [spec/session-bootstrap.md](../../spec/session-bootstrap.md) exactly.
+- Brand: **youtube** → [branding/youtube/tokens.json](../../branding/youtube/tokens.json)
+- Load full spec + [interactive-ui-guide.md](interactive-ui-guide.md) + provider overlay
+- Apply **#FF0000** on all GenUI UI for this session
 
-## Required spec files
+## Required spec
 
 - [spec/GENUI.md](../../spec/GENUI.md)
 - [spec/interaction-contract.md](../../spec/interaction-contract.md)
 - [spec/rendering-profiles.md](../../spec/rendering-profiles.md)
 
-## Branding
+## Fetch failed?
 
-Default: [branding/demo/tokens.json](../../branding/demo/tokens.json)
-
-## Provider overlay
-
-Read [providers/README.md](providers/README.md) and apply **one** overlay file for the user’s host.
-
-## Interactive UI
-
-Read [interactive-ui-guide.md](interactive-ui-guide.md) before showing interactive option cards (e.g. meal planning).
+Use [PASTE-BUNDLE.md](PASTE-BUNDLE.md) (complete install + youtube).

@@ -1,15 +1,39 @@
 # Session bootstrap (all chat / web GenAI providers)
 
-Single install flow for **this conversation**. Works with Claude, ChatGPT, Gemini, DeepSeek, Grok, and future hosts via thin provider overlays.
+Single install flow for **this conversation**. One user message is enough — **no follow-up commands** for brand, spec, or tokens.
 
-## Trigger
-
-User message pattern:
+## Trigger (minimal — this is all the user should need)
 
 ```text
 Install the GenUI skill for this session from {REPO_URL}
-Provider: {provider_id}   # optional; see providers/README.md
-Brand: youtube               # optional; default branding/youtube (#FF0000)
+```
+
+Optional: `Provider: chatgpt-web` (only if auto-detect is wrong).  
+**Do not require** `Brand:`, `Load …`, or paste instructions — those are automatic (see [ON-INSTALL.md](../adapters/session/ON-INSTALL.md)).
+
+## Automatic on install (mandatory for the model)
+
+1. **Brand:** always **`youtube`** — load [branding/youtube/tokens.json](../branding/youtube/tokens.json), set `themeRef` to `{ "source": "youtube", "id": "youtube" }`, apply **#FF0000** on all GenUI UI.
+2. **Provider:** infer from host (`claude-web`, `chatgpt-web`, `gemini-app`, `deepseek-chat`, `grok-chat`, or `generic-chat`).
+3. **Load all** files in the load order below (fetch from `{REPO_URL}` / raw GitHub, or use [PASTE-BUNDLE.md](../adapters/session/PASTE-BUNDLE.md) if fetch fails).
+4. **Follow** [adapters/session/ON-INSTALL.md](../adapters/session/ON-INSTALL.md) for confirmation and ongoing behavior.
+
+### Inline YouTube tokens (fallback if JSON fetch fails)
+
+```json
+{
+  "source": "youtube",
+  "id": "youtube",
+  "colors": {
+    "primary": "#FF0000",
+    "primaryHover": "#CC0000",
+    "surface": "#FFFFFF",
+    "text": "#0F0F0F",
+    "textMuted": "#606060",
+    "surfaceDark": "#0F0F0F",
+    "border": "#E5E5E5"
+  }
+}
 ```
 
 ## Load order (from `{REPO_URL}`)
@@ -17,41 +41,35 @@ Brand: youtube               # optional; default branding/youtube (#FF0000)
 Resolve `{owner}`, `{repo}`, ref `main` unless URL specifies a branch/tag.
 
 1. `spec/session-bootstrap.md` (this file)
-2. `spec/GENUI.md`
-3. `spec/interaction-contract.md`
-4. `spec/rendering-profiles.md`
-5. `branding/youtube/tokens.json` (or `branding/{brand}/tokens.json`; default **youtube** for demos)
-6. `adapters/session/interactive-ui-guide.md`
-7. `adapters/session/providers/{provider_id}.md` — if `{provider_id}` omitted, infer from product or use `generic-chat.md`
+2. `adapters/session/ON-INSTALL.md`
+3. `spec/GENUI.md`
+4. `spec/interaction-contract.md`
+5. `spec/rendering-profiles.md`
+6. `branding/youtube/tokens.json`
+7. `adapters/session/interactive-ui-guide.md`
+8. `adapters/session/providers/{provider_id}.md`
 
-Raw GitHub pattern:
+Raw GitHub: `https://raw.githubusercontent.com/{owner}/{repo}/main/{path}`
 
-`https://raw.githubusercontent.com/{owner}/{repo}/main/{path}`
+If fetch fails (**Gemini chat**): user pastes [adapters/session/PASTE-BUNDLE.md](../adapters/session/PASTE-BUNDLE.md) once — that file equals full install + youtube brand.
 
-If fetch fails (common on **Gemini chat**), ask the user to paste the full [adapters/session/PASTE-BUNDLE.md](../adapters/session/PASTE-BUNDLE.md) — one file, all rules + demo brand + reference JSON.
+## After load (confirmation)
 
-## After load
-
-Reply with a short confirmation:
-
-- GenUI version / spec loaded
-- Brand id applied
-- Rendering profile id in use
-- Example: *“Ask: Help me plan a quick weeknight dinner.”*
+- GenUI spec loaded · brand **youtube** (#FF0000) · profile {id}
+- Show a **short red-accent confirmation** (proof branding is active)
+- Do **not** ask user to enable branding or reload spec
 
 ## Session rules (provider-agnostic)
 
-1. **SSOT:** Generate and reason using GenUI JSON; do not invent parallel UI rules.
-2. **Branding:** Apply tokens from the loaded brand file to any visible UI (`themeRef` fields).
-3. **Interaction-first:** Cards/buttons for options must wire to `actions` with `ai.request` (or `state.update` for forms).
-4. **Profile:** Map JSON to host using the profile from the provider overlay + `rendering-profiles.md`.
-5. **Reference demo scenario:** Meal-planning cards (see `adapters/session/examples/meal-planning.document.json`) follow the interaction contract pattern.
+1. **SSOT:** GenUI JSON internally; user-facing UI uses YouTube styling.
+2. **Branding:** Always `youtube` / `#FF0000` unless user explicitly requests another brand pack.
+3. **Interaction-first:** `ai.request` + **Send this next:**
+4. **Reference scenario:** [meal-planning.document.json](../adapters/session/examples/meal-planning.document.json) — salmon + ramen only by default.
+5. **Profile:** [rendering-profiles.md](rendering-profiles.md) + provider overlay.
 
 ## Coding agents vs chat
 
 | Context | Entry |
 |---------|--------|
 | Chat / web GenAI | This bootstrap + `adapters/session/` |
-| Cursor / Claude Code / Gemini CLI | Existing adapters under `adapters/cursor`, `claude-code`, `gemini`, etc. |
-
-Same spec; different entry files.
+| Cursor / Claude Code / Gemini CLI | [adapters/README.md](../adapters/README.md) |

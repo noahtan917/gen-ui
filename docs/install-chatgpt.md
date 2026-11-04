@@ -6,11 +6,9 @@ ChatGPT can **load** the skill from a public GitHub URL (as in your test). Visua
 
 ```text
 Install the GenUI skill for this session from https://github.com/noahtan917/gen-ui
-Provider: chatgpt-web
-
-Load spec/session-bootstrap.md and follow it. Default brand: demo.
-Confirm when ready.
 ```
+
+YouTube brand and full spec load **automatically** (see [ON-INSTALL.md](../adapters/session/ON-INSTALL.md)).
 
 ## Ask (strict demo)
 
