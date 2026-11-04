@@ -4,9 +4,18 @@ One centralized skill; pick your host via `Provider:` (optional).
 
 ## 1. Publish this repo
 
-Repo must be **public** (or paste files manually). Replace `{REPO_URL}` below.
+Repo must be **public** for hosts that can fetch URLs. Many **cannot** (including **Gemini chat**).
 
-## 2. Copy into your GenAI chat
+| Host | Install method |
+|------|----------------|
+| Claude web (often) | GitHub URL prompt below |
+| **Gemini chat / app** | **[Paste bundle](adapters/session/PASTE-BUNDLE.md)** — see [docs/install-gemini.md](docs/install-gemini.md) |
+| DeepSeek / others | Same paste bundle |
+| Cursor / CLI | Clone repo |
+
+**Gemini quick path:** open https://raw.githubusercontent.com/noahtan917/gen-ui/main/adapters/session/PASTE-BUNDLE.md → copy all → paste into Gemini → *“Apply as GenUI skill for this chat.”*
+
+## 2. Copy into your GenAI chat (URL fetch works)
 
 ```text
 Install the GenUI skill for this session from {REPO_URL}

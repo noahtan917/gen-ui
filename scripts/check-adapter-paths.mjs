@@ -18,6 +18,7 @@ const adapterFiles = [
   "adapters/claude-code/CLAUDE.md",
   "adapters/openai/AGENTS.md",
   "adapters/session/SKILL.md",
+  "adapters/session/PASTE-BUNDLE.md",
   ".cursor/skills/genui/SKILL.md",
   "INSTALL-SKILL.md",
 ];

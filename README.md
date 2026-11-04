@@ -17,6 +17,8 @@ Open the demo at the URL Vite prints (default `http://localhost:5173`). Click **
 
 One skill for **Claude, ChatGPT, Gemini, DeepSeek, Grok**, and others: see [INSTALL-SKILL.md](INSTALL-SKILL.md).
 
+**Gemini cannot fetch GitHub** — paste [adapters/session/PASTE-BUNDLE.md](adapters/session/PASTE-BUNDLE.md) ([guide](docs/install-gemini.md)).
+
 Central bootstrap: [spec/session-bootstrap.md](spec/session-bootstrap.md) · Provider overlays: [adapters/session/providers/](adapters/session/providers/)
 
 ## Repository layout

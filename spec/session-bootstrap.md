@@ -28,7 +28,7 @@ Raw GitHub pattern:
 
 `https://raw.githubusercontent.com/{owner}/{repo}/main/{path}`
 
-If fetch fails, ask the user to paste `adapters/session/SKILL.md` and `branding/demo/tokens.json`.
+If fetch fails (common on **Gemini chat**), ask the user to paste the full [adapters/session/PASTE-BUNDLE.md](../adapters/session/PASTE-BUNDLE.md) — one file, all rules + demo brand + reference JSON.
 
 ## After load
 
