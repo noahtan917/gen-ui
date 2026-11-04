@@ -93,7 +93,7 @@ Details: [why-gemini-shows-json.md](why-gemini-shows-json.md).
 
 | Provider | Claude-like embedded panel? | GenUI session install | Best demo for stakeholders |
 |----------|----------------------------|------------------------|----------------------------|
-| **Claude web** + Artifacts | **Yes** | URL or paste | **Primary chat demo** |
+| **Claude web** + Artifacts | **Yes** | URL or paste | **Primary chat demo**; may swap in its native interactive planner — see L12 |
 | **ChatGPT web** + Canvas | **Often** (plan-dependent) | URL or paste | Secondary chat demo; may ignore brand and reference meals — see L10 |
 | **Gemini chat / Flash** | **No** (default) | **Paste only** | Show markdown + Send this next; explain profile |
 | **Gemini Canvas** (if available) | Partial / product-specific | Paste | Verify on your account before presenting |
@@ -117,6 +117,7 @@ Details: [why-gemini-shows-json.md](why-gemini-shows-json.md).
 | L9 | Enterprise Gemini variants | Partner policies, model tier | Test on exact portal you demo |
 | L10 | ChatGPT generic recipe UI | Host **native widgets** (images, badges) override GenUI; model improvises meals | Strict [chatgpt-web.md](../adapters/session/providers/chatgpt-web.md) overlay; user follow-up prompt; prefer `pnpm demo` for brand proof |
 | L11 | Partial repo browse on URL install | Host reads random spec files, skips tokens | Fetch [SESSION-INSTALL.md](../adapters/session/SESSION-INSTALL.md) one-shot; [README.md](../README.md) / [GENUI-SESSION.md](../GENUI-SESSION.md) hooks |
+| L12 | Claude web native interactive planner | Host ships a prefab meal UI (card grid, time filter, “Plan this” chips) instead of a custom Artifact; model invents meals; install rules not re-applied on later turns | Hardened install rules (exact reference options, rebuild Artifact every turn, forbidden-substitution list) + strict [claude-web.md](../adapters/session/providers/claude-web.md) overlay; drift-recovery prompt (root cause #7); prefer `pnpm demo` for proof |
 
 ---
 
@@ -132,6 +133,38 @@ Observed: skill loads (`chatgpt-web`, brand `demo`, `markdown-ui-host`) but the 
 | Images | Host feature; not in GenUI v1 catalog |
 
 **Mitigation:** Re-prompt with reference scenario + hex colors; use **Canvas/HTML** when available; demo **`pnpm demo`** for true branded clicks.
+
+---
+
+## Root cause #7 — Claude web shows its own interactive planner
+
+Observed: install fetches and confirms, but *“pick a weeknight dinner”* renders Claude’s built-in interactive meal UI — five invented meals, a time filter, blue “Plan this” chips — instead of the reference Artifact.
+
+| Expected (GenUI on Claude) | What appears instead |
+|----------------------------|----------------------|
+| Exactly two options (salmon, ramen) from the reference document | Several invented meals |
+| Token primary **#FF0000** (youtube) | Blue / default Claude chrome |
+| **Send this next:** with the interpolated `planMeal` prompt | “Plan this” product chips |
+| Simple picker, no extra widgets | Time filter not in the document |
+
+| Factor | Cause |
+|--------|--------|
+| Artifact vs native interactive UI | Claude optimizes food/planning prompts toward a prefab layout; host UI wins over `themeRef` (same class as L10) |
+| Reference scenario is soft in chat | Model prior is “offer variety” unless bound to the two cards |
+| Branding isn’t automatic in Artifacts | **#FF0000** appears only if the model writes that CSS |
+| Install ≠ every reply | Install can succeed in prose while a later turn falls back to generic planner behavior |
+
+**Mitigation (shipped):** [SESSION-INSTALL.md](../adapters/session/SESSION-INSTALL.md) / [PASTE-BUNDLE.md](../adapters/session/PASTE-BUNDLE.md) now require exactly the reference options, rebuilding the Artifact on **every** GenUI reply, and list forbidden substitutions (native planners, card-grid pickers, time filters, “Plan this” chips, blue/neutral chrome). [claude-web.md](../adapters/session/providers/claude-web.md) makes the Artifact mandatory per turn.
+
+**If it still drifts**, paste:
+
+```text
+Build a React Artifact exactly like meal-artifact.reference.tsx with ONLY the two meals
+from meal-planning.document.json (Sheet-pan salmon, Miso ramen bowl), YouTube #FF0000,
+Send this next with the planMeal prompt on each, and no extra meals or filters.
+```
+
+**Correct result:** confirmation names youtube / #FF0000; two red-accent cards; each option has **Send this next:** with the full cooking prompt. Anything else means Claude is in planner mode, not GenUI mode.
 
 ---
 

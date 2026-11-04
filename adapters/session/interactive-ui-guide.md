@@ -12,7 +12,7 @@ Create a valid document (see [spec/GENUI.md](../../spec/GENUI.md)) with:
 
 | Profile | What to show |
 |---------|----------------|
-| `embedded-ui-host` | Branded interactive artifact; chat-bridge on click |
+| `embedded-ui-host` | Branded interactive artifact bound to **exactly** the reference cards (no extra options/filters), rebuilt on every interactive reply; chat-bridge on click |
 | `markdown-ui-host` | Branded markdown cards + **Send this next:** |
 | `json-visible-host` | JSON block + follow-up instructions |
 | `react-host` | Output JSON; user runs host app |

@@ -101,6 +101,7 @@ Example (meal demo):
 | Gemini: markdown + JSON block | **No embed panel**; model also exposes GenUI JSON |
 | No GitHub “install” on Gemini | Chat **cannot fetch** repo files |
 | “Click” in Gemini | User sends **Send this next** — chat-bridge, not npm runtime |
+| Claude: extra meals, time filter, blue chips | Host’s **native planner** replaced the custom Artifact |
 
 **Mitigations:** `PASTE-BUNDLE.md`, visual-first rules, **`pnpm demo`** for real clicks.
 
@@ -112,7 +113,7 @@ Example (meal demo):
 
 | Provider | Embedded panel? |
 |----------|-----------------|
-| Claude web + Artifacts | **Yes** (primary chat demo) |
+| Claude web + Artifacts | **Yes** (primary chat demo); may swap in its native meal planner — see L12 |
 | ChatGPT web | Skill loads; UI often host-native (not demo blue) — see L10 |
 | Gemini chat (Flash) | **No** — markdown profile |
 | DeepSeek / Grok | **No** |

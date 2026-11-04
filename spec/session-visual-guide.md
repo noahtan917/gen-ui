@@ -36,8 +36,10 @@ Use the document at `referenceDocument` in [session-config.json](session-config.
 
 ## Embedded presentation (embedded-ui-host)
 
-- Prefer interactive Artifact / Canvas styled like [meal-artifact.reference.tsx](../adapters/session/examples/meal-artifact.reference.tsx) — colors from loaded tokens, not hardcoded in the overlay.
-- Implement chat-bridge on selection per [interaction-contract.md](interaction-contract.md).
+- Build an interactive Artifact / Canvas styled like [meal-artifact.reference.tsx](../adapters/session/examples/meal-artifact.reference.tsx) — colors from loaded tokens, not hardcoded in the overlay.
+- Bind it to **exactly the reference options** (for meal planning, the two meals only). Do **not** add extra meals, time/difficulty filters, or any widget not in the document.
+- **Rebuild this Artifact on every interactive reply**, not just at install; never fall back to a host-native planner/carousel because a prior turn already confirmed GenUI.
+- Implement chat-bridge on selection per [interaction-contract.md](interaction-contract.md): update in-ui state **and** surface **Send this next:** with the fully interpolated prompt.
 
 ## Install confirmation
 

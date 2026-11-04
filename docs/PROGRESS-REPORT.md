@@ -160,11 +160,12 @@ Full report: **[LIMITATIONS-AND-CAUSES.md](LIMITATIONS-AND-CAUSES.md)**
 | “Install from GitHub” fails on Gemini | Chat cannot fetch arbitrary repos → paste `PASTE-BUNDLE.md` |
 | Clicks don’t fire `onAIRequest` in chat | Chat hosts don’t run `@gen-ui/render` → **chat-bridge** (“Send this next”) |
 | Demo looks different per vendor | **Rendering profiles** (`embedded-ui-host` vs `markdown-ui-host` vs `react-host`) |
+| Claude shows invented meals, time filter, blue chips | Host’s **native interactive planner** overrides the custom Artifact → hardened install rules + recovery prompt (L12) |
 
 **Best demos for tomorrow:**
 
 1. **`pnpm demo`** — full runtime (click → auto assistant reply).  
-2. **Claude web + Artifacts** — closest to “reference” chat UX.  
+2. **Claude web + Artifacts** — closest to “reference” chat UX; verify two red cards + **Send this next**, else use the L12 recovery prompt.  
 3. **Gemini** — show markdown options + **Send this next**; explain limitation honestly.
 
 ---

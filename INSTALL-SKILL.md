@@ -45,7 +45,9 @@ Same policy as SESSION-INSTALL; paste is only for no-fetch hosts.
 Help me pick a weeknight dinner
 ```
 
-Reference meals (salmon / ramen), session brand styling, and **Send this next** lines.
+Expect **exactly** the two reference meals (salmon / ramen), session brand styling (#FF0000), and **Send this next** lines — on every dinner request, not just the first. On Claude web this should be a custom Artifact, not Claude’s built-in meal planner (no invented meals, time filters, or “Plan this” chips).
+
+If the host drifts to its own planner, use the recovery prompt in [docs/LIMITATIONS-AND-CAUSES.md](docs/LIMITATIONS-AND-CAUSES.md) (L12 Claude, L10 ChatGPT via [docs/install-chatgpt.md](docs/install-chatgpt.md)).
 
 ---
 
