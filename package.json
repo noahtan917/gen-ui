@@ -6,7 +6,8 @@
     "build": "pnpm -r run build",
     "test": "pnpm -r run test",
     "demo": "pnpm --filter @gen-ui/demo dev",
-    "lint:adapters": "node scripts/check-adapter-paths.mjs"
+    "generate:paste-bundle": "node scripts/generate-paste-bundle.mjs",
+    "lint:adapters": "node scripts/generate-paste-bundle.mjs && node scripts/check-adapter-paths.mjs"
   },
   "engines": {
     "node": ">=20"

@@ -12,8 +12,8 @@ Install the GenUI skill for this session from https://github.com/noahtan917/gen-
 
 That is enough. The assistant must automatically:
 
-- Load [spec/session-bootstrap.md](spec/session-bootstrap.md) and [adapters/session/ON-INSTALL.md](adapters/session/ON-INSTALL.md)
-- Apply brand **youtube** from [branding/youtube/tokens.json](branding/youtube/tokens.json)
+- Load [spec/session-config.json](spec/session-config.json), [spec/session-bootstrap.md](spec/session-bootstrap.md), and [adapters/session/ON-INSTALL.md](adapters/session/ON-INSTALL.md)
+- Apply brand from config (`defaultBrandPack` → `branding/{id}/tokens.json`; today **youtube**)
 - Auto-detect provider overlay (`chatgpt-web`, `claude-web`, `gemini-app`, …)
 - Confirm with a **red (#FF0000) branded** acknowledgment
 
@@ -74,9 +74,9 @@ cd gen-ui && pnpm install && pnpm build && pnpm demo
 
 ## Claude web
 
-Use the same one-line install. After fetch, the model must load **youtube** tokens and build Artifacts per [adapters/session/providers/claude-web.md](adapters/session/providers/claude-web.md) (red **#FF0000**, not `branding/demo` blue).
+Use the same one-line install. After fetch, follow [session-config.json](spec/session-config.json) and [claude-web.md](adapters/session/providers/claude-web.md) (capabilities only).
 
-If the Artifact is blue, start a **new chat** (old sessions keep wrong instructions) or paste [PASTE-BUNDLE.md](adapters/session/PASTE-BUNDLE.md).
+If branding looks wrong (e.g. legacy demo blue), start a **new chat** or paste [PASTE-BUNDLE.md](adapters/session/PASTE-BUNDLE.md) (generated from config).
 
 ## Docs
 

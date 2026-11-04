@@ -21,7 +21,7 @@ One prompt installs everything + **YouTube branding** automatically: [INSTALL-SK
 
 **Gemini cannot fetch GitHub** — paste [adapters/session/PASTE-BUNDLE.md](adapters/session/PASTE-BUNDLE.md) ([guide](docs/install-gemini.md)).
 
-Central bootstrap: [spec/session-bootstrap.md](spec/session-bootstrap.md) · Provider overlays: [adapters/session/providers/](adapters/session/providers/)
+Session SSOT: [spec/session-config.json](spec/session-config.json) · Bootstrap: [spec/session-bootstrap.md](spec/session-bootstrap.md) · Provider overlays (capabilities only): [adapters/session/providers/](adapters/session/providers/)
 
 ## Repository layout
 

@@ -1,10 +1,10 @@
 # Provider overlay: generic-chat
 
-Rules: [spec/session-bootstrap.md](../../../spec/session-bootstrap.md), [spec/GENUI.md](../../../spec/GENUI.md).
+Rules: [spec/session-bootstrap.md](../../../spec/session-bootstrap.md), [spec/session-config.json](../../../spec/session-config.json).
 
 Detect the product (Claude, ChatGPT, Gemini, DeepSeek, Grok, other).
 
-1. If the host supports **embedded React/HTML UI** → profile `embedded-ui-host` (see [claude-web.md](claude-web.md) behavior).
-2. Else → profile `markdown-ui-host` (see [deepseek-chat.md](deepseek-chat.md) behavior).
+1. Embedded React/HTML UI available → `embedded-ui-host` ([claude-web.md](claude-web.md) capabilities).
+2. Else → `markdown-ui-host` ([deepseek-chat.md](deepseek-chat.md) capabilities).
 
-Always load brand tokens and emit GenUI JSON internally before presenting UI.
+Brand, scenario, and colors: [session-config.json](../../../spec/session-config.json) + [session-visual-guide.md](../../../spec/session-visual-guide.md) only.

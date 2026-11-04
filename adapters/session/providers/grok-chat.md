@@ -1,7 +1,8 @@
 # Provider overlay: grok-chat
 
-**Profile:** `markdown-ui-host` (default)
+Rules: [spec/session-bootstrap.md](../../../spec/session-bootstrap.md), [spec/session-config.json](../../../spec/session-config.json).
 
-Same as [deepseek-chat.md](deepseek-chat.md): centralized GenUI JSON + branded markdown interactive pattern + chat-bridge prompts.
+**Profile:** `markdown-ui-host`
 
-Re-evaluate profile if the host gains embedded UI support.
+- Branded markdown cards + **Send this next:** per [session-visual-guide.md](../../../spec/session-visual-guide.md).
+- Same GenUI JSON and reference document as other providers.

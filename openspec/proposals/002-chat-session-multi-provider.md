@@ -15,7 +15,7 @@ Users want: paste GitHub URL → install skill for session → ask a planning qu
 | Central session skill | `adapters/session/SKILL.md` |
 | Provider overlays | `adapters/session/providers/*.md` |
 | Rendering profiles | `spec/rendering-profiles.md` |
-| Demo brand | `branding/demo/` |
+| Session brand SSOT | `spec/session-config.json` + `branding/{defaultBrandPack}/` |
 | User entry | `INSTALL-SKILL.md` |
 
 Coding-agent adapters (`cursor`, `gemini` CLI, etc.) unchanged.

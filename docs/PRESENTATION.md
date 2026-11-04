@@ -156,7 +156,7 @@ Paste raw `PASTE-BUNDLE.md` → ask for weeknight dinner UI
 | `adapters/session/` | Chat install |
 | `packages/genui-core` | Validation |
 | `packages/genui-render` | React renderer |
-| `branding/demo/` | Demo tokens |
+| `spec/session-config.json` | Session brand + reference scenario |
 
 ---
 

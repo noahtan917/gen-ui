@@ -23,7 +23,7 @@ The goal matches the demo you saw elsewhere (install skill → branded UI → cl
 | --------------------------------------------- | -------------------------------------------------- |
 | Duplicated GenUI rules per AI vendor          | Single SSOT under `spec/`                          |
 | Static AI responses instead of interactive UI | GenUI JSON + `ai.request` actions + host rendering |
-| Random visuals                                | `themeRef` + brand packs (`branding/demo/`)        |
+| Random visuals                                | `themeRef` + [session-config.json](../spec/session-config.json) brand pack |
 | Chat vs coding agent confusion                | Separate **rendering profiles** and entry paths    |
 | “Install from GitHub” fails on some hosts     | **PASTE-BUNDLE** for Gemini, DeepSeek, etc.        |
 
@@ -99,7 +99,7 @@ flowchart TB
 
 ### 4. Branding
 
-- [`branding/demo/`](../branding/demo/) — default demo tokens (917v pack planned)
+- [spec/session-config.json](../spec/session-config.json) — session default brand + reference scenario (917v pack planned)
 
 ### 5. Documentation & governance
 

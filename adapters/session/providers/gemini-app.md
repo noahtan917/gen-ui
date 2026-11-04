@@ -1,13 +1,13 @@
 # Provider overlay: gemini-app
 
-**Profile:** `markdown-ui-host` by default in Gemini chat (rich markdown cards + **Send this next:**). Do **not** dump raw GenUI JSON as the first response.
+Rules: [spec/session-bootstrap.md](../../../spec/session-bootstrap.md), [spec/session-config.json](../../../spec/session-config.json).
 
-Use `embedded-ui-host` only when Gemini Canvas / app UI explicitly supports an interactive panel (product-dependent).
+**Profile:** `markdown-ui-host` by default in Gemini chat. Do **not** dump raw GenUI JSON as the first response.
 
-**GitHub:** Gemini chat **cannot** pull this repo from a URL. User must paste [../PASTE-BUNDLE.md](../PASTE-BUNDLE.md) (see [../../../docs/install-gemini.md](../../../docs/install-gemini.md)).
+Use `embedded-ui-host` only when Gemini Canvas explicitly supports an interactive panel (product-dependent).
 
-- Follow [spec/session-bootstrap.md](../../../spec/session-bootstrap.md) when files are available.
-- Same GenUI JSON and `themeRef` as other providers.
-- Interactions: in-ui feedback + **Send this next:** chat-bridge prompt text.
+**GitHub:** Gemini chat **cannot** pull this repo from a URL. User must paste [../PASTE-BUNDLE.md](../PASTE-BUNDLE.md) ([install-gemini.md](../../../docs/install-gemini.md)).
 
-Note: **Gemini CLI** uses [../../gemini/GEMINI.md](../../gemini/GEMINI.md), not this overlay.
+Interactions: in-ui feedback + **Send this next:** per [session-visual-guide.md](../../../spec/session-visual-guide.md).
+
+**Gemini CLI:** [../../gemini/GEMINI.md](../../gemini/GEMINI.md), not this overlay.

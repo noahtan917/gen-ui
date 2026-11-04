@@ -2,7 +2,7 @@
 
 ## Architecture
 
-- **One skill:** [spec/session-bootstrap.md](../spec/session-bootstrap.md) + [adapters/session/SKILL.md](../adapters/session/SKILL.md)
+- **One skill:** [spec/session-config.json](../spec/session-config.json) + [spec/session-bootstrap.md](../spec/session-bootstrap.md) + [adapters/session/SKILL.md](../adapters/session/SKILL.md)
 - **Many hosts:** thin files in [adapters/session/providers/](../adapters/session/providers/)
 - **Same interactivity semantics:** [spec/interaction-contract.md](../spec/interaction-contract.md)
 - **Host-specific packaging:** [spec/rendering-profiles.md](../spec/rendering-profiles.md)
