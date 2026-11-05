@@ -1,6 +1,6 @@
 # GenUI — Presentation deck (copy to PowerPoint / Google Slides)
 
-**Suggested length:** 12–15 minutes + 5 min Q&A  
+**Suggested length:** 15–18 minutes + 5 min Q&A (skip slides 10a–10e if short on time)  
 **Audience:** Engineering / product stakeholders
 
 Use one slide per `---` section below. Speaker notes are in *italics*.
@@ -103,8 +103,10 @@ Example (meal demo):
 | “Click” in Gemini | User sends **Send this next** — chat-bridge, not npm runtime |
 | Claude: extra meals, time filter, blue chips | Host’s **native planner** replaced the custom Artifact |
 | Claude: “robots disallowed” on repo URL install | GitHub blocks AI fetchers from browsing the repo; Claude only opens links it was given |
-| ChatGPT: right meals, but no YouTube red | ChatGPT chat is **Markdown — no colour**; photo cards are ChatGPT’s own UI |
+| ChatGPT: right meals, but no YouTube red | ChatGPT chat is **Markdown — no colour**; Canvas not chosen by the model |
 | DeepSeek: correct text cards, nothing clickable | Chat renders **Markdown only** — text profile by design |
+| Grok: different heading + stock food photo | Model **embellishes** the reference (L14) — rules say “no stock photos” but it still adds one |
+| Gemini: correct cards, then the full JSON | Markdown profile allows “optional” JSON; Gemini can’t collapse it (L3) |
 | Click doesn’t send the prompt by itself | Chat hosts give the UI **no way to post into the conversation** |
 
 **Mitigations:** raw-URL install, Claude Skill, `PASTE-BUNDLE.md`, visual-first rules, **`pnpm demo`** for real clicks.
@@ -125,7 +127,7 @@ Example (meal demo):
 **2. ChatGPT loads the rules but not the branding (L10)**
 
 - Install confirmed and the **two reference meals** were correct
-- Cards came out as ChatGPT’s own layout: plain chat text + a host-inserted food photo
+- Earlier runs added a host-inserted food photo; the **Nov 5 retest** with `installVersion 401e4c93` showed clean text cards — no photo, no native recipe carousel
 - Chat text is Markdown — **no way to colour it**, so `#FF0000` can’t be applied there
 - Branded UI is only possible in **Canvas** (HTML/React preview) — *proposed*, not shipped
 
@@ -140,30 +142,85 @@ Example (meal demo):
 
 ---
 
-## Slide 10 — DeepSeek test result: rules followed, no interactive UI
+## Slide 10 — Cross-provider test: is GenUI AI-agnostic?
 
-**What we saw** (prompt: *What do you want to cook?*)
+**Test (Nov 5, 2026):** fresh chat per provider → install → *Help me pick a weeknight dinner*. Install file `installVersion 401e4c93`, brand **youtube** (#FF0000).
 
-- Heading *What do you want to cook?* + **two** text cards: Sheet-pan salmon — Mediterranean, Miso ramen bowl — Japanese
-- Each card has **Send this next:** with the exact `planMeal` prompt
-- No clickable UI, no YouTube red — emoji markers instead
+| Provider | Install path | Install confirmed | Exactly the 2 meals + **Send this next** | Brand red visible | Drift |
+|----------|--------------|-------------------|------------------------------------------|-------------------|-------|
+| Claude web | Raw URL | ✅ `embedded-ui-host` | ✅ | ✅ Artifact | None |
+| ChatGPT web | Raw URL | ✅ `markdown-ui-host` | ✅ | ❌ Markdown | Chose Markdown over Canvas |
+| DeepSeek | Raw URL | ✅ | ✅ | ❌ Markdown | Emoji markers |
+| Grok | Raw URL | ✅ (red brand card) | ⚠️ meals promised, layout drifted | ⚠️ install card only | New heading + stock photo |
+| Gemini (1st try) | Raw URL | ❌ cannot fetch | ❌ raw JSON, `demo` blue | ❌ | Used the forbidden brand |
+| Gemini (retest) | **Pasted bundle** | ✅ | ✅ | ❌ Markdown | Full JSON appended |
+
+**Verdict:** **Yes at the contract level** — every provider produced the same two options and the same `planMeal` prompts from one install file. **Not identical UI** — only Claude draws the brand; Markdown hosts can’t colour text. **Install differs on Gemini** (paste, not URL).
+
+*Headline for the room: one spec, five providers, same options and prompts. What changes per host is the pixels and the install path, not the rules.*
+
+---
+
+## Slide 10a — Claude web: the reference result
+
+- Confirmation: `installVersion 401e4c93` · brand youtube · `embedded-ui-host` · primary-colour line
+- Built a **React Artifact**: dark header, red **YOUTUBE** badge, red underline, two cards (*Sheet-pan salmon — Mediterranean*, *Miso ramen bowl — Japanese*)
+- Tapping a card shows **Send this next:** below the cards
+- **No** native meal planner, no invented meals, no time filter — the L12 drift did **not** recur
+
+**Verdict:** ✅ closest to the target experience in a chat host. Still to verify: click → auto-send (OpenSpec 006).
+
+---
+
+## Slide 10b — ChatGPT web: rules followed, brand not drawable
+
+- Confirmation: `installVersion 401e4c93` · youtube · `markdown-ui-host` · “Primary color active: #FF0000”
+- Heading *What do you want to cook?*, two text cards, each with the word-for-word **Send this next:** prompt
+- **Improved since the earlier run:** no host food photo, no native recipe carousel (L10 not reproduced)
+- No red — ChatGPT chat is Markdown; the overlay prefers **Canvas**, but the model picked Markdown
+
+**Verdict:** ✅ contract followed. Branding needs Canvas to be required, not just preferred.
+
+---
+
+## Slide 10c — DeepSeek: most literal Markdown result
+
+- Install confirmed; heading *🎬 What do you want to cook?*, two cards with emoji markers, cuisine in italics
+- **Send this next:** in a quote block, matches the template word for word
+- Ends with *“Rules active for every turn…”* — and on a later turn (*What do you want to cook?*) it **rebuilt the same two cards**
+- No clickable UI, no red — Markdown only
 
 | Rule | Result |
 |------|--------|
 | Exactly the two reference meals | ✅ |
-| Cuisine subtitle | ✅ |
-| **Send this next:** fully interpolated | ✅ matches the template word for word |
-| No invented meals, filters, stock photos | ✅ |
-| Brand colour | ❌ host limit — Markdown can’t be coloured |
-| Clickable cards | ❌ host limit — no Artifact / Canvas panel |
+| **Send this next:** fully interpolated | ✅ |
+| Rules re-applied on a later turn | ✅ |
+| No invented meals, filters, stock photos | ✅ (emojis are cosmetic) |
+| Brand colour / clickable cards | ❌ host limit |
 
-**Why:** DeepSeek chat only renders Markdown text. The DeepSeek overlay deliberately uses `markdown-ui-host`: text cards + **Send this next:** (user pastes the line or replies “1” / “2”).
+**Verdict:** ✅ expected behaviour, not a bug. **Possible upgrade (unverified):** DeepSeek’s HTML Run/preview could show branded cards.
 
-**Verdict:** **expected behaviour, not a bug** — the most spec-compliant result of the chat hosts tested; the host just can’t draw much.
+---
 
-**Possible upgrade (unverified):** DeepSeek may offer a **Run / preview** for HTML code blocks. If a test confirms it, the overlay can add a self-contained HTML block → branded, clickable cards in the preview (a click still cannot send into the chat).
+## Slide 10d — Grok: loaded, then embellished
 
-*Use this slide to show that "no interactive UI" on DeepSeek is the host's ceiling — the GenUI contract (options, prompts) came through intact.*
+- Install shown as a **dark card with red “YOUTUBE” and `#FF0000`** — Grok can render some styled blocks, unlike the other Markdown hosts
+- Listed the session rules back (two meals, **Send this next**, no stock photos, YouTube red)
+- Dinner reply **drifted**: heading *“What’s for dinner tonight?”* + tagline *“Two delicious options. One easy decision.”* + a large **stock food photo** — all forbidden by the rules it had just repeated
+
+**Verdict:** ⚠️ install works, but the model decorates the reference (L14). Weakest of the URL installs; needs a retest and tighter wording (“heading verbatim; no images”).
+
+---
+
+## Slide 10e — Gemini: paste required, then correct
+
+- **Raw URL:** Gemini can’t fetch from GitHub. It described generic GenUI with **demo** tokens (`#2563eb`), then dumped **raw JSON** with `themeRef: demo` — the brand the install forbids
+- **Pasted `PASTE-BUNDLE.md`:** heading, two numbered meals with cuisine, **Send this next:** word for word, `themeRef: youtube`
+- After the cards it appended the **full GenUI JSON** — allowed (“not first”), but noisy since Gemini can’t collapse it (L3)
+
+**Verdict:** ✅ after paste. Install path is the only Gemini-specific step; the output matches the other Markdown hosts.
+
+*Use slides 10a–10e for Q&A: each failure maps to a host limit or a known drift with a mitigation — none required a spec change.*
 
 ---
 
@@ -171,11 +228,11 @@ Example (meal demo):
 
 | Provider | Embedded panel? | Brand colour? | Click auto-sends? |
 |----------|-----------------|---------------|-------------------|
-| Claude web + Artifacts | **Yes** (primary chat demo); may swap in its native meal planner — see L12 | **Yes**, if the model writes the styles | **Being verified** (OpenSpec 006) |
+| Claude web + Artifacts | **Yes** (primary chat demo); native planner did not recur on Nov 5 (L12) | **Yes** — confirmed Nov 5 | **Being verified** (OpenSpec 006) |
 | ChatGPT web | Only via **Canvas** | Canvas only — **not** in chat text (L10) | **No** |
 | Gemini chat (Flash) | **No** — markdown profile | **No** | **No** |
 | DeepSeek | **No** (HTML Run/preview untested) | **No** — emoji markers instead | **No** |
-| Grok | **No** | **No** | **No** |
+| Grok | **No** | Partly — drew a red brand card at install, not on the picker | **No** |
 | Our `pnpm demo` | **Yes** (production path) | **Yes** | **Yes** |
 
 *Say clearly: **product** will use `react-host`, not depend on Claude’s panel.*
@@ -212,9 +269,9 @@ Send the raw-URL install prompt (or use the uploaded Skill) → *Help me pick a 
 
 **Option C — Gemini**
 
-Paste raw `PASTE-BUNDLE.md` → ask for weeknight dinner UI
+Paste raw `PASTE-BUNDLE.md` → ask for weeknight dinner UI → two cards + **Send this next** (JSON may follow)
 
-*Lead with Option A if the room is technical; B and C show the multi-provider story. Avoid ChatGPT for brand proof until the Canvas change ships.*
+*Lead with Option A if the room is technical; B and C show the multi-provider story. Avoid ChatGPT for brand proof until the Canvas change ships, and avoid Grok live until its drift is fixed.*
 
 ---
 
@@ -240,6 +297,7 @@ Paste raw `PASTE-BUNDLE.md` → ask for weeknight dinner UI
 - OpenSpec proposals 001–005 (005: fetch-resilient install)
 - Install docs for Claude + ChatGPT + Gemini + generic chat
 - Generated install artifacts kept in sync by lint (`pnpm lint:adapters`)
+- **Cross-provider test (Nov 5):** Claude, ChatGPT, DeepSeek, Grok, and Gemini all loaded the same install and produced the same two options and prompts (Gemini via paste; Grok with cosmetic drift)
 
 *Foundation is merge-ready for product integration.*
 
@@ -250,10 +308,12 @@ Paste raw `PASTE-BUNDLE.md` → ask for weeknight dinner UI
 1. **Click → auto-send on Claude** (OpenSpec 006) — verify which host function exists, then wire it into the reference layout  
 2. **ChatGPT branding via Canvas** — require Canvas for option pickers; ban host image cards  
 3. **DeepSeek HTML preview test** — if Run/preview renders HTML, add a branded HTML block to the DeepSeek overlay  
-4. Feedback on spec v1 & component catalog  
-5. Add **917v** brand pack under `branding/917v/`  
-6. Pilot **brand extraction** on a real site  
-7. **Trish** (or first consumer): registry overrides + backend `onAIRequest`  
+4. **Tighten Markdown-host wording** — heading verbatim, no images; Gemini: no JSON unless asked (fixes Grok drift and Gemini noise)  
+5. **Repeat runs** — 3–5 fresh chats per provider, including the follow-up and a later-turn re-ask  
+6. Feedback on spec v1 & component catalog  
+7. Add **917v** brand pack under `branding/917v/`  
+8. Pilot **brand extraction** on a real site  
+9. **Trish** (or first consumer): registry overrides + backend `onAIRequest`  
 
 *Questions?*
 
@@ -272,14 +332,20 @@ Paste raw `PASTE-BUNDLE.md` → ask for weeknight dinner UI
 
 ## Appendix — Q&A prep
 
+**Is it really AI-agnostic?**  
+Yes at the contract level: on Nov 5 all five providers produced the same two options and the same `planMeal` prompts from one install file. The UI is not identical (only Claude draws the brand), and Gemini needs the paste bundle instead of the URL. Slides 10–10e have the per-model evidence.
+
 **Why does Gemini show JSON?**  
-No Artifact runtime + skill mentions JSON. Fix: visual-first paste bundle; JSON is internal. See LIMITATIONS-AND-CAUSES.md.
+No Artifact runtime, and the Markdown profile allows optional developer JSON — Gemini can’t collapse it, so it appears in full after the cards. Before the paste bundle, Gemini couldn’t read the install at all and showed only JSON in the old `demo` blue. See LIMITATIONS-AND-CAUSES.md (L2, L3).
+
+**Why did Grok change the heading and add a photo?**  
+The model decorated the reference despite repeating the rules back (L14). Install and options were right; the fix is stricter wording for Markdown hosts.
 
 **Why did Claude say “robots disallowed”?**  
 GitHub’s `robots.txt` blocks AI fetchers from repo folders, and Claude only opens links it was given. Fix: put the raw `SESSION-INSTALL.md` URL in the message, or upload the Claude Skill (L13, OpenSpec 005).
 
 **Why doesn’t ChatGPT show the YouTube red?**  
-ChatGPT chat is Markdown with no colour support, and the food photos are ChatGPT’s own UI. The rules loaded (right two meals); the host can’t draw the brand outside Canvas (L10).
+ChatGPT chat is Markdown with no colour support. The rules loaded (right two meals, no photos on the Nov 5 retest); the host can’t draw the brand outside Canvas (L10).
 
 **Why is there no interactive UI on DeepSeek?**  
 DeepSeek chat only renders Markdown, so GenUI uses the text profile: branded text cards + **Send this next:**. The test result met every rule the host can support (two meals, exact prompts); colour and clicks are host limits. An HTML preview path is still to be tested.

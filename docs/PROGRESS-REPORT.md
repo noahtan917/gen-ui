@@ -2,7 +2,7 @@
 
 **Project:** Provider-agnostic Generative UI (`gen-ui`)  
 **Repository:** https://github.com/noahtan917/gen-ui  
-**Status:** Phase 1 complete (foundation + multi-provider session skill)  
+**Status:** Phase 1 complete (foundation + multi-provider session skill); cross-provider test passed on 5 providers (Nov 5)  
 **Last updated:** November 2026
 
 ---
@@ -25,7 +25,7 @@ The goal matches the demo you saw elsewhere (install skill → branded UI → cl
 | Static AI responses instead of interactive UI | GenUI JSON + `ai.request` actions + host rendering |
 | Random visuals                                | `themeRef` + [session-config.json](../spec/session-config.json) brand pack |
 | Chat vs coding agent confusion                | Separate **rendering profiles** and entry paths    |
-| “Install from GitHub” fails on some hosts     | **PASTE-BUNDLE** for Gemini, DeepSeek, etc.        |
+| “Install from GitHub” fails on some hosts     | Raw install URL (Claude, ChatGPT, DeepSeek, Grok); **PASTE-BUNDLE** for Gemini |
 
 ---
 
@@ -160,7 +160,20 @@ Full report: **[LIMITATIONS-AND-CAUSES.md](LIMITATIONS-AND-CAUSES.md)**
 | “Install from GitHub” fails on Gemini | Chat cannot fetch arbitrary repos → paste `PASTE-BUNDLE.md` |
 | Clicks don’t fire `onAIRequest` in chat | Chat hosts don’t run `@gen-ui/render` → **chat-bridge** (“Send this next”) |
 | Demo looks different per vendor | **Rendering profiles** (`embedded-ui-host` vs `markdown-ui-host` vs `react-host`) |
-| Claude shows invented meals, time filter, blue chips | Host’s **native interactive planner** overrides the custom Artifact → hardened install rules + recovery prompt (L12) |
+| Claude shows invented meals, time filter, blue chips | Host’s **native interactive planner** overrides the custom Artifact → hardened install rules + recovery prompt (L12); did not recur Nov 5 |
+| Grok changes the heading and adds a stock photo | Model embellishes the reference (L14) → stricter Markdown overlay wording proposed |
+
+### Cross-provider test (Nov 5, 2026)
+
+| Provider | Install | Result |
+|----------|---------|--------|
+| Claude web | Raw URL | ✅ Branded React Artifact, exactly two meals |
+| ChatGPT web | Raw URL | ✅ Two meals + **Send this next**; no colour (Markdown) |
+| DeepSeek | Raw URL | ✅ Two meals + **Send this next**; rebuilt on a later turn |
+| Grok | Raw URL | ⚠️ Loaded; heading, tagline, and stock photo drifted |
+| Gemini | Paste | ✅ Two meals + **Send this next**; JSON appended |
+
+Per-model detail: [PRESENTATION.md slides 10–10e](PRESENTATION.md) and [LIMITATIONS-AND-CAUSES.md](LIMITATIONS-AND-CAUSES.md#cross-provider-test-results-nov-5-2026).
 
 **Best demos for tomorrow:**
 
@@ -177,6 +190,7 @@ Full report: **[LIMITATIONS-AND-CAUSES.md](LIMITATIONS-AND-CAUSES.md)**
 3. **Interactivity in chat** often means **chat-bridge** (“Send this next: …”) plus in-UI feedback, not a shared npm renderer.
 4. **Central spec scales** — adding a provider is a small overlay file, not copying the whole skill.
 5. **Limitation ≠ project failure** — product integration uses `react-host`; chat is for skill validation and sales narrative.
+6. **Provider-agnostic, verified** — one install file produced the same options and prompts on Claude, ChatGPT, DeepSeek, Grok, and Gemini; only the rendering and Gemini’s install path differ.
 
 ---
 

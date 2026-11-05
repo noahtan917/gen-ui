@@ -63,18 +63,19 @@ We document four profiles in [spec/rendering-profiles.md](../spec/rendering-prof
 
 ## Root cause #4 — Gemini shows JSON after markdown cards
 
-Observed behavior (tested): options + **Send this next** (correct `markdown-ui-host`), then a **JSON block**.
+Observed behavior (Nov 5 retest, pasted bundle): heading + two meals + **Send this next** (correct `markdown-ui-host`), then the **full GenUI JSON** with `themeRef: youtube`.
+
+Observed behavior (raw URL, no paste): Gemini could not read the install, described GenUI with **demo** tokens (`#2563eb`), and replied with **only** raw JSON using `themeRef: demo` — the brand the install forbids.
 
 | Factor | Cause |
 |--------|--------|
-| Skill/Gem description mentions “GenUI JSON” | Model treats JSON as required **visible output** |
-| Large JSON examples in training bundle | Reinforces code-block response |
+| No URL fetch in Gemini chat | Without the paste, Gemini fills gaps from older public copies of the repo (hence `demo`) |
+| Markdown profile allows “optional” JSON | Rules only forbid JSON **first**; Gemini can’t collapse a code block, so it shows in full |
+| Large JSON examples in the bundle | Reinforces code-block response |
 | No Artifact panel | JSON becomes the only “structured” artifact in the thread |
 | Enterprise/partner portals (e.g. Globe) | Same chat UI limits; may add policy banners |
 
-**Mitigation:** Updated [PASTE-BUNDLE.md](../adapters/session/PASTE-BUNDLE.md) — **visual first**, JSON internal or under “Developer only.” User prompt: *Don’t show JSON; markdown cards only.*
-
-Details: [why-gemini-shows-json.md](why-gemini-shows-json.md).
+**Mitigation:** Always paste [PASTE-BUNDLE.md](../adapters/session/PASTE-BUNDLE.md) on Gemini. To hide the JSON, follow up with: *Don’t show JSON; markdown cards with Send this next only.* Proposed: change the Gemini overlay to “no JSON unless the user asks.”
 
 ---
 
@@ -93,11 +94,12 @@ Details: [why-gemini-shows-json.md](why-gemini-shows-json.md).
 
 | Provider | Claude-like embedded panel? | GenUI session install | Best demo for stakeholders |
 |----------|----------------------------|------------------------|----------------------------|
-| **Claude web** + Artifacts | **Yes** | URL or paste | **Primary chat demo**; may swap in its native interactive planner — see L12 |
-| **ChatGPT web** + Canvas | **Often** (plan-dependent) | URL or paste | Secondary chat demo; may ignore brand and reference meals — see L10 |
+| **Claude web** + Artifacts | **Yes** | URL or paste | **Primary chat demo**; branded Artifact confirmed Nov 5 (L12 did not recur) |
+| **ChatGPT web** + Canvas | **Often** (plan-dependent) | URL or paste | Secondary chat demo; correct meals, no brand colour in Markdown — see L10 |
 | **Gemini chat / Flash** | **No** (default) | **Paste only** | Show markdown + Send this next; explain profile |
 | **Gemini Canvas** (if available) | Partial / product-specific | Paste | Verify on your account before presenting |
-| **DeepSeek / Grok** | **No** | Paste | Markdown profile only |
+| **DeepSeek** | **No** | URL or paste | Markdown profile; most literal result |
+| **Grok** | **No** (can style an install card) | URL or paste | Markdown profile; may embellish — see L14 |
 | **`pnpm demo`** | **Yes** (real runtime) | Clone repo | **Strongest technical proof** |
 
 ---
@@ -108,7 +110,7 @@ Details: [why-gemini-shows-json.md](why-gemini-shows-json.md).
 |---|------------|-------|---------------------|
 | L1 | Not identical UI across all AI chats | Host renderers differ | Rendering profiles + overlays |
 | L2 | Gemini cannot install from GitHub URL | No repo fetch in chat | PASTE-BUNDLE, Gem instructions |
-| L3 | Gemini may append JSON blocks | Skill wording + no embed panel | Visual-first bundle; user follow-up prompt |
+| L3 | Gemini appends the full JSON after the cards | “Optional” JSON allowed + no collapse in Gemini | Visual-first bundle; user follow-up prompt; proposed “no JSON unless asked” overlay |
 | L4 | No auto AI reply on click in markdown hosts | No shared runtime in chat | Chat-bridge; use **`pnpm demo`** for click→answer |
 | L5 | Chat ≠ coding agent | Cursor/CLI vs web chat | Separate adapter paths, same spec |
 | L6 | Trish not integrated yet | Phase 1 = platform only | [future-trish-integration.md](future-trish-integration.md) |
@@ -119,6 +121,7 @@ Details: [why-gemini-shows-json.md](why-gemini-shows-json.md).
 | L11 | Partial repo browse on URL install | Host reads random spec files, skips tokens | Fetch [SESSION-INSTALL.md](../adapters/session/SESSION-INSTALL.md) one-shot; [README.md](../README.md) / [GENUI-SESSION.md](../GENUI-SESSION.md) hooks |
 | L12 | Claude web native interactive planner | Host ships a prefab meal UI (card grid, time filter, “Plan this” chips) instead of a custom Artifact; model invents meals; install rules not re-applied on later turns | Hardened install rules (exact reference options, rebuild Artifact every turn, forbidden-substitution list) + strict [claude-web.md](../adapters/session/providers/claude-web.md) overlay; drift-recovery prompt (root cause #7); prefer `pnpm demo` for proof |
 | L13 | Claude web cannot install from repo URL (“robots disallowed”, reads outdated files) | GitHub `robots.txt` blocks `/tree/`, `/raw/`, `/commits/` for AI fetchers; Claude only fetches user-supplied/previously-seen URLs; fetch results can be cached | Raw SESSION-INSTALL URL in the user message (self-contained, no follow-up fetch); `installVersion` stamp exposes stale copies; commit-pinned URL; Claude Skill zip; paste (root cause #8) |
+| L14 | Grok embellishes the reference picker (new heading, tagline, stock food photo) | Model optimizes for an appealing answer even after repeating the “no stock photos” rule; Markdown overlay doesn’t require the heading verbatim | Proposed: Markdown overlays require the document heading verbatim and forbid images not in the document; retest (root cause #9) |
 
 ---
 
@@ -184,10 +187,43 @@ Observed: *“Install the GenUI skill for this session from https://github.com/n
 
 ---
 
+## Root cause #9 — Grok decorates the reference picker
+
+Observed (Nov 5, raw URL): install confirmed as a styled dark card with red **YOUTUBE** / `#FF0000`, plus a list of the session rules it had activated (two meals, **Send this next**, no stock photos). The dinner reply then used the heading *“What’s for dinner tonight?”*, the tagline *“Two delicious options. One easy decision.”*, and a large stock food photo.
+
+| Factor | Cause |
+|--------|--------|
+| Heading and tagline changed | Markdown overlay asks for “branded markdown cards” but not the document heading verbatim |
+| Stock photo | Model prior for food prompts; the ban is in the general rules, not the Grok overlay |
+| Styled install card | Grok can render some styled blocks — the brand reached the confirmation but not the picker |
+
+**Mitigation (proposed):** in Markdown overlays (Grok, DeepSeek, Gemini, ChatGPT fallback), require the reference heading verbatim and forbid any image or emoji not in the document. Retest Grok before using it live.
+
+---
+
+## Cross-provider test results (Nov 5, 2026)
+
+Install file `installVersion 401e4c93`, brand **youtube** (#FF0000). Fresh chat per provider → install → *Help me pick a weeknight dinner*.
+
+| Provider | Install | Profile | 2 reference meals + **Send this next** | Brand red | Drift / notes |
+|----------|---------|---------|------------------------------------------|-----------|---------------|
+| Claude web | Raw URL ✅ | `embedded-ui-host` | ✅ in a React Artifact | ✅ header, badge, accents | None — L12 native planner did not recur |
+| ChatGPT web | Raw URL ✅ | `markdown-ui-host` | ✅ | ❌ (Markdown) | Chose Markdown over Canvas; no photos (L10 not reproduced) |
+| DeepSeek | Raw URL ✅ | `markdown-ui-host` | ✅; rebuilt correctly on a later turn | ❌ (Markdown) | Emoji markers (cosmetic) |
+| Grok | Raw URL ✅ | `markdown-ui-host` | ⚠️ layout drifted | ⚠️ install card only | New heading, tagline, stock photo (L14) |
+| Gemini | Raw URL ❌ | — | ❌ raw JSON, `demo` blue | ❌ | Cannot fetch (L2) |
+| Gemini | Paste ✅ | `markdown-ui-host` | ✅ | ❌ (Markdown) | Full JSON appended (L3) |
+
+**Conclusion:** the GenUI contract is provider-agnostic — the same install produced the same options and the same `planMeal` prompts on all five providers. Rendering is host-specific (only Claude draws the brand), and Gemini needs the paste bundle.
+
+**Not yet covered:** sending the **Send this next** prompt and checking the plan (manual test step 5), and repeat runs (3–5 per provider) to measure consistency.
+
+---
+
 ## What is **not** a limitation (clarify in Q&A)
 
 - **One centralized spec** — working; adapters link to `spec/`.
-- **Same interaction semantics** — `ai.request` templates work on all tested hosts.
+- **Same interaction semantics** — `ai.request` templates came through word for word on Claude, ChatGPT, DeepSeek, and Gemini (Nov 5).
 - **Validation and React renderer** — working in repo; 8 tests passing.
 - **Multi-provider session skill** — working with paste; URL where host allows fetch.
 
@@ -204,7 +240,7 @@ Observed: *“Install the GenUI skill for this session from https://github.com/n
 
 ## Related docs
 
-- [why-gemini-shows-json.md](why-gemini-shows-json.md)
+- [chat-session-manual-test.md](chat-session-manual-test.md)
 - [chat-session-setup.md](chat-session-setup.md)
 - [install-gemini.md](install-gemini.md)
 - [PROGRESS-REPORT.md](PROGRESS-REPORT.md)

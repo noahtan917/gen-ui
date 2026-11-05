@@ -38,8 +38,11 @@ Run the dinner checks (steps 3–6) for each:
 |----------|------------|
 | claude-web | Custom React Artifact (two reference meals, token primary) + chat-bridge — not Claude’s native meal planner |
 | chatgpt-web | Embedded UI or markdown fallback |
+| gemini-app | Paste bundle only; markdown cards + **Send this next:** (JSON may follow) |
 | deepseek-chat / grok-chat | Branded markdown cards + **Send this next:** |
 | generic-chat | Best effort per detection |
+
+Latest results per provider: [LIMITATIONS-AND-CAUSES.md — Cross-provider test results](LIMITATIONS-AND-CAUSES.md#cross-provider-test-results-nov-5-2026). Record new runs there.
 
 ## Local runtime (`react-host`)
 

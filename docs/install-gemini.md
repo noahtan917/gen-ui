@@ -33,9 +33,12 @@ Use [adapters/gemini/GEMINI.md](../adapters/gemini/GEMINI.md) in a cloned repo �
 
 ## What success looks like
 
-- Branded cards (salmon / ramen or similar)
-- **Send this next:** lines with cooking prompts
-- Optional GenUI JSON in a code block
+- Heading *What do you want to cook?* and exactly two cards: Sheet-pan salmon (Mediterranean), Miso ramen bowl (Japanese)
+- **Send this next:** lines with the full cooking prompts
+- GenUI JSON may follow the cards (`themeRef: youtube`); ask *Don’t show JSON* to hide it
+- No YouTube red — Gemini chat is Markdown
+
+If the reply shows only JSON or `themeRef: demo` / blue `#2563eb`, the bundle wasn’t pasted — Gemini can’t read the GitHub URL.
 
 ## Local full runtime (click → auto-answer)
 
