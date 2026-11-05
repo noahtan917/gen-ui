@@ -2,5 +2,6 @@
   "defaultBrandPack": "youtube",
   "forbiddenBrandPacks": ["demo"],
   "referenceScenario": "meal-planning",
-  "referenceDocument": "adapters/session/examples/meal-planning.document.json"
+  "referenceDocument": "adapters/session/examples/meal-planning.document.json",
+  "openuiOutput": true
 }

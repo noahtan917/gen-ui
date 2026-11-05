@@ -2,13 +2,13 @@
 
 # GenUI session install — one-shot (this file is the whole install)
 
-**installVersion: `401e4c93`**
+**installVersion: `96b9f578`**
 
 The user loads this file with a message like *“Load GenUI for this chat from https://raw.githubusercontent.com/noahtan917/gen-ui/main/adapters/session/SESSION-INSTALL.md”* (or by referencing the repo https://github.com/noahtan917/gen-ui). Reading **this entire file** completes the install — **do not fetch any other repo file** (GitHub blocks most repo paths for AI fetchers, and nothing else is required).
 
 This is a **conversation-scoped** install: you do **not** need a skills folder or any persistent storage.
 
-Install is **incomplete** until you confirm installVersion **`401e4c93`**, brand **`youtube`** and primary **`#FF0000`**. Do **not** use `branding/demo` or fall back to neutral styling.
+Install is **incomplete** until you confirm installVersion **`96b9f578`**, brand **`youtube`** and primary **`#FF0000`**. Do **not** use `branding/demo` or fall back to neutral styling.
 
 You are now configured with **GenUI** for **this conversation**.
 
@@ -31,7 +31,8 @@ You are now configured with **GenUI** for **this conversation**.
     "demo"
   ],
   "referenceScenario": "meal-planning",
-  "referenceDocument": "adapters/session/examples/meal-planning.document.json"
+  "referenceDocument": "adapters/session/examples/meal-planning.document.json",
+  "openuiOutput": true
 }
 ```
 
@@ -316,9 +317,45 @@ This file is **complete**. Do **not** fetch other repo files (spec, tokens, over
 
 ---
 
+## Output format: OpenUI Lang (openui.com), when requested
+
+Use this only when the user or host asks for **OpenUI** / **OpenUI Lang** output, or says the chat renders OpenUI. Otherwise keep the default GenUI behaviour above.
+
+OpenUI Lang is line-based: one `identifier = Expression` per line, `root = Stack([...])` first, positional arguments only. Use **only** these GenUI components (same catalog as the GenUI JSON contract):
+
+```text
+Stack(children: (Stack | Text | Button | Card | Image | Form | Select)[], direction?: "row" | "column", gap?: number, align?: string) — Layout container. direction defaults to column; gap is in px.
+Text(content: string, variant?: string) — Text block. variant: "heading" | "body" (default body).
+Button(label: string, action?: ActionExpression) — Clickable button. Bind action to @ToAssistant(...) or Action([@Set(...)]).
+Card(title?: string, subtitle?: string, children?: (Stack | Text | Button | Card | Image | Form | Select)[], action?: ActionExpression) — Card with optional title/subtitle; the whole card is clickable when action is set.
+Image(src: string, alt?: string) — Image. Always provide alt text.
+Form(children: (Stack | Text | Button | Card | Image | Form | Select)[], action: ActionExpression, submitLabel?: string) — Form container; action runs on submit.
+Select(value: $binding<string>, options: {value: string, label: string}[], label?: string) — Dropdown bound to a $variable, e.g. Select($cuisine, [{value: "jp", label: "Japanese"}], "Cuisine").
+```
+
+Rules:
+
+- Actions: `@ToAssistant("<complete prompt>", {key: "value"})` for AI requests, `Action([@Set($var, value)])` for local state. Never use `@OpenUrl`, `@Run`, `@Reset`, `Query()`, `Mutation()` or `@functions`.
+- Every clickable Card, Button and Form has an action. Bind every Select to a declared `$variable`.
+- Branding stays **youtube** (#FF0000). OpenUI Lang carries no theme, so the host applies the brand tokens above.
+- Emit the program as the whole reply (or in a fenced `openui` block if the host mixes text and UI).
+
+Reference scenario as OpenUI Lang (equivalent to the reference GenUI document above):
+
+```openui
+root = Stack([layout])
+layout = Stack([heading, cards], "column", 16)
+heading = Text("What do you want to cook?", "heading")
+cards = Stack([cardSalmon, cardRamen], "row", 12)
+cardSalmon = Card("Sheet-pan salmon", "Mediterranean", null, @ToAssistant("Help me cook Sheet-pan salmon (Mediterranean): ingredient list, steps, and total time for a weeknight dinner.", {meal: "Sheet-pan salmon", cuisine: "Mediterranean", title: "Sheet-pan salmon", subtitle: "Mediterranean", genui: {actionId: "planMeal", componentId: "card-salmon", action: {type: "ai.request", promptTemplate: "Help me cook {{meal}} ({{cuisine}}): ingredient list, steps, and total time for a weeknight dinner.", contextKeys: ["meal", "cuisine"]}, propsContext: {meal: "Sheet-pan salmon", cuisine: "Mediterranean"}}}))
+cardRamen = Card("Miso ramen bowl", "Japanese", null, @ToAssistant("Help me cook Miso ramen bowl (Japanese): ingredient list, steps, and total time for a weeknight dinner.", {meal: "Miso ramen bowl", cuisine: "Japanese", title: "Miso ramen bowl", subtitle: "Japanese", genui: {actionId: "planMeal", componentId: "card-ramen", action: {type: "ai.request", promptTemplate: "Help me cook {{meal}} ({{cuisine}}): ingredient list, steps, and total time for a weeknight dinner.", contextKeys: ["meal", "cuisine"]}, propsContext: {meal: "Miso ramen bowl", cuisine: "Japanese"}}}))
+```
+
+---
+
 ## Confirm activation
 
-Reply with: GenUI loaded · installVersion **401e4c93** · brand **youtube** (#FF0000) · profile {id} · include a **primary-color confirmation line**. Say: *Ask for weeknight dinner — branding applies automatically.*
+Reply with: GenUI loaded · installVersion **96b9f578** · brand **youtube** (#FF0000) · profile {id} · include a **primary-color confirmation line**. Say: *Ask for weeknight dinner — branding applies automatically.*
 
 **Repo (human reference):** https://github.com/noahtan917/gen-ui
 
