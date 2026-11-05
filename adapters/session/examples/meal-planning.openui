@@ -1,0 +1,6 @@
+root = Stack([layout])
+layout = Stack([heading, cards], "column", 16)
+heading = Text("What do you want to cook?", "heading")
+cards = Stack([cardSalmon, cardRamen], "row", 12)
+cardSalmon = Card("Sheet-pan salmon", "Mediterranean", null, @ToAssistant("Help me cook Sheet-pan salmon (Mediterranean): ingredient list, steps, and total time for a weeknight dinner.", {meal: "Sheet-pan salmon", cuisine: "Mediterranean", title: "Sheet-pan salmon", subtitle: "Mediterranean", genui: {actionId: "planMeal", componentId: "card-salmon", action: {type: "ai.request", promptTemplate: "Help me cook {{meal}} ({{cuisine}}): ingredient list, steps, and total time for a weeknight dinner.", contextKeys: ["meal", "cuisine"]}, propsContext: {meal: "Sheet-pan salmon", cuisine: "Mediterranean"}}}))
+cardRamen = Card("Miso ramen bowl", "Japanese", null, @ToAssistant("Help me cook Miso ramen bowl (Japanese): ingredient list, steps, and total time for a weeknight dinner.", {meal: "Miso ramen bowl", cuisine: "Japanese", title: "Miso ramen bowl", subtitle: "Japanese", genui: {actionId: "planMeal", componentId: "card-ramen", action: {type: "ai.request", promptTemplate: "Help me cook {{meal}} ({{cuisine}}): ingredient list, steps, and total time for a weeknight dinner.", contextKeys: ["meal", "cuisine"]}, propsContext: {meal: "Miso ramen bowl", cuisine: "Japanese"}}}))

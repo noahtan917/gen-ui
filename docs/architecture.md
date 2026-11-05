@@ -8,6 +8,7 @@
 | Adapters | `adapters/` | Provider-specific entry points |
 | Core | `packages/genui-core` | Validate, normalize, resolve interactions |
 | Render | `packages/genui-render` | Allowlisted React registry, event dispatch |
+| OpenUI interop | `packages/genui-openui` | GenUI JSON ↔ OpenUI Lang, GenUI library for OpenUI's renderer, event bridge |
 | Demo | `apps/demo` | Reference host: `onAIRequest` → mock streamed assistant reply |
 
 ## Agent time vs runtime (chat-bridge path)
@@ -50,11 +51,29 @@ sequenceDiagram
   Host-->>User: Assistant panel
 ```
 
+## OpenUI interop (`@gen-ui/openui`)
+
+GenUI JSON stays the source of truth. [OpenUI](https://www.openui.com) Lang is a second wire format, used by OpenUI hosts and models prompted with `genuiOpenUISystemPrompt()`. Rules: [spec/openui-interop.md](../spec/openui-interop.md).
+
+```mermaid
+flowchart LR
+  Doc[GenUI JSON] -- genuiToOpenUILang --> Lang[OpenUI Lang]
+  Lang -- openUILangToGenUI / stream importer --> Core[validateGenUIDocument]
+  Core --> Render[GenUIRenderer]
+  Lang --> ORender[OpenUI Renderer + genuiOpenUILibrary]
+  ORender -- onAction → openUIActionToAIRequest --> Host[onAIRequest]
+  Render -- onAIRequest --> Host
+```
+
+- The `.` entry (converters, event bridge, prompt) depends only on `@openuidev/lang-core`. The `./react` entry adds `@openuidev/react-lang` and wraps `@gen-ui/render`'s registry, so both paths produce the same DOM.
+- Prompt and context resolution share `buildInteractionContext` / `resolveAIRequest` from `@gen-ui/core`, so a click yields the same `AIRequestPayload` either way.
+
 ## Security (v1)
 
 - Component allowlist in `@gen-ui/render`
 - Validation before render in `@gen-ui/core`
 - No `html` / `script` types in schema
+- OpenUI import rejects `@OpenUrl`, `@Run`, `@Reset`, `Query`/`Mutation`, functions and non-catalog components
 
 ## Versioning
 

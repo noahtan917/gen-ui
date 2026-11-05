@@ -1,0 +1,7 @@
+Stack(children: (Stack | Text | Button | Card | Image | Form | Select)[], direction?: "row" | "column", gap?: number, align?: string) — Layout container. direction defaults to column; gap is in px.
+Text(content: string, variant?: string) — Text block. variant: "heading" | "body" (default body).
+Button(label: string, action?: ActionExpression) — Clickable button. Bind action to @ToAssistant(...) or Action([@Set(...)]).
+Card(title?: string, subtitle?: string, children?: (Stack | Text | Button | Card | Image | Form | Select)[], action?: ActionExpression) — Card with optional title/subtitle; the whole card is clickable when action is set.
+Image(src: string, alt?: string) — Image. Always provide alt text.
+Form(children: (Stack | Text | Button | Card | Image | Form | Select)[], action: ActionExpression, submitLabel?: string) — Form container; action runs on submit.
+Select(value: $binding<string>, options: {value: string, label: string}[], label?: string) — Dropdown bound to a $variable, e.g. Select($cuisine, [{value: "jp", label: "Japanese"}], "Cuisine").

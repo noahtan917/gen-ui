@@ -25,6 +25,13 @@ Per-model findings: [LIMITATIONS-AND-CAUSES.md — Cross-provider test results](
 | OpenAI / Codex-style | Supported | `adapters/openai/AGENTS.md` | AGENTS.md |
 | DeepSeek / Grok CLI | Stub | `adapters/_template` | Verify format |
 
+## OpenUI (openui.com)
+
+| Integration | Status | Entry | Notes |
+|-------------|--------|-------|-------|
+| OpenUI hosts (`@openuidev/react-lang`) | Supported (interop) | `@gen-ui/openui`, `@gen-ui/openui/react` | GenUI ↔ OpenUI Lang, GenUI component library, `onAction` → `onAIRequest`. Rules: [spec/openui-interop.md](../spec/openui-interop.md) |
+| Chat session OpenUI output | Opt-in | `openuiOutput: true` in `spec/session-config.json` | Adds an OpenUI Lang section to generated session artifacts (off by default) |
+
 ## Capability distinction
 
 | Capability | Session + coding skills | react-host (`pnpm demo`) |

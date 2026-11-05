@@ -86,6 +86,7 @@ Adapters under `adapters/` must link to this file. Do not duplicate these rules 
 | Chat / web GenAI (session install) | [`session-bootstrap.md`](session-bootstrap.md) → [`adapters/session/SKILL.md`](../adapters/session/SKILL.md) |
 | Host UI capabilities | [`rendering-profiles.md`](rendering-profiles.md) |
 | Cursor / CLI coding agents | [`adapters/README.md`](../adapters/README.md) |
+| OpenUI (openui.com) hosts and OpenUI Lang output | [`openui-interop.md`](openui-interop.md) → `@gen-ui/openui` |
 
 ## Related documents
 
@@ -93,4 +94,5 @@ Adapters under `adapters/` must link to this file. Do not duplicate these rules 
 - [`branding-extraction.md`](branding-extraction.md)
 - [`rendering-profiles.md`](rendering-profiles.md)
 - [`session-bootstrap.md`](session-bootstrap.md)
+- [`openui-interop.md`](openui-interop.md)
 - [`contracts/`](contracts/)

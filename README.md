@@ -45,6 +45,7 @@ Maintainers: [spec/session-config.json](spec/session-config.json) → `pnpm gene
 | [`INSTALL-SKILL.md`](INSTALL-SKILL.md) | Copy-paste install prompt for any chat provider |
 | [`packages/genui-core`](packages/genui-core) | Validate and normalize GenUI documents |
 | [`packages/genui-render`](packages/genui-render) | Safe React rendering and interaction dispatch |
+| [`packages/genui-openui`](packages/genui-openui) | [OpenUI](https://www.openui.com) interop: GenUI JSON ↔ OpenUI Lang, React library, event bridge |
 | [`apps/demo`](apps/demo) | Reference host: `@gen-ui/render` + mock LLM reply on `onAIRequest` |
 | [`docs/`](docs/) | Architecture and provider matrix |
 | [`openspec/`](openspec/) | OpenSpec proposals |
@@ -52,6 +53,10 @@ Maintainers: [spec/session-config.json](spec/session-config.json) → `pnpm gene
 ## Using the Cursor skill
 
 Project skill path: [`.cursor/skills/genui/SKILL.md`](adapters/cursor/.cursor/skills/genui/SKILL.md) (copy or symlink into your consumer repo, or open this repo in Cursor).
+
+## OpenUI (openui.com) interop
+
+`@gen-ui/openui` converts GenUI documents to and from OpenUI Lang (`genuiToOpenUILang`, `openUILangToGenUI`, `createOpenUIStreamImporter`). It also renders OpenUI Lang with the GenUI component library (`@gen-ui/openui/react` → `GenUIOpenUIRenderer`) and maps OpenUI `onAction` to `onAIRequest`. In `pnpm demo`, use the **GenUI JSON | OpenUI Lang** toggle. Mapping rules: [spec/openui-interop.md](spec/openui-interop.md).
 
 ## Adding an AI provider
 

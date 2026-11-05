@@ -4,6 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>GenUI Demo</title>
+    <script>
+      // @openuidev/react-lang auto-mounts its Inspect widget in development by
+      // loading an unpinned bundle from cdn.jsdelivr.net. Opt out so the demo
+      // never executes remote code; remove this line to use OpenUI devtools.
+      globalThis[Symbol.for("openui.devtools.autoMount")] = true;
+    </script>
   </head>
   <body>
     <div id="root"></div>

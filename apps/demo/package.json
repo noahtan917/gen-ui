@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@gen-ui/core": "workspace:*",
+    "@gen-ui/openui": "workspace:*",
     "@gen-ui/render": "workspace:*",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"

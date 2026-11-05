@@ -242,3 +242,31 @@ body {
   border: 1px solid #ffc107;
   border-radius: 8px;
 }
+
+.format-toggle {
+  display: inline-flex;
+  margin-bottom: 16px;
+  border: 1px solid var(--genui-color-border);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.format-toggle__option {
+  border: 0;
+  background: transparent;
+  color: var(--genui-color-text-muted);
+  font: inherit;
+  font-size: 0.85rem;
+  padding: 6px 14px;
+  cursor: pointer;
+}
+
+.format-toggle__option--active {
+  background: var(--genui-color-header);
+  color: #fff;
+}
+
+.format-toggle__option:focus-visible {
+  outline: 2px solid var(--genui-color-primary);
+  outline-offset: -2px;
+}

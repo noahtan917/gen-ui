@@ -1,4 +1,4 @@
-import type { GenUIComponent } from "@gen-ui/core";
+import { buildInteractionContext, type GenUIComponent } from "@gen-ui/core";
 import type { ReactNode } from "react";
 
 export interface RenderContext {
@@ -86,9 +86,7 @@ export const defaultRegistry: Record<string, ComponentRenderer> = {
         className="genui-button"
         data-component-id={component.id}
         onClick={() =>
-          ctx.onInteract(actionId, component.id, {
-            ...(component.props.context as Record<string, unknown> | undefined),
-          })
+          ctx.onInteract(actionId, component.id, buildInteractionContext(component, ctx.state))
         }
       >
         {label}
@@ -116,14 +114,7 @@ export const defaultRegistry: Record<string, ComponentRenderer> = {
           className={`${className} genui-card--interactive`}
           data-component-id={component.id}
           onClick={() =>
-            ctx.onInteract(actionId, component.id, {
-              meal: title,
-              cuisine: subtitle,
-              title,
-              subtitle,
-              ...ctx.state,
-              ...(component.props.context as Record<string, unknown> | undefined),
-            })
+            ctx.onInteract(actionId, component.id, buildInteractionContext(component, ctx.state))
           }
         >
           {inner}
@@ -186,7 +177,11 @@ export const defaultRegistry: Record<string, ComponentRenderer> = {
           formData.forEach((v, k) => {
             fields[k] = v;
           });
-          ctx.onInteract(actionId, component.id, { ...ctx.state, ...fields });
+          ctx.onInteract(
+            actionId,
+            component.id,
+            buildInteractionContext(component, ctx.state, fields),
+          );
         }}
       >
         {component.children?.map((child) => renderChild(child))}
