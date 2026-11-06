@@ -2,13 +2,13 @@
 
 # GenUI session install — one-shot (this file is the whole install)
 
-**installVersion: `05bf2bb7`**
+**installVersion: `25a329f3`**
 
 The user loads this file with a message like *“Load GenUI for this chat from https://raw.githubusercontent.com/noahtan917/gen-ui/main/adapters/session/SESSION-INSTALL.md”* (or by referencing the repo https://github.com/noahtan917/gen-ui). Reading **this entire file** completes the install — **do not fetch any other repo file** (GitHub blocks most repo paths for AI fetchers, and nothing else is required).
 
 This is a **conversation-scoped** install: you do **not** need a skills folder or any persistent storage.
 
-Install is **incomplete** until you confirm installVersion **`05bf2bb7`**, brand **`917v`** and primary **`#2F63D6`**. Do **not** use `branding/demo` or fall back to neutral styling.
+Install is **incomplete** until you confirm installVersion **`25a329f3`**, brand **`917v`** and primary **`#2F63D6`**. Do **not** use `branding/demo` or fall back to neutral styling.
 
 You are now configured with **GenUI** for **this conversation**.
 
@@ -48,9 +48,9 @@ You are now configured with **GenUI** for **this conversation**.
 - **Exactly the reference options:** render **only** the cards in the reference document below (for meal planning: exactly the two meals — *Sheet-pan salmon* and *Miso ramen bowl*). Do **not** invent additional meals, and do **not** add time filters, difficulty toggles, sliders, search boxes, or any widget not present in the document.
 - **Every GenUI reply, not just install:** re-apply these rules on each turn. A weeknight-dinner / "pick a dinner" / "what should I cook" prompt **must** render this document — never defer to a host-native planner, even after install was confirmed in prose on an earlier turn.
 - Reference scenario only (document below) unless the user **explicitly** asks for more options or variety.
-- Each option: **Send this next:** with fully interpolated `ai.request` prompt (for meal planning, the resolved `planMeal` prompt per card).
+- **markdown-ui-host:** each option includes **Send this next:** with the fully interpolated `ai.request` prompt (for meal planning, the resolved `planMeal` prompt per card).
 - **Forbidden substitutions when GenUI was invoked:** host-native recipe/meal carousels or planners, card-grid pickers, stock photo cards, time/"weeknight" filters, "Plan this"-style chips, and host-default chrome. Use the token **primary** color, not the host default.
-- **embedded-ui-host:** build a **custom React Artifact** bound to **exactly** these option cards, with inlined `#2F63D6` accent styling (titles, borders, buttons), mirroring the structure of the **reference Artifact layout** below (inlined — do not fetch it). On click, update Artifact state **and** surface **Send this next:** with the fully interpolated prompt. Do **not** emit Claude's built-in interactive meal/recipe UI.
+- **embedded-ui-host:** build a **custom React Artifact** bound to **exactly** these option cards, with inlined `#2F63D6` accent styling (titles, borders, buttons), mirroring the structure of the **reference Artifact layout** below (inlined — do not fetch it). On click, call `window.claude.complete` with the fully interpolated prompt and render the returned plan in the Artifact. Do **not** ask the user to copy or paste it. If `window.claude.complete` is missing, show **Send this next:** with that prompt. Do **not** emit Claude's built-in interactive meal/recipe UI.
 
 ### Brand tokens (`themeRef`)
 
@@ -169,7 +169,7 @@ You are now configured with **GenUI** for **this conversation**.
 
 ### Reference Artifact layout (`embedded-ui-host`)
 
-Copy this structure for the Artifact (two cards, **Send this next:** on select). Keep every option bound to the reference document above.
+Copy this structure for the Artifact (two cards). On select, call `window.claude.complete` and show the plan in the Artifact. Keep every option bound to the reference document above.
 
 ```tsx
 /**
@@ -208,9 +208,37 @@ const meals = [
   },
 ];
 
+type ClaudeWindow = Window & {
+  claude?: { complete?: (prompt: string) => Promise<string> };
+};
+
+async function completeInArtifact(prompt: string): Promise<string> {
+  const complete = (window as ClaudeWindow).claude?.complete;
+  if (!complete) {
+    throw new Error("window.claude.complete is not available");
+  }
+  return complete(prompt);
+}
+
 export default function MealGenUIReference() {
   const [selected, setSelected] = useState<string | null>(null);
-  const active = meals.find((m) => m.id === selected);
+  const [reply, setReply] = useState("");
+  const [status, setStatus] = useState<"idle" | "loading" | "done" | "fallback">("idle");
+
+  async function choose(id: string) {
+    const meal = meals.find((item) => item.id === id);
+    if (!meal) return;
+    setSelected(id);
+    setReply("");
+    setStatus("loading");
+    try {
+      setReply(await completeInArtifact(meal.bridgePrompt));
+      setStatus("done");
+    } catch {
+      setReply(meal.bridgePrompt);
+      setStatus("fallback");
+    }
+  }
 
   return (
     <div style={{ fontFamily: fontText, color: tokens.text, background: tokens.surface, padding: 16 }}>
@@ -236,7 +264,8 @@ export default function MealGenUIReference() {
           <button
             key={m.id}
             type="button"
-            onClick={() => setSelected(m.id)}
+            onClick={() => void choose(m.id)}
+            disabled={status === "loading"}
             style={{
               textAlign: "left",
               cursor: "pointer",
@@ -255,9 +284,13 @@ export default function MealGenUIReference() {
           </button>
         ))}
       </div>
-      {active ? (
+      {status === "loading" ? <p style={{ marginTop: 16 }}>Planning…</p> : null}
+      {status === "done" ? (
+        <pre style={{ marginTop: 16, whiteSpace: "pre-wrap", fontFamily: fontText, fontSize: 14 }}>{reply}</pre>
+      ) : null}
+      {status === "fallback" ? (
         <p style={{ marginTop: 16 }}>
-          <strong>Send this next:</strong> {active.bridgePrompt}
+          <strong>Send this next:</strong> {reply}
         </p>
       ) : null}
     </div>
@@ -293,7 +326,7 @@ Brand and meals: **only** session-config.json + loaded tokens — not this file.
 - Style using colors from the loaded brand token file (see config `defaultBrandPack`); use the token **primary** for accents, not Claude's default.
 - Layout example: meal-artifact.reference.tsx (inlined in SESSION-INSTALL — do not fetch) — copy structure, not hardcoded colors from this file.
 - **Install:** the user message must contain the raw SESSION-INSTALL URL (Claude only fetches user-supplied links; GitHub robots-blocks repo browsing). Persistent alternative: the generated Claude Skill (`adapters/claude-skill/genui.zip`).
-- On click: update artifact state **and** chat-bridge text (**Send this next:** with the fully interpolated prompt) per interactive-ui-guide.md.
+- On click: call `window.claude.complete` with the fully interpolated `ai.request` prompt and render the returned plan inside the Artifact. Do not ask the user to copy or paste it. If `window.claude.complete` is missing, fall back to **Send this next:** per interactive-ui-guide.md.
 - **Do not** emit Claude's native patterns here: the built-in meal/recipe planner, card-grid pickers, time/"weeknight" filters, "Plan this"-style chips, invented meals, or blue/default chrome.
 - If Artifacts unavailable → `markdown-ui-host` per session-visual-guide.md.
 
@@ -380,7 +413,7 @@ cardRamen = Card("Miso ramen bowl", "Japanese", null, @ToAssistant("Help me cook
 
 ## Confirm activation
 
-Reply with: GenUI loaded · installVersion **05bf2bb7** · brand **917v** (#2F63D6) · profile {id} · include a **primary-color confirmation line**. Say: *Ask for weeknight dinner — branding applies automatically.*
+Reply with: GenUI loaded · installVersion **25a329f3** · brand **917v** (#2F63D6) · profile {id} · include a **primary-color confirmation line**. Say: *Ask for weeknight dinner — branding applies automatically.*
 
 **Repo (human reference):** https://github.com/noahtan917/gen-ui
 

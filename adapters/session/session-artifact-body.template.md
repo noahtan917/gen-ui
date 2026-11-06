@@ -26,9 +26,9 @@
 - **Exactly the reference options:** render **only** the cards in the reference document below (for meal planning: exactly the two meals — *Sheet-pan salmon* and *Miso ramen bowl*). Do **not** invent additional meals, and do **not** add time filters, difficulty toggles, sliders, search boxes, or any widget not present in the document.
 - **Every GenUI reply, not just install:** re-apply these rules on each turn. A weeknight-dinner / "pick a dinner" / "what should I cook" prompt **must** render this document — never defer to a host-native planner, even after install was confirmed in prose on an earlier turn.
 - Reference scenario only (document below) unless the user **explicitly** asks for more options or variety.
-- Each option: **Send this next:** with fully interpolated `ai.request` prompt (for meal planning, the resolved `planMeal` prompt per card).
+- **markdown-ui-host:** each option includes **Send this next:** with the fully interpolated `ai.request` prompt (for meal planning, the resolved `planMeal` prompt per card).
 - **Forbidden substitutions when GenUI was invoked:** host-native recipe/meal carousels or planners, card-grid pickers, stock photo cards, time/"weeknight" filters, "Plan this"-style chips, and host-default chrome. Use the token **primary** color, not the host default.
-- **embedded-ui-host:** build a **custom React Artifact** bound to **exactly** these option cards, with inlined `{{PRIMARY_HEX}}` accent styling (titles, borders, buttons), mirroring the structure of the **reference Artifact layout** below (inlined — do not fetch it). On click, update Artifact state **and** surface **Send this next:** with the fully interpolated prompt. Do **not** emit Claude's built-in interactive meal/recipe UI.
+- **embedded-ui-host:** build a **custom React Artifact** bound to **exactly** these option cards, with inlined `{{PRIMARY_HEX}}` accent styling (titles, borders, buttons), mirroring the structure of the **reference Artifact layout** below (inlined — do not fetch it). On click, call `window.claude.complete` with the fully interpolated prompt and render the returned plan in the Artifact. Do **not** ask the user to copy or paste it. If `window.claude.complete` is missing, show **Send this next:** with that prompt. Do **not** emit Claude's built-in interactive meal/recipe UI.
 
 ### Brand tokens (`themeRef`)
 
@@ -46,7 +46,7 @@
 
 ### Reference Artifact layout (`embedded-ui-host`)
 
-Copy this structure for the Artifact (two cards, **Send this next:** on select). Keep every option bound to the reference document above.
+Copy this structure for the Artifact (two cards). On select, call `window.claude.complete` and show the plan in the Artifact. Keep every option bound to the reference document above.
 
 ```tsx
 {{REFERENCE_ARTIFACT_TSX}}

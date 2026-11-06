@@ -34,9 +34,37 @@ const meals = [
   },
 ];
 
+type ClaudeWindow = Window & {
+  claude?: { complete?: (prompt: string) => Promise<string> };
+};
+
+async function completeInArtifact(prompt: string): Promise<string> {
+  const complete = (window as ClaudeWindow).claude?.complete;
+  if (!complete) {
+    throw new Error("window.claude.complete is not available");
+  }
+  return complete(prompt);
+}
+
 export default function MealGenUIReference() {
   const [selected, setSelected] = useState<string | null>(null);
-  const active = meals.find((m) => m.id === selected);
+  const [reply, setReply] = useState("");
+  const [status, setStatus] = useState<"idle" | "loading" | "done" | "fallback">("idle");
+
+  async function choose(id: string) {
+    const meal = meals.find((item) => item.id === id);
+    if (!meal) return;
+    setSelected(id);
+    setReply("");
+    setStatus("loading");
+    try {
+      setReply(await completeInArtifact(meal.bridgePrompt));
+      setStatus("done");
+    } catch {
+      setReply(meal.bridgePrompt);
+      setStatus("fallback");
+    }
+  }
 
   return (
     <div style={{ fontFamily: fontText, color: tokens.text, background: tokens.surface, padding: 16 }}>
@@ -62,7 +90,8 @@ export default function MealGenUIReference() {
           <button
             key={m.id}
             type="button"
-            onClick={() => setSelected(m.id)}
+            onClick={() => void choose(m.id)}
+            disabled={status === "loading"}
             style={{
               textAlign: "left",
               cursor: "pointer",
@@ -81,9 +110,13 @@ export default function MealGenUIReference() {
           </button>
         ))}
       </div>
-      {active ? (
+      {status === "loading" ? <p style={{ marginTop: 16 }}>Planning…</p> : null}
+      {status === "done" ? (
+        <pre style={{ marginTop: 16, whiteSpace: "pre-wrap", fontFamily: fontText, fontSize: 14 }}>{reply}</pre>
+      ) : null}
+      {status === "fallback" ? (
         <p style={{ marginTop: 16 }}>
-          <strong>Send this next:</strong> {active.bridgePrompt}
+          <strong>Send this next:</strong> {reply}
         </p>
       ) : null}
     </div>

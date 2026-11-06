@@ -11,7 +11,7 @@ Always think in **GenUI JSON** ([`GENUI.md`](GENUI.md), [`contracts/`](contracts
 | Profile ID | Typical hosts | Presentation | Interactivity |
 |------------|---------------|--------------|---------------|
 | `react-host` | Local app, [`apps/demo`](../apps/demo), embedded product | `@gen-ui/render` | Full: `genui.interact` → `onAIRequest` → **host calls LLM** (demo: mock stream) |
-| `embedded-ui-host` | Claude Artifacts, some canvas-style UIs | React/HTML artifact styled with `themeRef` | In-ui state + **chat-bridge** (see below) |
+| `embedded-ui-host` | Claude Artifacts, some canvas-style UIs | React/HTML artifact styled with `themeRef` | In-ui answer via `window.claude.complete`; **Send this next** only if that API is missing |
 | `json-visible-host` | Any chat with code blocks | Show GenUI JSON + short summary | User asks follow-ups; model uses `ai.request` text |
 | `markdown-ui-host` | DeepSeek/Grok/text-only fallback | Branded markdown “cards”, numbered actions | Explicit follow-up messages per [`interaction-contract.md`](interaction-contract.md) |
 
@@ -20,7 +20,7 @@ Always think in **GenUI JSON** ([`GENUI.md`](GENUI.md), [`contracts/`](contracts
 Hosts do not run `@gen-ui/render`. For each `ai.request` click:
 
 1. **In-ui:** update artifact (expand card, tabs, selected state).
-2. **In-chat:** emit the interpolated user message from `promptTemplate` (same as [`interaction-contract.md`](interaction-contract.md)) so the next turn continues planning.
+2. **Answer:** on Claude, call `window.claude.complete` with the interpolated `promptTemplate` and render the returned plan in the artifact. Do not ask the user to paste it. If that API is missing, show the same text as **Send this next:** so the user can send it manually.
 
 Both steps use the **same** `actionId` and context keys — no provider-specific prompt wording in the core spec.
 
