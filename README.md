@@ -23,7 +23,7 @@ pnpm test
 pnpm demo
 ```
 
-Open the demo at the URL Vite prints (default `http://localhost:5173`). **YouTube brand pack** (red `#FF0000`, dark header) — click **Sheet-pan salmon** and the **Assistant** panel streams a weeknight cooking plan automatically (demo mock, no API key).
+Open the demo at the URL Vite prints (default `http://localhost:5173`). **917V brand** (blue `#2F63D6`, light header) — click **Sheet-pan salmon** and the **Assistant** panel streams a weeknight cooking plan automatically (demo mock, no API key).
 
 Chat skill install generates branded UI in the host’s chat; **click → auto-answer** requires this reference host (`pnpm demo`) or your product’s `react-host` integration.
 
@@ -41,7 +41,8 @@ Maintainers: [spec/session-config.json](spec/session-config.json) → `pnpm gene
 | [`adapters/session/`](adapters/session/) | Centralized chat session skill + per-provider overlays |
 | [`adapters/claude-skill/`](adapters/claude-skill/) | Generated Claude Skill (`genui.zip`) for persistent install on claude.ai |
 | [`adapters/`](adapters/) | Coding-agent entry points (Cursor, Gemini CLI, Claude Code, OpenAI) |
-| [`branding/`](branding/) | Brand token packs (`demo`, future `917v`) |
+| [`branding/`](branding/) | Brand token packs (`917v` session default, legacy `demo`) |
+| [`design-system/`](design-system/) | 917V tokens, fonts, and product themes |
 | [`INSTALL-SKILL.md`](INSTALL-SKILL.md) | Copy-paste install prompt for any chat provider |
 | [`packages/genui-core`](packages/genui-core) | Validate and normalize GenUI documents |
 | [`packages/genui-render`](packages/genui-render) | Safe React rendering and interaction dispatch |

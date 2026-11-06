@@ -4,9 +4,8 @@ Chat session install resolves the active pack from [spec/session-config.json](..
 
 | Brand | Path | Status |
 |-------|------|--------|
-| **youtube** | [youtube/tokens.json](youtube/tokens.json) | **Session default** (via config) |
+| **917v** | [917v/tokens.json](917v/tokens.json) | **Session default** (via config). Visual source: [`design-system/`](../design-system/styles.css) |
 | demo | [demo/tokens.json](demo/tokens.json) | Legacy / local tests only — **forbidden** for session install |
-| 917v | `917v/` (future) | Customer brand — set `defaultBrandPack` when added |
 
 GenUI documents:
 

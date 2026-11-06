@@ -1,4 +1,4 @@
-# Install GenUI — one prompt (YouTube branding automatic)
+# Install GenUI — one prompt (917V branding automatic)
 
 You only need **one message**. It must contain the **raw** install URL — not just the repo URL (see [why](#why-the-raw-url)).
 
@@ -10,7 +10,7 @@ You only need **one message**. It must contain the **raw** install URL — not j
 Load GenUI for this chat from https://raw.githubusercontent.com/noahtan917/gen-ui/main/adapters/session/SESSION-INSTALL.md
 ```
 
-Expected confirmation: **GenUI loaded · installVersion `xxxxxxxx` · brand youtube (#FF0000) · profile …**
+Expected confirmation: **GenUI loaded · installVersion `xxxxxxxx` · brand 917v (#2F63D6) · profile …**
 
 Compare `installVersion` with the line at the top of [SESSION-INSTALL.md](adapters/session/SESSION-INSTALL.md) on GitHub. If it differs (or is missing), the host read a **stale cached copy** — use the [pinned URL](#stale-copy-pinned-url) or [paste](#fetch-blocked-paste).
 
@@ -20,7 +20,7 @@ Optional, only if host auto-detect is wrong — add a second line: `Provider: ch
 
 1. Fetch the raw URL above **in full**. It is the whole install (config, tokens, reference document, reference Artifact layout, host overlays).
 2. Do **not** fetch other repo files; do **not** look for a skills folder — this is a conversation-scoped load.
-3. Confirm: GenUI loaded · installVersion · brand **youtube** · primary **#FF0000** · profile {id}.
+3. Confirm: GenUI loaded · installVersion · brand **917v** · primary **#2F63D6** · profile {id}.
 4. Then the user may ask: *Help me pick a weeknight dinner*.
 
 ---
@@ -69,7 +69,7 @@ Same policy and `installVersion` as SESSION-INSTALL.
 Help me pick a weeknight dinner
 ```
 
-Expect **exactly** the two reference meals (salmon / ramen), session brand styling (#FF0000), and **Send this next** lines — on every dinner request, not just the first. On Claude web this should be a custom Artifact, not Claude’s built-in meal planner (no invented meals, time filters, or “Plan this” chips).
+Expect **exactly** the two reference meals (salmon / ramen), session brand styling (#2F63D6), and **Send this next** lines — on every dinner request, not just the first. On Claude web this should be a custom Artifact, not Claude’s built-in meal planner (no invented meals, time filters, or “Plan this” chips).
 
 If the host drifts to its own planner, use the recovery prompt in [docs/LIMITATIONS-AND-CAUSES.md](docs/LIMITATIONS-AND-CAUSES.md) (L12 Claude, L10 ChatGPT via [docs/install-chatgpt.md](docs/install-chatgpt.md)).
 

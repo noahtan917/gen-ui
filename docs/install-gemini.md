@@ -13,7 +13,7 @@ Gemini **cannot** fetch files from GitHub inside the chat. **Only Gemini** needs
    Apply as GenUI skill for this session.
    ```
 
-   YouTube branding (#FF0000) and full rules are inside the bundle — no `Brand:` command.
+   917V branding (#2F63D6) and full rules are inside the bundle — no `Brand:` command.
 
 4. Then ask:
 
@@ -35,8 +35,8 @@ Use [adapters/gemini/GEMINI.md](../adapters/gemini/GEMINI.md) in a cloned repo �
 
 - Heading *What do you want to cook?* and exactly two cards: Sheet-pan salmon (Mediterranean), Miso ramen bowl (Japanese)
 - **Send this next:** lines with the full cooking prompts
-- GenUI JSON may follow the cards (`themeRef: youtube`); ask *Don’t show JSON* to hide it
-- No YouTube red — Gemini chat is Markdown
+- GenUI JSON may follow the cards (`themeRef: 917v`); ask *Don’t show JSON* to hide it
+- Gemini chat is Markdown, so the primary hex may not appear as color
 
 If the reply shows only JSON or `themeRef: demo` / blue `#2563eb`, the bundle wasn’t pasted — Gemini can’t read the GitHub URL.
 

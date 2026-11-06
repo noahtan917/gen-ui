@@ -1,0 +1,7 @@
+/* Minimal element defaults so consumers inherit brand type and color. */
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--surface-page);color:var(--text-primary);font-family:var(--font-text);font-size:var(--type-body-size);line-height:var(--type-body-lh);-webkit-font-smoothing:antialiased}
+a{color:var(--link);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+:focus-visible{outline:var(--focus-ring);outline-offset:var(--focus-offset)}
+@media (prefers-reduced-motion:reduce){*{animation-duration:1ms!important;transition-duration:1ms!important}}

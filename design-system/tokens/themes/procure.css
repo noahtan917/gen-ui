@@ -1,0 +1,17 @@
+/* 917 Procure · Tinted. Values marked (proposed) are not yet in the brand sheet. */
+[data-product="procure"]{
+  --action:#295A4D;
+  --action-hover:#072A21;
+  --action-pressed:#072A21;
+  --action-disabled:#93ACA4; /* proposed */
+  --on-action:#FFFFFF;
+  --tint:#D2E9E7;
+  --tint-hover:#BCDDD9; /* proposed */
+  --on-tint:#072A21;
+  --accent:#6FA11F;
+  --link:#295A4D;
+  --focus:#6FA11F;
+  --facet:var(--product-procure);
+  /* Raw product palette */
+  --procure:#6FA11F; --procure-200:#295A4D; --procure-400:#072A21; --procure-easter:#A793E3; --procure-light-teal:#D2E9E7;
+}

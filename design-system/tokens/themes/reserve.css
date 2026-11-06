@@ -1,0 +1,19 @@
+/* 917 Reserve · Branded. Values marked (proposed) are not yet in the brand sheet. */
+[data-product="reserve"]{
+  --action:#3F0724;
+  --action-hover:#2A0418;
+  --action-pressed:#2A0418;
+  --action-disabled:#A88D9B; /* proposed */
+  --on-action:#FFFFFF;
+  --tint:#FFDEF4;
+  --tint-hover:#FFC7EC; /* proposed */
+  --on-tint:#3F0724;
+  --accent:#D64FA8;
+  --link:#3F0724;
+  --focus:#D64FA8;
+  --facet:var(--product-reserve);
+  --font-display:"Thunder","Archivo",sans-serif;
+  --font-text:"DM Sans","Instrument Sans",sans-serif;
+  /* Raw product palette */
+  --reserve-fuschia:#D64FA8; --reserve-mulberry:#3F0724; --reserve-kicks:#EFEFEF; --reserve-aqua:#A2F2F6;
+}

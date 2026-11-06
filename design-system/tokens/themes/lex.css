@@ -1,0 +1,19 @@
+/* 917 Lex · Branded. Values marked (proposed) are not yet in the brand sheet. */
+[data-product="lex"]{
+  --action:#040618;
+  --action-hover:#2C3051;
+  --action-pressed:#2C3051;
+  --action-disabled:#9A9CAB; /* proposed */
+  --on-action:#FFFFFF;
+  --tint:#EBE5F2;
+  --tint-hover:#DDD3EA; /* proposed */
+  --on-tint:#040618;
+  --accent:#9E5DE3;
+  --link:#6B3FB5;
+  --focus:#9E5DE3;
+  --facet:var(--product-lex);
+  --font-display:"Sen","Archivo",sans-serif;
+  --font-text:"Hanken Grotesk","Instrument Sans",sans-serif;
+  /* Raw product palette */
+  --lex:#9E5DE3; --lex-700:#040618; --lex-navy:#2C3051; --lex-10:#EBE5F2; --lex-5:#EEEBF2;
+}

@@ -5,7 +5,7 @@ Repeat on each host you care about.
 ## Prerequisites
 
 - Public `{REPO_URL}` pointing at this repo
-- Host can fetch GitHub raw files **or** you paste [PASTE-BUNDLE.md](../adapters/session/PASTE-BUNDLE.md) (includes **youtube** #FF0000)
+- Host can fetch GitHub raw files **or** you paste [PASTE-BUNDLE.md](../adapters/session/PASTE-BUNDLE.md) (includes **917v** #2F63D6)
 - Current `installVersion` from the top of [SESSION-INSTALL.md](../adapters/session/SESSION-INSTALL.md) on GitHub
 
 ## Steps
@@ -14,7 +14,7 @@ Repeat on each host you care about.
 2. Confirm assistant acknowledges **installVersion** (must match GitHub) + brand + rendering profile, and reports **no** “robots disallowed” / extra fetch attempts.
 3. Ask: *Help me pick a weeknight dinner — show clickable meal options.*
 4. Verify:
-   - [ ] UI uses **YouTube** brand (#FF0000 primary, dark chrome — not legacy demo blue or host default)
+   - [ ] UI uses the **917V** brand (#2F63D6 primary, light page, flat cards — not legacy demo blue or host default)
    - [ ] **Exactly** the two reference meals appear (Sheet-pan salmon, Miso ramen bowl) — no invented meals
    - [ ] No extra widgets not in the document (time filters, difficulty toggles, “Plan this” chips)
    - [ ] Interaction exposes planning follow-up (artifact click and/or **Send this next:** message)

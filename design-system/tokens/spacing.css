@@ -1,0 +1,26 @@
+/* 917V Brand Book 2.1, chapters 10 and 14. Pick from the scale; never nudge by eye. */
+:root{
+  --space-1:4px; --space-2:8px; --space-3:12px; --space-4:16px; --space-5:24px;
+  --space-6:32px; --space-7:48px; --space-8:64px; --space-9:96px; --space-10:128px;
+
+  --radius-sm:4px;     /* buttons, inputs, diagram boxes */
+  --radius-md:6px;     /* panels, cards */
+  --radius-pill:999px; /* verdict chips */
+  --radius-tile:22%;   /* app tiles */
+
+  --border-width:1px;
+  --focus-ring:2px solid var(--focus);
+  --focus-offset:2px;
+
+  --layout-max:1200px;
+  --layout-gutter:24px;
+  --layout-margin:24px;
+  --layout-margin-phone:16px;
+  --header-height:64px;
+  --touch-min:44px;
+
+  /* Elevation: flat by default. Light cards use an inset keyline, not a drop shadow. */
+  --keyline-light:inset 0 0 0 1px #E3E7EE;
+  --keyline-dark:inset 0 0 0 1px #252C39;
+  --shadow-overlay:0 8px 24px rgba(10,12,17,.12), 0 0 0 1px rgba(10,12,17,.06);
+}

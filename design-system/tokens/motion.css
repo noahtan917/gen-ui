@@ -1,0 +1,10 @@
+/* 917V Brand Book 2.1, chapter 13. Things arrive, settle and stay still. No bounces, spins or glows. */
+:root{
+  --duration-fast:120ms;   /* hover, focus, toggles */
+  --duration-base:200ms;   /* menus, tooltips, small panels */
+  --duration-slow:320ms;   /* page sections, drawers, Facet arrivals */
+  --duration-brand:600ms;  /* logo and hero moments only */
+  --ease-standard:cubic-bezier(.2,.7,.2,1);
+  --ease-exit:cubic-bezier(.4,0,1,1);
+  --facet-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 97.3 100'%3E%3Cpath d='M0,100H57.7L29.7,30.06ZM42.5,0H97.3L70.4,69.8Z'/%3E%3C/svg%3E");
+}

@@ -1,0 +1,87 @@
+/* 917V Brand Book 2.1, chapter 07. */
+:root{
+  /* Master palette */
+  --c-black:#0A0C11;          /* 917 Black */
+  --c-white:#FFFFFF;          /* 917 White */
+  --c-blue:#2F63D6;           /* 917 Blue — the V, AgentBase, primary action */
+  --c-deep:#0B1B45;           /* Deep Technology Blue (blue 900) */
+  --c-fold:#1A3A8C;           /* Fold (blue 700) — Facet on light, pressed */
+  --c-lift:#A8C0F4;           /* Lift (blue 200) — Facet on dark, lit lattice path */
+  --c-cloud:#EEF1F5;          /* Cloud */
+  --c-graphite:#12161F;       /* Graphite — raised dark surfaces, app tiles */
+  --c-ink-tile:#10141C;       /* Product app icon tile */
+  --c-heritage-gray:#737373;  /* ONLY inside the master mark. Never use elsewhere. */
+
+  /* 917 Blue scale */
+  --blue-50:#EEF3FD; --blue-100:#DCE6FB; --blue-200:#A8C0F4; --blue-300:#86A8F2; --blue-400:#5E88E4;
+  --blue-500:#2F63D6; --blue-600:#2551B6; --blue-700:#1A3A8C; --blue-800:#13296A; --blue-900:#0B1B45;
+
+  /* Neutrals */
+  --neutral-0:#FFFFFF; --neutral-50:#F4F6F9; --neutral-100:#EEF1F5; --neutral-200:#D8DEE7; --neutral-300:#AEB8C8;
+  --neutral-400:#98A2B4; --neutral-500:#667085; --neutral-600:#586173; --neutral-700:#3A4354;
+  --neutral-800:#1B212C; --neutral-850:#252C39; --neutral-900:#12161F; --neutral-950:#0A0C11;
+
+  /* Tier accents (Facet + at most one highlight per layout) */
+  --tier-agentbase:#2F63D6;   /* 917 Blue */
+  --tier-ai-labs:#3F9BF0;     /* Sky */
+  --tier-velocity:#6E5BE0;    /* Iris */
+
+  /* Product accents — graphic only, never text on white */
+  --product-lex:#A35CE6;      /* Orchid */
+  --product-ledger:#1FA971;   /* Jade */
+  --product-collect:#E59E1A;  /* Saffron */
+  --product-agency:#F26B3A;   /* Coral */
+  --product-growth:#EF4F6B;   /* Rose */
+  --product-procure:#6FA11F;  /* Moss */
+  --product-reserve:#D64FA8;  /* Fuchsia */
+  --product-devs:#7A2FB0;     /* Plum */
+
+  /* State colors — status only, always paired with a word */
+  --state-allow:#1F9D63;
+  --state-hold:#D99A21;
+  --state-block:#D2483B;
+  --state-info:#2F63D6;
+
+  /* Semantic UI tokens — light (default) */
+  --surface-page:#F4F6F9;
+  --surface-card:#FFFFFF;
+  --surface-sunken:#EEF1F5;
+  --surface-inverse:#0A0C11;
+  --text-primary:#0A0C11;
+  --text-secondary:#586173;
+  --text-inverse:#FFFFFF;
+  --border:#D8DEE7;
+  --border-strong:#AEB8C8;
+  --action:#2F63D6;
+  --action-hover:#2551B6;
+  --action-pressed:#1A3A8C;
+  --on-action:#FFFFFF;
+  --link:#2F63D6;
+  --focus:#2F63D6;
+  --action-disabled:#A9BCEB;
+  --tint:#EEF3FD;
+  --tint-hover:#DCE6FB;
+  --on-tint:#1A3A8C;
+  --accent:#2F63D6;
+  --facet:var(--tier-agentbase);
+  color-scheme:light;
+}
+
+/* Dark is a full theme, not an inversion. */
+[data-theme="dark"]{
+  --surface-page:#0A0C11;
+  --surface-card:#12161F;
+  --surface-sunken:#1B212C;
+  --surface-inverse:#FFFFFF;
+  --text-primary:#F1F3F7;
+  --text-secondary:#98A2B4;
+  --text-inverse:#0A0C11;
+  --border:#252C39;
+  --border-strong:#3A4354;
+  --action:#2F63D6;
+  --action-hover:#5E88E4;
+  --action-pressed:#2551B6;
+  --link:#86A8F2;
+  --focus:#86A8F2;
+  color-scheme:dark;
+}

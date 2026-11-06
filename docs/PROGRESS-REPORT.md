@@ -99,7 +99,7 @@ flowchart TB
 
 ### 4. Branding
 
-- [spec/session-config.json](../spec/session-config.json) — session default brand + reference scenario (917v pack planned)
+- [spec/session-config.json](../spec/session-config.json) — session default brand (`917v`) + reference scenario
 
 ### 5. Documentation & governance
 
@@ -197,7 +197,7 @@ Per-model detail: [PRESENTATION.md slides 10–10e](PRESENTATION.md) and [LIMITA
 ## Out of scope (by design)
 
 - Trish repository wiring ([`docs/future-trish-integration.md`](future-trish-integration.md))
-- Production 917v brand pack (structure ready under `branding/`)
+- Product sub-brand themes as the session default (CSS is in `design-system/tokens/themes/`; the default stays core 917V)
 - Consumer chat native execution of `@gen-ui/render`
 
 ---
@@ -207,7 +207,7 @@ Per-model detail: [PRESENTATION.md slides 10–10e](PRESENTATION.md) and [LIMITA
 | Phase     | Work                                                                |
 | --------- | ------------------------------------------------------------------- |
 | **Now**   | Present foundation; gather feedback on spec v1                      |
-| **Next**  | `branding/917v/` + customer site extraction pilot                   |
+| **Next**  | Customer site extraction pilot on top of the 917V system            |
 | **Then**  | Trish (or first product) registry overrides + `onAIRequest` backend |
 | **Later** | Optional hosted “skill URL” or Gem templates per provider           |
 

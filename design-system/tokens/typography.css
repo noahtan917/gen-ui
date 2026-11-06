@@ -1,0 +1,21 @@
+/* 917V Brand Book 2.1, chapter 08. Archivo = display + product names; Instrument Sans = text + UI; JetBrains Mono = code only. */
+:root{
+  --font-display:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --font-text:"Instrument Sans","Helvetica Neue",Arial,sans-serif;
+  --font-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+
+  --weight-regular:400; --weight-medium:500; --weight-semibold:600; --weight-pillar:720;
+
+  /* Screen scale: size / line-height / tracking */
+  --type-display-size:64px;  --type-display-lh:64px;  --type-display-track:-0.03em;
+  --type-h1-size:40px;       --type-h1-lh:44px;       --type-h1-track:-0.02em;
+  --type-h2-size:26px;       --type-h2-lh:32px;       --type-h2-track:-0.015em;
+  --type-h3-size:18px;       --type-h3-lh:24px;       --type-h3-track:0;
+  --type-body-size:16px;     --type-body-lh:25px;
+  --type-small-size:13px;    --type-small-lh:18px;
+  --type-code-size:13.5px;   --type-code-lh:20px;
+
+  /* Archivo width axis: 100% for UI and lockups, 108–112% for display sizes */
+  --stretch-ui:100%;
+  --stretch-display:110%;
+}

@@ -1,0 +1,19 @@
+/* 917 Collect · Branded. Values marked (proposed) are not yet in the brand sheet. */
+[data-product="collect"]{
+  --action:#065D6F;
+  --action-hover:#054A59;
+  --action-pressed:#054A59;
+  --action-disabled:#8FB0B8; /* proposed */
+  --on-action:#FFFFFF;
+  --tint:#E2EEF1;
+  --tint-hover:#CFE2E7; /* proposed */
+  --on-tint:#054A59;
+  --accent:#EA9A07;
+  --link:#065D6F;
+  --focus:#065D6F;
+  --facet:var(--product-collect);
+  --font-display:"Plus Jakarta Sans","Archivo",sans-serif;
+  --font-text:"Clarity City","Plus Jakarta Sans",sans-serif;
+  /* Raw product palette */
+  --collect:#EA9A07; --collect-dark-teal:#065D6F; --collect-onyx-500:#181D20; --collect-onyx-400:#202426; --collect-faded-denim:#8DA4B7;
+}

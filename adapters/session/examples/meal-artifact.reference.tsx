@@ -1,17 +1,21 @@
 /**
  * Reference only — for embedded-ui-host (Artifacts / canvas-style UIs).
+ * Visuals follow the 917V core light theme.
  */
 import { useState } from "react";
 
 const tokens = {
-  primary: "#FF0000",
-  surface: "#F9F9F9",
-  text: "#0F0F0F",
-  textMuted: "#606060",
-  border: "#E5E5E5",
-  header: "#0F0F0F",
-  radius: "12px",
+  primary: "#2F63D6",
+  surface: "#F4F6F9",
+  card: "#FFFFFF",
+  text: "#0A0C11",
+  textMuted: "#586173",
+  border: "#D8DEE7",
+  radiusCard: "6px",
 };
+
+const fontText = '"Instrument Sans", "Helvetica Neue", Arial, sans-serif';
+const fontDisplay = '"Archivo", "Helvetica Neue", Arial, sans-serif';
 
 const meals = [
   {
@@ -35,11 +39,24 @@ export default function MealGenUIReference() {
   const active = meals.find((m) => m.id === selected);
 
   return (
-    <div style={{ fontFamily: "Roboto, Arial, sans-serif", color: tokens.text, background: tokens.surface, padding: 16 }}>
-      <div style={{ background: tokens.header, color: "#fff", padding: "8px 12px", margin: "-16px -16px 16px", borderBottom: `3px solid ${tokens.primary}` }}>
-        <span style={{ fontSize: 11, fontWeight: 700, color: tokens.primary, background: "#fff", padding: "2px 6px", borderRadius: 4 }}>YOUTUBE</span>
+    <div style={{ fontFamily: fontText, color: tokens.text, background: tokens.surface, padding: 16 }}>
+      <div
+        style={{
+          background: tokens.card,
+          color: tokens.text,
+          minHeight: 64,
+          display: "flex",
+          alignItems: "center",
+          padding: "0 16px",
+          margin: "-16px -16px 16px",
+          borderBottom: `1px solid ${tokens.border}`,
+        }}
+      >
+        <span style={{ fontFamily: fontDisplay, fontWeight: 600, fontSize: 13 }}>917V</span>
       </div>
-      <h2 style={{ marginTop: 0 }}>What do you want to cook?</h2>
+      <h2 style={{ marginTop: 0, fontFamily: fontDisplay, fontWeight: 600, fontSize: 26, lineHeight: "32px" }}>
+        What do you want to cook?
+      </h2>
       <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
         {meals.map((m) => (
           <button
@@ -49,14 +66,17 @@ export default function MealGenUIReference() {
             style={{
               textAlign: "left",
               cursor: "pointer",
-              background: "#fff",
-              border: `1px solid ${selected === m.id ? tokens.primary : tokens.border}`,
-              borderRadius: tokens.radius,
+              fontFamily: fontText,
+              color: tokens.text,
+              background: tokens.card,
+              border: 0,
+              boxShadow: `inset 0 0 0 1px ${selected === m.id ? tokens.primary : tokens.border}`,
+              borderRadius: tokens.radiusCard,
               padding: 16,
               minWidth: 160,
             }}
           >
-            <strong>{m.title}</strong>
+            <strong style={{ fontFamily: fontDisplay }}>{m.title}</strong>
             <div style={{ color: tokens.textMuted, fontSize: 14 }}>{m.cuisine}</div>
           </button>
         ))}

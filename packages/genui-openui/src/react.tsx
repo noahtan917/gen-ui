@@ -125,6 +125,8 @@ export interface GenUIOpenUIRendererProps {
   themeRef?: GenUIDocument["themeRef"];
   /** Same contract as `GenUIRenderer`'s `onAIRequest`. */
   onAIRequest?: (payload: AIRequestPayload) => void;
+  /** OpenUI store snapshot, including `$variable` values such as servings. */
+  onStateUpdate?: (state: Record<string, unknown>) => void;
   onError?: (errors: OpenUIError[]) => void;
 }
 
@@ -134,6 +136,7 @@ export function GenUIOpenUIRenderer({
   isStreaming = false,
   themeRef,
   onAIRequest,
+  onStateUpdate,
   onError,
 }: GenUIOpenUIRendererProps) {
   return (
@@ -143,6 +146,7 @@ export function GenUIOpenUIRenderer({
         library={genuiOpenUILibrary}
         isStreaming={isStreaming}
         onError={onError}
+        onStateUpdate={onStateUpdate}
         onAction={(event) => {
           const payload = openUIActionToAIRequest(event);
           if (payload) onAIRequest?.(payload);

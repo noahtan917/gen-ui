@@ -114,7 +114,7 @@ Observed behavior (raw URL, no paste): Gemini could not read the install, descri
 | L4 | No auto AI reply on click in markdown hosts | No shared runtime in chat | Chat-bridge; use **`pnpm demo`** for click→answer |
 | L5 | Chat ≠ coding agent | Cursor/CLI vs web chat | Separate adapter paths, same spec |
 | L6 | Trish not integrated yet | Phase 1 = platform only | [future-trish-integration.md](future-trish-integration.md) |
-| L7 | 917v brand not shipped | Generic demo brand first | `branding/917v/` planned |
+| L7 | Chat hosts cannot load `design-system/` CSS | Session paste inlines a token slice | Shipped: [`design-system/`](../design-system/styles.css) in the demo; [`branding/917v/`](../branding/917v/tokens.json) is the session default |
 | L8 | v1 component allowlist | Security / validation | Extensible catalog in spec minor versions |
 | L9 | Enterprise Gemini variants | Partner policies, model tier | Test on exact portal you demo |
 | L10 | ChatGPT generic recipe UI | Host **native widgets** (images, badges) override GenUI; model improvises meals | Strict [chatgpt-web.md](../adapters/session/providers/chatgpt-web.md) overlay; user follow-up prompt; prefer `pnpm demo` for brand proof |
@@ -148,7 +148,7 @@ Observed: install fetches and confirms, but *“pick a weeknight dinner”* rend
 | Expected (GenUI on Claude) | What appears instead |
 |----------------------------|----------------------|
 | Exactly two options (salmon, ramen) from the reference document | Several invented meals |
-| Token primary **#FF0000** (youtube) | Blue / default Claude chrome |
+| Token primary **#2F63D6** (917v) | Host-default chrome |
 | **Send this next:** with the interpolated `planMeal` prompt | “Plan this” product chips |
 | Simple picker, no extra widgets | Time filter not in the document |
 
@@ -156,20 +156,20 @@ Observed: install fetches and confirms, but *“pick a weeknight dinner”* rend
 |--------|--------|
 | Artifact vs native interactive UI | Claude optimizes food/planning prompts toward a prefab layout; host UI wins over `themeRef` (same class as L10) |
 | Reference scenario is soft in chat | Model prior is “offer variety” unless bound to the two cards |
-| Branding isn’t automatic in Artifacts | **#FF0000** appears only if the model writes that CSS |
+| Branding isn’t automatic in Artifacts | **#2F63D6** appears only if the model writes that CSS |
 | Install ≠ every reply | Install can succeed in prose while a later turn falls back to generic planner behavior |
 
-**Mitigation (shipped):** [SESSION-INSTALL.md](../adapters/session/SESSION-INSTALL.md) / [PASTE-BUNDLE.md](../adapters/session/PASTE-BUNDLE.md) now require exactly the reference options, rebuilding the Artifact on **every** GenUI reply, and list forbidden substitutions (native planners, card-grid pickers, time filters, “Plan this” chips, blue/neutral chrome). [claude-web.md](../adapters/session/providers/claude-web.md) makes the Artifact mandatory per turn.
+**Mitigation (shipped):** [SESSION-INSTALL.md](../adapters/session/SESSION-INSTALL.md) / [PASTE-BUNDLE.md](../adapters/session/PASTE-BUNDLE.md) now require exactly the reference options, rebuilding the Artifact on **every** GenUI reply, and list forbidden substitutions (native planners, card-grid pickers, time filters, “Plan this” chips, host-default chrome). [claude-web.md](../adapters/session/providers/claude-web.md) makes the Artifact mandatory per turn.
 
 **If it still drifts**, paste:
 
 ```text
 Build a React Artifact exactly like meal-artifact.reference.tsx with ONLY the two meals
-from meal-planning.document.json (Sheet-pan salmon, Miso ramen bowl), YouTube #FF0000,
+from meal-planning.document.json (Sheet-pan salmon, Miso ramen bowl), 917V primary #2F63D6,
 Send this next with the planMeal prompt on each, and no extra meals or filters.
 ```
 
-**Correct result:** confirmation names youtube / #FF0000; two red-accent cards; each option has **Send this next:** with the full cooking prompt. Anything else means Claude is in planner mode, not GenUI mode.
+**Correct result:** confirmation names 917v / #2F63D6; two cards use that primary; each option has **Send this next:** with the full cooking prompt. Anything else means Claude is in planner mode, not GenUI mode.
 
 ---
 

@@ -2,7 +2,7 @@
 
 # GenUI session skill — paste this entire file (= full install, no other commands)
 
-**installVersion: `96b9f578`**
+**installVersion: `05bf2bb7`**
 
 For any host that **cannot fetch** the raw install URL (Gemini chat, or Claude / ChatGPT when the fetch is blocked or stale). Same policy as SESSION-INSTALL.md. Do **not** fetch any repo file — everything required is below.
 
@@ -10,7 +10,9 @@ You are now configured with **GenUI** for **this conversation**.
 
 **Do not ask** the user for Brand, Provider, or “enable branding” — everything below is **already active**.
 
-**Brand (automatic):** `youtube` — primary **#FF0000** on all GenUI UI for this session.
+**Brand (automatic):** `917v` — primary **#2F63D6** on all GenUI UI for this session.
+
+**Brand rules:** Use that primary only for the primary button, links, the selected state, and focus. Cards are flat: `radius.md`, a 1px keyline, no drop shadow. Buttons and inputs use `radius.sm` and are at least 44px tall; hover is `primaryHover` and press is `primaryPressed`. Sentence case. Use the text and display font stacks from the tokens below.
 
 **Forbidden for session install:** ``demo`` (e.g. legacy demo blue). Do **not** use neutral styling when tokens are inlined below.
 
@@ -22,7 +24,7 @@ You are now configured with **GenUI** for **this conversation**.
 
 ```json
 {
-  "defaultBrandPack": "youtube",
+  "defaultBrandPack": "917v",
   "forbiddenBrandPacks": [
     "demo"
   ],
@@ -43,37 +45,40 @@ You are now configured with **GenUI** for **this conversation**.
 - **Every GenUI reply, not just install:** re-apply these rules on each turn. A weeknight-dinner / "pick a dinner" / "what should I cook" prompt **must** render this document — never defer to a host-native planner, even after install was confirmed in prose on an earlier turn.
 - Reference scenario only (document below) unless the user **explicitly** asks for more options or variety.
 - Each option: **Send this next:** with fully interpolated `ai.request` prompt (for meal planning, the resolved `planMeal` prompt per card).
-- **Forbidden substitutions when GenUI was invoked:** host-native recipe/meal carousels or planners, card-grid pickers, stock photo cards, time/"weeknight" filters, "Plan this"-style chips, and any blue/neutral/default host chrome. Use the token **primary** color, not the host default.
-- **embedded-ui-host:** build a **custom React Artifact** bound to **exactly** these option cards, with inlined `#FF0000` accent styling (titles, borders, buttons), mirroring the structure of the **reference Artifact layout** below (inlined — do not fetch it). On click, update Artifact state **and** surface **Send this next:** with the fully interpolated prompt. Do **not** emit Claude's built-in interactive meal/recipe UI.
+- **Forbidden substitutions when GenUI was invoked:** host-native recipe/meal carousels or planners, card-grid pickers, stock photo cards, time/"weeknight" filters, "Plan this"-style chips, and host-default chrome. Use the token **primary** color, not the host default.
+- **embedded-ui-host:** build a **custom React Artifact** bound to **exactly** these option cards, with inlined `#2F63D6` accent styling (titles, borders, buttons), mirroring the structure of the **reference Artifact layout** below (inlined — do not fetch it). On click, update Artifact state **and** surface **Send this next:** with the fully interpolated prompt. Do **not** emit Claude's built-in interactive meal/recipe UI.
 
 ### Brand tokens (`themeRef`)
 
 ```json
 {
-  "source": "youtube",
-  "id": "youtube",
+  "source": "917v",
+  "id": "917v",
   "colors": {
-    "primary": "#FF0000",
-    "primaryHover": "#CC0000",
-    "surface": "#FFFFFF",
-    "surfaceAlt": "#F9F9F9",
-    "surfaceDark": "#0F0F0F",
-    "text": "#0F0F0F",
-    "textOnDark": "#FFFFFF",
-    "textMuted": "#606060",
-    "border": "#E5E5E5"
+    "primary": "#2F63D6",
+    "primaryHover": "#2551B6",
+    "primaryPressed": "#1A3A8C",
+    "onPrimary": "#FFFFFF",
+    "surface": "#F4F6F9",
+    "surfaceElevated": "#FFFFFF",
+    "text": "#0A0C11",
+    "textMuted": "#586173",
+    "border": "#D8DEE7",
+    "focus": "#2F63D6"
   },
   "typography": {
-    "fontFamily": "Roboto, Arial, Helvetica, sans-serif",
+    "fontFamily": "\"Instrument Sans\", \"Helvetica Neue\", Arial, sans-serif",
+    "fontFamilyDisplay": "\"Archivo\", \"Helvetica Neue\", Arial, sans-serif",
+    "fontFamilyMono": "\"JetBrains Mono\", ui-monospace, Menlo, Consolas, monospace",
     "scale": {
-      "body": "1rem",
-      "heading": "1.25rem",
-      "caption": "0.875rem"
+      "body": "16px",
+      "heading": "26px",
+      "caption": "13px"
     }
   },
   "radius": {
     "sm": "4px",
-    "md": "12px"
+    "md": "6px"
   }
 }
 ```
@@ -84,8 +89,8 @@ You are now configured with **GenUI** for **this conversation**.
 {
   "genuiVersion": "1.0.0",
   "themeRef": {
-    "source": "youtube",
-    "id": "youtube"
+    "source": "917v",
+    "id": "917v"
   },
   "actions": {
     "planMeal": {
@@ -165,18 +170,22 @@ Copy this structure for the Artifact (two cards, **Send this next:** on select).
 ```tsx
 /**
  * Reference only — for embedded-ui-host (Artifacts / canvas-style UIs).
+ * Visuals follow the 917V core light theme.
  */
 import { useState } from "react";
 
 const tokens = {
-  primary: "#FF0000",
-  surface: "#F9F9F9",
-  text: "#0F0F0F",
-  textMuted: "#606060",
-  border: "#E5E5E5",
-  header: "#0F0F0F",
-  radius: "12px",
+  primary: "#2F63D6",
+  surface: "#F4F6F9",
+  card: "#FFFFFF",
+  text: "#0A0C11",
+  textMuted: "#586173",
+  border: "#D8DEE7",
+  radiusCard: "6px",
 };
+
+const fontText = '"Instrument Sans", "Helvetica Neue", Arial, sans-serif';
+const fontDisplay = '"Archivo", "Helvetica Neue", Arial, sans-serif';
 
 const meals = [
   {
@@ -200,11 +209,24 @@ export default function MealGenUIReference() {
   const active = meals.find((m) => m.id === selected);
 
   return (
-    <div style={{ fontFamily: "Roboto, Arial, sans-serif", color: tokens.text, background: tokens.surface, padding: 16 }}>
-      <div style={{ background: tokens.header, color: "#fff", padding: "8px 12px", margin: "-16px -16px 16px", borderBottom: `3px solid ${tokens.primary}` }}>
-        <span style={{ fontSize: 11, fontWeight: 700, color: tokens.primary, background: "#fff", padding: "2px 6px", borderRadius: 4 }}>YOUTUBE</span>
+    <div style={{ fontFamily: fontText, color: tokens.text, background: tokens.surface, padding: 16 }}>
+      <div
+        style={{
+          background: tokens.card,
+          color: tokens.text,
+          minHeight: 64,
+          display: "flex",
+          alignItems: "center",
+          padding: "0 16px",
+          margin: "-16px -16px 16px",
+          borderBottom: `1px solid ${tokens.border}`,
+        }}
+      >
+        <span style={{ fontFamily: fontDisplay, fontWeight: 600, fontSize: 13 }}>917V</span>
       </div>
-      <h2 style={{ marginTop: 0 }}>What do you want to cook?</h2>
+      <h2 style={{ marginTop: 0, fontFamily: fontDisplay, fontWeight: 600, fontSize: 26, lineHeight: "32px" }}>
+        What do you want to cook?
+      </h2>
       <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
         {meals.map((m) => (
           <button
@@ -214,14 +236,17 @@ export default function MealGenUIReference() {
             style={{
               textAlign: "left",
               cursor: "pointer",
-              background: "#fff",
-              border: `1px solid ${selected === m.id ? tokens.primary : tokens.border}`,
-              borderRadius: tokens.radius,
+              fontFamily: fontText,
+              color: tokens.text,
+              background: tokens.card,
+              border: 0,
+              boxShadow: `inset 0 0 0 1px ${selected === m.id ? tokens.primary : tokens.border}`,
+              borderRadius: tokens.radiusCard,
               padding: 16,
               minWidth: 160,
             }}
           >
-            <strong>{m.title}</strong>
+            <strong style={{ fontFamily: fontDisplay }}>{m.title}</strong>
             <div style={{ color: tokens.textMuted, fontSize: 14 }}>{m.cuisine}</div>
           </button>
         ))}
@@ -333,7 +358,7 @@ Rules:
 
 - Actions: `@ToAssistant("<complete prompt>", {key: "value"})` for AI requests, `Action([@Set($var, value)])` for local state. Never use `@OpenUrl`, `@Run`, `@Reset`, `Query()`, `Mutation()` or `@functions`.
 - Every clickable Card, Button and Form has an action. Bind every Select to a declared `$variable`.
-- Branding stays **youtube** (#FF0000). OpenUI Lang carries no theme, so the host applies the brand tokens above.
+- Branding stays **917v** (#2F63D6). OpenUI Lang carries no theme, so the host applies the brand tokens above.
 - Emit the program as the whole reply (or in a fenced `openui` block if the host mixes text and UI).
 
 Reference scenario as OpenUI Lang (equivalent to the reference GenUI document above):
@@ -351,7 +376,7 @@ cardRamen = Card("Miso ramen bowl", "Japanese", null, @ToAssistant("Help me cook
 
 ## Confirm activation
 
-Reply with: GenUI loaded · installVersion **96b9f578** · brand **youtube** (#FF0000) · profile {id} · include a **primary-color confirmation line**. Say: *Ask for weeknight dinner — branding applies automatically.*
+Reply with: GenUI loaded · installVersion **05bf2bb7** · brand **917v** (#2F63D6) · profile {id} · include a **primary-color confirmation line**. Say: *Ask for weeknight dinner — branding applies automatically.*
 
 **Repo (human reference):** https://github.com/noahtan917/gen-ui
 

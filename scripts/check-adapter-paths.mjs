@@ -84,7 +84,7 @@ for (const rel of requiredSpecFiles) {
   }
 }
 
-for (const brandFile of ["branding/demo/tokens.json", "branding/youtube/tokens.json"]) {
+for (const brandFile of ["branding/demo/tokens.json", "branding/917v/tokens.json"]) {
   if (!existsSync(join(root, brandFile))) {
     fail(`Missing ${brandFile}`);
   }

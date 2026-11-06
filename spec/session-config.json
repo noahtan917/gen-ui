@@ -1,5 +1,5 @@
 {
-  "defaultBrandPack": "youtube",
+  "defaultBrandPack": "917v",
   "forbiddenBrandPacks": ["demo"],
   "referenceScenario": "meal-planning",
   "referenceDocument": "adapters/session/examples/meal-planning.document.json",

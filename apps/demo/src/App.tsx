@@ -1,8 +1,8 @@
-import { validateGenUIDocument, type AIRequestPayload } from "@gen-ui/core";
+import { interpolatePrompt, validateGenUIDocument, type AIRequestPayload } from "@gen-ui/core";
 import { genuiToOpenUILang } from "@gen-ui/openui";
 import { GenUIOpenUIRenderer } from "@gen-ui/openui/react";
 import { GenUIRenderer } from "@gen-ui/render";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { mealDemoDocument } from "./sample-document.js";
 import { useAssistantReply } from "./useAssistantReply.js";
 import "./app.css";
@@ -13,6 +13,14 @@ const FORMATS: { id: RenderFormat; label: string }[] = [
   { id: "genui", label: "GenUI JSON" },
   { id: "openui", label: "OpenUI Lang" },
 ];
+
+function readServings(value: unknown): string | undefined {
+  if (typeof value === "string" || typeof value === "number") return String(value);
+  if (value && typeof value === "object" && "value" in value) {
+    return readServings((value as { value: unknown }).value);
+  }
+  return undefined;
+}
 
 export function App() {
   const { status, replyText, lastPayload, errorMessage, handleAIRequest } =
@@ -28,6 +36,41 @@ export function App() {
   const openui = useMemo(
     () => (validation.document ? genuiToOpenUILang(validation.document) : null),
     [validation.document],
+  );
+
+  const lastPayloadRef = useRef(lastPayload);
+  lastPayloadRef.current = lastPayload;
+
+  const refreshForServings = useCallback(
+    (servings: unknown) => {
+      const prev = lastPayloadRef.current;
+      const action = validation.document?.actions.planMeal;
+      const next = readServings(servings);
+      if (!prev || !action || action.type !== "ai.request" || next === undefined) return;
+      if (String(prev.context.servings ?? "") === next) return;
+      const context = { ...prev.context, servings: next };
+      void handleAIRequest({
+        ...prev,
+        context,
+        prompt: interpolatePrompt(action.promptTemplate, context),
+      });
+    },
+    [handleAIRequest, validation.document],
+  );
+
+  const onGenUIState = useCallback(
+    (state: Record<string, unknown>) => {
+      setUiState(state);
+      refreshForServings(state.servings);
+    },
+    [refreshForServings],
+  );
+
+  const onOpenUIState = useCallback(
+    (state: Record<string, unknown>) => {
+      refreshForServings(state.servings ?? state.$servings);
+    },
+    [refreshForServings],
   );
 
   const onAIRequest = (payload: AIRequestPayload) => {
@@ -53,11 +96,9 @@ export function App() {
   return (
     <div className="app">
       <header className="app-header">
-        <span className="app-header__brand">YOUTUBE BRAND PACK</span>
+        <span className="app-header__brand">917V</span>
         <h1>GenUI Demo</h1>
-        <p>
-          YouTube red #FF0000 — click a meal card and the assistant answers automatically.
-        </p>
+        <p>917V Blue #2F63D6 — click a meal card and the assistant answers automatically.</p>
       </header>
       <div className="app-grid">
         <section className="app-panel">
@@ -79,28 +120,16 @@ export function App() {
             <GenUIRenderer
               document={validation.document}
               onAIRequest={onAIRequest}
-              onStateChange={setUiState}
+              onStateChange={onGenUIState}
             />
           ) : (
             <GenUIOpenUIRenderer
               code={openui?.code ?? null}
               themeRef={validation.document.themeRef}
               onAIRequest={onAIRequest}
+              onStateUpdate={onOpenUIState}
             />
           )}
-          {format === "openui" && openui ? (
-            <details className="app-details">
-              <summary>OpenUI Lang program</summary>
-              <pre>{openui.code}</pre>
-              {openui.warnings.length ? (
-                <ul className="muted">
-                  {openui.warnings.map((w) => (
-                    <li key={w}>{w}</li>
-                  ))}
-                </ul>
-              ) : null}
-            </details>
-          ) : null}
         </section>
         <section className="app-panel app-panel--assistant">
           <div className="assistant-header">

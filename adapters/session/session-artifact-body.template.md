@@ -2,6 +2,8 @@
 
 **Brand (automatic):** `{{BRAND_ID}}` — primary **{{PRIMARY_HEX}}** on all GenUI UI for this session.
 
+**Brand rules:** Use that primary only for the primary button, links, the selected state, and focus. Cards are flat: `radius.md`, a 1px keyline, no drop shadow. Buttons and inputs use `radius.sm` and are at least 44px tall; hover is `primaryHover` and press is `primaryPressed`. Sentence case. Use the text and display font stacks from the tokens below.
+
 **Forbidden for session install:** `{{FORBIDDEN_PACKS}}` (e.g. legacy demo blue). Do **not** use neutral styling when tokens are inlined below.
 
 **Provider profile:** auto-detect host → `markdown-ui-host` or `embedded-ui-host`.
@@ -25,7 +27,7 @@
 - **Every GenUI reply, not just install:** re-apply these rules on each turn. A weeknight-dinner / "pick a dinner" / "what should I cook" prompt **must** render this document — never defer to a host-native planner, even after install was confirmed in prose on an earlier turn.
 - Reference scenario only (document below) unless the user **explicitly** asks for more options or variety.
 - Each option: **Send this next:** with fully interpolated `ai.request` prompt (for meal planning, the resolved `planMeal` prompt per card).
-- **Forbidden substitutions when GenUI was invoked:** host-native recipe/meal carousels or planners, card-grid pickers, stock photo cards, time/"weeknight" filters, "Plan this"-style chips, and any blue/neutral/default host chrome. Use the token **primary** color, not the host default.
+- **Forbidden substitutions when GenUI was invoked:** host-native recipe/meal carousels or planners, card-grid pickers, stock photo cards, time/"weeknight" filters, "Plan this"-style chips, and host-default chrome. Use the token **primary** color, not the host default.
 - **embedded-ui-host:** build a **custom React Artifact** bound to **exactly** these option cards, with inlined `{{PRIMARY_HEX}}` accent styling (titles, borders, buttons), mirroring the structure of the **reference Artifact layout** below (inlined — do not fetch it). On click, update Artifact state **and** surface **Send this next:** with the fully interpolated prompt. Do **not** emit Claude's built-in interactive meal/recipe UI.
 
 ### Brand tokens (`themeRef`)

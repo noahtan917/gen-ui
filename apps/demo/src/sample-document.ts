@@ -4,24 +4,28 @@ export const mealDemoDocument: GenUIDocument = {
   genuiVersion: "1.0.0",
   meta: {
     title: "Weeknight dinner picker",
-    description: "Interactive meal planning demo (YouTube brand pack)",
+    description: "Interactive meal planning demo (917V brand pack)",
   },
   themeRef: {
-    source: "youtube",
-    id: "youtube",
+    source: "917v",
+    id: "917v",
     colors: {
-      primary: "#FF0000",
-      primaryHover: "#CC0000",
-      surface: "#FFFFFF",
-      surfaceAlt: "#F9F9F9",
-      text: "#0F0F0F",
-      textMuted: "#606060",
-      border: "#E5E5E5",
+      primary: "#2F63D6",
+      primaryHover: "#2551B6",
+      primaryPressed: "#1A3A8C",
+      onPrimary: "#FFFFFF",
+      surface: "#F4F6F9",
+      surfaceElevated: "#FFFFFF",
+      text: "#0A0C11",
+      textMuted: "#586173",
+      border: "#D8DEE7",
+      focus: "#2F63D6",
     },
     typography: {
-      fontFamily: "Roboto, Arial, Helvetica, sans-serif",
+      fontFamily: '"Instrument Sans", "Helvetica Neue", Arial, sans-serif',
+      fontFamilyDisplay: '"Archivo", "Helvetica Neue", Arial, sans-serif',
     },
-    radius: { md: "12px" },
+    radius: { sm: "4px", md: "6px" },
   },
   state: {
     servings: "2",
@@ -30,14 +34,13 @@ export const mealDemoDocument: GenUIDocument = {
     planMeal: {
       type: "ai.request",
       promptTemplate:
-        "Help me cook {{meal}} ({{cuisine}}): ingredient list, steps, and total time for a weeknight dinner.",
+        "Help me cook {{meal}} ({{cuisine}}) for {{servings}} servings: ingredient list, steps, and total time for a weeknight dinner.",
       contextKeys: ["meal", "cuisine", "servings"],
     },
     applyServings: {
       type: "state.update",
       updates: {
-        servings: "{{servingsCount}}",
-        note: "Portions set to {{servingsCount}}",
+        note: "Portions set to {{servings}}",
       },
     },
   },
@@ -92,7 +95,7 @@ export const mealDemoDocument: GenUIDocument = {
               id: "servings-select",
               type: "Select",
               props: {
-                stateKey: "servingsCount",
+                stateKey: "servings",
                 label: "Servings",
                 options: [
                   { value: "1", label: "1 person" },
