@@ -1,0 +1,26 @@
+<!-- @dsCard group="Components" viewport="700x400" name="Navigation" -->
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin></script>
+<script src="../../_ds_bundle.js"></script>
+<script src="../loader.js"></script>
+<style>body{background:#fff;padding:24px}</style></head><body><div id="root"></div>
+<script type="text/babel">
+let Button, FacetMark, MetricCard, Card, VerdictChip, Badge, TextField, Select, Checkbox, Switch, SiteHeader, SiteFooter, Tabs, Sidebar, Toast, Dialog ;
+const Row = ({ children, gap = 12, style }) => <div style={{ display: 'flex', gap, flexWrap: 'wrap', alignItems: 'center', ...style }}>{children}</div>;
+function Demo() {
+  const [tab, setTab] = React.useState('held');
+  const [nav, setNav] = React.useState('overview');
+  return (<div style={{ display: 'grid', gap: 20 }}>
+  <div style={{ boxShadow: 'inset 0 0 0 1px var(--border)', borderRadius: 6, overflow: 'hidden' }}><SiteHeader logo={<img src="../../assets/01-master-logo/917v-primary-transparent-for-light-bg.svg" width="48" />} nav={['AgentBase','AI Labs','Velocity','About']} active="AgentBase" /></div>
+  <Tabs items={[{ value: 'held', label: 'Held', count: 12 }, { value: 'allowed', label: 'Allowed', count: 9204 }, { value: 'blocked', label: 'Blocked', count: 31 }]} value={tab} onChange={setTab} />
+  <div style={{ height: 200, display: 'flex', borderRadius: 6, overflow: 'hidden' }}>
+    <Sidebar width={220} header={<img src="../../assets/03-pillar-lockups/917-agentbase/horizontal/917-agentbase-transparent-white-text.svg" style={{ height: 18 }} />} value={nav} onChange={setNav}
+      sections={[{ items: [{ key: 'overview', label: 'Overview' }, { key: 'guard', label: 'Agent Guard', count: 12 }, { key: 'rank', label: 'AgentRank' }] }]} />
+    <div style={{ flex: 1, background: 'var(--surface-page)' }} />
+  </div>
+</div>);
+}
+DS917Ready.then(NS => { ({ Button, FacetMark, MetricCard, Card, VerdictChip, Badge, TextField, Select, Checkbox, Switch, SiteHeader, SiteFooter, Tabs, Sidebar, Toast, Dialog  } = NS); ReactDOM.createRoot(document.getElementById('root')).render(<Demo />); });
+</script></body></html>

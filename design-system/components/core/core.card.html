@@ -1,0 +1,28 @@
+<!-- @dsCard group="Components" viewport="700x420" name="Core" -->
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin></script>
+<script src="../../_ds_bundle.js"></script>
+<script src="../loader.js"></script>
+<style>body{background:#fff;padding:24px}</style></head><body><div id="root"></div>
+<script type="text/babel">
+let Button, FacetMark, MetricCard, Card, VerdictChip, Badge, TextField, Select, Checkbox, Switch, SiteHeader, SiteFooter, Tabs, Sidebar, Toast, Dialog ;
+const Row = ({ children, gap = 12, style }) => <div style={{ display: 'flex', gap, flexWrap: 'wrap', alignItems: 'center', ...style }}>{children}</div>;
+function Demo() {
+  const [tab, setTab] = React.useState('held');
+  const [nav, setNav] = React.useState('overview');
+  return (<div style={{ display: 'grid', gap: 20 }}>
+  <Row><Button>Deploy agent</Button><Button variant="secondary">Save draft</Button><Button variant="ghost">View logs</Button><Button disabled>Disabled</Button><Button size="sm">Small</Button><Button size="lg">Large</Button></Row>
+  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 12 }}>
+    <MetricCard label="Active agents" value="1,284" caption="Last 7 days" facet="agentbase" />
+    <MetricCard label="Actions checked" value="92,410" caption="Last 7 days" />
+    <MetricCard label="Held for review" value="12" caption="Oldest 2 h ago" />
+  </div>
+  <Row><VerdictChip state="allow" /><VerdictChip state="hold" /><VerdictChip state="block" /><VerdictChip state="info">Syncing</VerdictChip><Badge>Production</Badge><Badge tone="outline">v2.4</Badge><Badge tone="blue">AgentBase</Badge></Row>
+  <Row gap={20}>{['agentbase','ai-labs','velocity','lex','ledger','collect','agency','growth','procure','reserve','devs'].map(t => <FacetMark key={t} tier={t} size={24} />)}<div style={{ background:'#0B1B45', padding: 8, borderRadius: 4 }}><FacetMark tier="lift" size={24} /></div></Row>
+  <div data-theme="dark" style={{ background: 'var(--surface-page)', padding: 16, borderRadius: 6, display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}><Button>Deploy agent</Button><Button variant="secondary">Save draft</Button><Button variant="ghost">View logs</Button><VerdictChip state="hold" /></div>
+</div>);
+}
+DS917Ready.then(NS => { ({ Button, FacetMark, MetricCard, Card, VerdictChip, Badge, TextField, Select, Checkbox, Switch, SiteHeader, SiteFooter, Tabs, Sidebar, Toast, Dialog  } = NS); ReactDOM.createRoot(document.getElementById('root')).render(<Demo />); });
+</script></body></html>

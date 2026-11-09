@@ -1,6 +1,18 @@
-# Install GenUI — one prompt (917V branding automatic)
+# Install GenUI
 
-You only need **one message**. It is the repository URL. Claude opens root [SKILL.md](SKILL.md) from that link.
+## Claude Code
+
+In this repo the slash command is already on disk:
+
+```text
+/917v-ventures-branding i want to see 2026 data of PSEI per month
+```
+
+The skill is [.claude/skills/917v-ventures-branding/SKILL.md](.claude/skills/917v-ventures-branding/SKILL.md). It reads [design-system/SKILL.md](design-system/SKILL.md) and draws the dashboard column chart. To use it in another project, copy that folder to `~/.claude/skills/917v-ventures-branding/`.
+
+## Claude web
+
+You only need **one message**. It is the repository URL. Claude opens root [SKILL.md](SKILL.md) from that link. Claude web has no slash command. After the install confirmation, ask for the monthly index in the same chat.
 
 ---
 

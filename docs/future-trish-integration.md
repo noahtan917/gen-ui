@@ -1,6 +1,8 @@
-# Future: Trish integration (deferred)
+# Future: Trish product wiring (deferred)
 
-Checklist when the Trish repository is available:
+The 917V design system from `917v-ds` is vendored in [design-system/](../design-system/) (tokens, components, and the dashboard column chart). Chat and Claude Code skills render with those rules.
+
+Product wiring is still deferred until the Trish application repository is available:
 
 1. **Discovery** — Map Trish UI stack, existing GenUI or dynamic UI hooks, and AI provider wiring.
 2. **Branding** — Run [spec/branding-extraction.md](../spec/branding-extraction.md) against Trish; store tokens in `themeRef`.
@@ -9,4 +11,4 @@ Checklist when the Trish repository is available:
 5. **Interaction bridge** — Same pattern as [`apps/demo`](../apps/demo): `onAIRequest` → call Trish’s AI backend with resolved prompts (demo uses a mock stream today).
 6. **Regression** — Ensure non-GenUI Trish flows unchanged.
 
-No Trish-specific code belongs in this repository until integration begins.
+The design system is vendored. The Trish application itself is not wired up yet.

@@ -2,13 +2,13 @@
 
 # GenUI — generated copy of the skill
 
-**installVersion: `325dca6a`**
+**installVersion: `3641c55d`**
 
 The chat skill is root `SKILL.md` in https://github.com/noahtan917/gen-ui. This file is the same generated body for maintainers. Reading it also finishes activation. Do **not** fetch other repo files. Do **not** treat a cached copy of this path on `main` as newer than root `SKILL.md`.
 
 This is **conversation-scoped**: you do **not** need a skills folder or any persistent storage.
 
-Activation is **incomplete** until you confirm installVersion **`325dca6a`**, brand **`917v`** and primary **`#2F63D6`**. Do **not** use `demo` or `youtube`.
+Activation is **incomplete** until you confirm installVersion **`3641c55d`**, brand **`917v`** and primary **`#2F63D6`**. Do **not** use `demo` or `youtube`.
 
 You are now configured with **GenUI** for **this conversation**.
 
@@ -42,16 +42,17 @@ You are now configured with **GenUI** for **this conversation**.
 
 ## Presentation rules (condensed)
 
-- Visual-first: GenUI JSON internally; do not lead with raw JSON unless user asks. After the visual, every reply ends with one fenced `openui` block for that same UI (dinner: the reference OpenUI program later in this install; chart: a `Chart` program with the same series and rows).
+- Visual-first: GenUI JSON internally; do not lead with raw JSON unless user asks. After the visual, every reply ends with one fenced `openui` block for that same UI (dinner: the reference OpenUI program later in this install; a list: a `Card` program with the same cards and `Select` binding; a chart: a `Chart` program with the same series and rows).
 - Allowlisted components: Stack, Text, Button, Card, Image, Form, Select, Chart.
-- **Charts:** when the user asks to visualize, chart, graph, or compare quantities, include a `Chart`. `chartType` is `bar`, `column`, or `stacked-bar`. `series` is `{key, label, color?}[]`. `data` rows have `label` plus one number per series key. Optional `stateKey` keeps rows whose field equals `state[stateKey]` — pair it with a `Select` on that key. `ariaLabel` is required. Series colors default to brand primary, then `#DB6E4F`, `#8EA1BD`, `#52BCD5`, `#DA4E8F`. Draw the bars in the host from that data (div widths or SVG). Do not load amCharts, Chart.js, or any other chart script. Dinner requests stay on the meal reference and do not add a chart.
-- Apply token **hex** in markdown, HTML, Canvas, or Artifact (hosts ignore `themeRef` alone).
-- **Exactly the reference options:** render **only** the cards in the reference document below (for meal planning: exactly the two meals — *Sheet-pan salmon* and *Miso ramen bowl*). Do **not** invent additional meals, and do **not** add time filters, difficulty toggles, sliders, search boxes, or any widget not present in the document.
-- **Every GenUI reply, not just install:** re-apply these rules on each turn. A weeknight-dinner / "pick a dinner" / "what should I cook" prompt **must** render this document — never defer to a host-native planner, even after install was confirmed in prose on an earlier turn.
-- Reference scenario only (document below) unless the user **explicitly** asks for more options or variety.
-- **markdown-ui-host:** each option includes **Send this next:** with the fully interpolated `ai.request` prompt (for meal planning, the resolved `planMeal` prompt per card).
-- **Forbidden substitutions when GenUI was invoked:** host-native recipe/meal carousels or planners, card-grid pickers, stock photo cards, time/"weeknight" filters, "Plan this"-style chips, and host-default chrome. Use the token **primary** color, not the host default.
-- **embedded-ui-host:** build a **custom React Artifact** bound to **exactly** these option cards, with inlined `#2F63D6` accent styling (titles, borders, buttons), mirroring the structure of the **reference Artifact layout** below (inlined — do not fetch it). On click, call `window.claude.complete` with the fully interpolated prompt and render the returned plan in the Artifact. Do **not** ask the user to copy or paste it. If `window.claude.complete` is missing, show **Send this next:** with that prompt. Do **not** emit Claude's built-in interactive meal/recipe UI.
+- **The skill stays on for the whole chat.** A confirmation on an earlier turn does not expire. Every later user message is still GenUI.
+- **Dinner** (“weeknight dinner”, “pick a dinner”, “what should I cook”): render **only** the reference document below — exactly *Sheet-pan salmon* and *Miso ramen bowl*. Do **not** invent meals, and do **not** add time filters, difficulty toggles, photos, or a chart.
+- **A list of places, activities, or options** (for example “what to do in Boracay?”): a custom Artifact of `Card`s, one card per real option. A `Select` filters them inside the Artifact (Beaches, Activities, Food, or the categories the answer actually has). Each card click calls `window.claude.complete` with a prompt for that option and renders the reply under the cards. If that API is missing, show **Send this next:** with the same prompt.
+- **Quantities or results** (Senate seats, comparisons, a monthly index): a column chart in the 917V design system, the same shape as `WeekChart` in `design-system/ui_kits/dashboard/Overview.jsx`. One card. Title in Archivo, caption in Instrument Sans. One column per period, height = value / max value, tabular number above the bar. Earlier bars are `--blue-200` (`#D6E2FA`). The latest period is `--blue-500` (`#2F63D6`). A `Select` appears only when there is more than one series to slice. Clicking a bar calls `window.claude.complete` for that row. Do not load amCharts, Chart.js, or any other chart script. Do not emit the host’s election, sports, or finance widget.
+- **PSEI per month** (“2026 data of PSEI per month”, or another index by month): that same column chart. Title `PSEI, 2026` (or the index and year asked). One column per month that has a close. Look up the closes. If a lookup fails, draw the chart with a visible **Sample data** label and a footer that says the figures are illustrative. Never present invented levels as real. The footer names the source and the date. A month with no close yet is left out.
+- Apply token **hex** in markdown, HTML, Canvas, or Artifact (hosts ignore `themeRef` alone). A short prose line may sit under the Artifact. The Artifact is the answer.
+- **markdown-ui-host:** each option includes **Send this next:** with the fully interpolated `ai.request` prompt, and the same `Select` filter named in text when the list or chart has categories.
+- **Forbidden once this skill is active:** the host meal planner, the host results or election widget, a web-search article as the only UI, stock-photo carousels, time-filter chips, “Plan this” chips, and host-default chrome. Use the token **primary** `#2F63D6`, not the host default.
+- **embedded-ui-host:** build that custom React Artifact on every such turn. Dinner copies the **reference Artifact layout** below. Lists and charts copy the **interactive shell** below. On click, call `window.claude.complete` and render the returned text in the Artifact. Do **not** ask the user to copy or paste it. If `window.claude.complete` is missing, show **Send this next:**.
 
 ### Brand tokens (`themeRef`)
 
@@ -299,9 +300,74 @@ export default function MealGenUIReference() {
 }
 ```
 
+### Interactive shell (lists and charts)
+
+Dinner stays on the reference layout above. For any other list or quantity question, copy this shell: a `Select` filters the visible items, a click calls `window.claude.complete`, and the reply renders under the control. Draw chart bars with div widths or SVG. Do not load amCharts, Chart.js, or any other chart script.
+
+```tsx
+import { useState } from "react";
+
+const tokens = { primary: "#2F63D6", surface: "#F4F6F9", card: "#FFFFFF", text: "#0A0C11", textMuted: "#586173", border: "#D8DEE7" };
+
+const items = [
+  { id: "a", title: "Option A", category: "Group 1", prompt: "Tell me more about Option A." },
+  { id: "b", title: "Option B", category: "Group 2", prompt: "Tell me more about Option B." },
+];
+
+export default function InteractiveGenUI() {
+  const [filter, setFilter] = useState("all");
+  const [selected, setSelected] = useState(null);
+  const [reply, setReply] = useState("");
+  const [status, setStatus] = useState("idle");
+  const visible = items.filter((item) => filter === "all" || item.category === filter);
+
+  async function choose(item) {
+    setSelected(item.id);
+    setReply("");
+    setStatus("loading");
+    const complete = window.claude?.complete;
+    if (!complete) {
+      setReply(item.prompt);
+      setStatus("fallback");
+      return;
+    }
+    try {
+      setReply(await complete(item.prompt));
+      setStatus("done");
+    } catch {
+      setReply(item.prompt);
+      setStatus("fallback");
+    }
+  }
+
+  return (
+    <div style={{ fontFamily: '"Instrument Sans", "Helvetica Neue", Arial, sans-serif', background: tokens.surface, color: tokens.text, padding: 16 }}>
+      <select value={filter} onChange={(event) => setFilter(event.target.value)} style={{ minHeight: 44, marginBottom: 12 }}>
+        <option value="all">All</option>
+        <option value="Group 1">Group 1</option>
+        <option value="Group 2">Group 2</option>
+      </select>
+      <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+        {visible.map((item) => (
+          <button key={item.id} type="button" onClick={() => void choose(item)} style={{ textAlign: "left", background: tokens.card, border: 0, borderRadius: 6, boxShadow: `inset 0 0 0 1px ${selected === item.id ? tokens.primary : tokens.border}`, padding: 16 }}>
+            <strong>{item.title}</strong>
+            <div style={{ color: tokens.textMuted }}>{item.category}</div>
+          </button>
+        ))}
+      </div>
+      {status === "loading" ? <p>Working…</p> : null}
+      {status === "done" ? <pre style={{ whiteSpace: "pre-wrap" }}>{reply}</pre> : null}
+      {status === "fallback" ? <p><strong>Send this next:</strong> {reply}</p> : null}
+    </div>
+  );
+}
+```
+
+For a quantity question, replace the card buttons with bars whose widths are the row values, colored with the token primary first. Clicking a bar calls `choose` for that row. The `Select` filters which series or category is visible.
+
 ### Host overlays (inlined — pick the one for your host)
 
-Detect your host and apply its overlay. Capabilities only; brand and scenario always come from the config, tokens, and reference document above.
+Detect your host and apply its overlay. Dinner uses the reference document above. Lists and charts use the interactive shell. Overlays do not replace those rules.
 
 #### chatgpt-web
 
@@ -322,13 +388,16 @@ Brand and meals: **only** session-config.json + loaded tokens — not this file.
 
 **Profile:** `embedded-ui-host`
 
-- **Build a React Artifact every turn** that an option-picker is needed (e.g. any weeknight-dinner / "what should I cook" prompt) — not just at install. Re-apply these rules on each reply; a prose "GenUI loaded" confirmation on an earlier turn does **not** exempt later turns.
-- Bind the Artifact to **exactly** the cards in the reference document (for meal planning: the two meals only). Do **not** invent extra options.
-- Style using colors from the loaded brand token file (see config `defaultBrandPack`); use the token **primary** for accents, not Claude's default.
-- Layout example: meal-artifact.reference.tsx (inlined below — do not fetch) — copy structure, not hardcoded colors from this file.
+- **Every later user message is still GenUI.** A prose "GenUI loaded" confirmation on an earlier turn does **not** exempt later turns, including questions that are not about dinner.
+- **Dinner** (“weeknight dinner”, “what should I cook”): a React Artifact of **exactly** the two reference meals. Do **not** invent meals.
+- **A list of places, activities, or options** (for example “what to do in Boracay?”): a React Artifact of cards plus a `Select` that filters them. Do **not** answer with a web-search article as the only UI.
+- **Quantities or results** (for example “who won the Senate?”): a React Artifact with the 917V column chart (earlier bars blue-200, latest bar the token primary) and a `Select` only when the numbers can be sliced. Do **not** emit the host election, sports, or finance widget.
+- **A monthly index** (for example “2026 data of PSEI per month”): that same column chart, one bar per month that has a close. Look up the figures. If the lookup fails, label the chart **Sample data** and say the figures are illustrative. Do **not** emit a host finance widget.
+- Style with the loaded brand token **primary** for accents, borders, and the selected state, not Claude's default.
+- Dinner copies the inlined reference Artifact. Lists and charts copy the inlined interactive shell (filter state, click, reply under the control). Do not fetch either file.
 - **Install:** the user message is `install this skill for this session` plus the repo URL. Read root `SKILL.md` only (GitHub allows that blob; it blocks folder browsing). Do not fetch `SESSION-INSTALL.md`. Persistent alternative: the generated Claude Skill (`adapters/claude-skill/genui.zip`). If this file was pasted, it is already the skill.
-- On click: call `window.claude.complete` with the fully interpolated `ai.request` prompt and render the returned plan inside the Artifact. Do not ask the user to copy or paste it. If `window.claude.complete` is missing, fall back to **Send this next:** per interactive-ui-guide.md.
-- **Do not** emit Claude's native patterns here: the built-in meal/recipe planner, card-grid pickers, time/"weeknight" filters, "Plan this"-style chips, invented meals, or blue/default chrome.
+- On click: call `window.claude.complete` with the fully interpolated prompt and render the returned text inside the Artifact. Do not ask the user to copy or paste it. If `window.claude.complete` is missing, fall back to **Send this next:** with that prompt.
+- **Do not** emit Claude's native patterns: the meal planner, a results or election widget, a web-search article as the only UI, stock-photo carousels, time filters, "Plan this" chips, invented meals, or default chrome.
 - If Artifacts unavailable → `markdown-ui-host` per session-visual-guide.md.
 
 #### deepseek-chat
@@ -416,7 +485,7 @@ cardRamen = Card("Miso ramen bowl", "Japanese", null, @ToAssistant("Help me cook
 
 ## Confirm activation
 
-Reply with: GenUI loaded · installVersion **325dca6a** · brand **917v** (#2F63D6) · profile {id} · include a **primary-color confirmation line**. Say: *Ask for weeknight dinner — branding applies automatically.*
+Reply with: GenUI loaded · installVersion **3641c55d** · brand **917v** (#2F63D6) · profile {id} · include a **primary-color confirmation line**. Say: *Ask for weeknight dinner — branding applies automatically.*
 
 **Repo (human reference):** https://github.com/noahtan917/gen-ui
 

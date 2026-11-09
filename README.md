@@ -43,7 +43,7 @@ Maintainers: [spec/session-config.json](spec/session-config.json) → `pnpm gene
 | [`adapters/claude-skill/`](adapters/claude-skill/) | Generated Claude Skill (`genui.zip`) for persistent install on claude.ai |
 | [`adapters/`](adapters/) | Coding-agent entry points (Cursor, Gemini CLI, Claude Code, OpenAI) |
 | [`branding/`](branding/) | Brand token packs (`917v` session default, legacy `demo`) |
-| [`design-system/`](design-system/) | 917V tokens, fonts, and product themes |
+| [`design-system/`](design-system/) | 917V design system from `917v-ds`: tokens, components, dashboard chart |
 | [`INSTALL-SKILL.md`](INSTALL-SKILL.md) | Copy-paste install prompt for any chat provider |
 | [`packages/genui-core`](packages/genui-core) | Validate and normalize GenUI documents |
 | [`packages/genui-render`](packages/genui-render) | Safe React rendering and interaction dispatch |

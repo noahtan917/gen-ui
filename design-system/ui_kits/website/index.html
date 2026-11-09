@@ -1,0 +1,30 @@
+<!-- @dsCard group="Corporate website" viewport="1280x820" name="917v.ai" subtitle="Home, AgentBase product site, about, contact" -->
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>917V · Building the AI Economy.</title>
+<link rel="icon" href="../../assets/02-symbol/favicon-32.png">
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin></script>
+<script src="../../components/loader.js"></script>
+<style>body{background:#fff}</style>
+</head><body><div id="root"></div>
+<script type="text/babel" src="Shared.jsx"></script>
+<script type="text/babel" src="Home.jsx"></script>
+<script type="text/babel" src="AgentBasePage.jsx"></script>
+<script type="text/babel" src="AboutPage.jsx"></script>
+<script type="text/babel">
+function App() {
+  const [page, setPage] = React.useState(() => localStorage.getItem('917v-site-page') || 'home');
+  const go = (p) => {
+    if (p === 'console') { location.href = '../dashboard/index.html'; return; }
+    const [pg, anchor] = p.split('#');
+    setPage(pg); localStorage.setItem('917v-site-page', pg);
+    requestAnimationFrame(() => { const el = anchor && document.getElementById(anchor); window.scrollTo({ top: el ? el.getBoundingClientRect().top + window.scrollY - 80 : 0 }); });
+  };
+  if (page === 'agentbase') return <AgentBasePage go={go} />;
+  const Body = { home: HomePage, about: AboutPage, contact: ContactPage }[page] || HomePage;
+  return <><CorporateHeader page={page} go={go} /><Body go={go} /><CorporateFooter go={go} /></>;
+}
+DS917Ready.then(() => ReactDOM.createRoot(document.getElementById('root')).render(<App />));
+</script></body></html>

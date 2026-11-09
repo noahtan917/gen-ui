@@ -1,0 +1,25 @@
+<!-- @dsCard group="Components" viewport="700x330" name="Forms" -->
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin></script>
+<script src="../../_ds_bundle.js"></script>
+<script src="../loader.js"></script>
+<style>body{background:#fff;padding:24px}</style></head><body><div id="root"></div>
+<script type="text/babel">
+let Button, FacetMark, MetricCard, Card, VerdictChip, Badge, TextField, Select, Checkbox, Switch, SiteHeader, SiteFooter, Tabs, Sidebar, Toast, Dialog ;
+const Row = ({ children, gap = 12, style }) => <div style={{ display: 'flex', gap, flexWrap: 'wrap', alignItems: 'center', ...style }}>{children}</div>;
+function Demo() {
+  const [tab, setTab] = React.useState('held');
+  const [nav, setNav] = React.useState('overview');
+  return (<div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+  <TextField label="Policy name" defaultValue="Payments over ₱500K" />
+  <Select label="Environment" options={['Production', 'Staging', 'Sandbox']} />
+  <TextField label="Threshold" defaultValue="500K" error="Enter an amount in pesos, e.g. ₱500,000." />
+  <TextField label="Owner" placeholder="name@917v.ai" hint="Gets every held action." />
+  <div style={{ display: 'grid', gap: 12 }}><Checkbox label="Log every verdict" defaultChecked /><Checkbox label="Notify on block" /></div>
+  <div style={{ display: 'grid', gap: 12 }}><Switch label="Require approval" defaultChecked /><Switch label="Auto-retry" /></div>
+</div>);
+}
+DS917Ready.then(NS => { ({ Button, FacetMark, MetricCard, Card, VerdictChip, Badge, TextField, Select, Checkbox, Switch, SiteHeader, SiteFooter, Tabs, Sidebar, Toast, Dialog  } = NS); ReactDOM.createRoot(document.getElementById('root')).render(<Demo />); });
+</script></body></html>

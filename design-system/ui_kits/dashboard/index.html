@@ -1,0 +1,50 @@
+<!-- @dsCard group="Internal dashboard" viewport="1280x800" name="AgentBase console" subtitle="Overview, Agent Guard review queue, AgentRank" -->
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>917 AgentBase · Console</title>
+<link rel="icon" href="../../assets/06-app-icons/917-agentbase-app-icon.svg">
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin></script>
+<script src="../../components/loader.js"></script>
+<script src="data.js"></script>
+</head><body><div id="root"></div>
+<script type="text/babel" src="Shell.jsx"></script>
+<script type="text/babel" src="Overview.jsx"></script>
+<script type="text/babel" src="GuardQueue.jsx"></script>
+<script type="text/babel" src="AgentRank.jsx"></script>
+<script type="text/babel">
+function App() {
+  const { Toast, Dialog, Button } = window.DS917;
+  const D = window.CONSOLE_DATA;
+  const [view, setViewRaw] = React.useState(() => localStorage.getItem('917-console-view') || 'overview');
+  const setView = (v) => { setViewRaw(v); localStorage.setItem('917-console-view', v); };
+  const [queue, setQueue] = React.useState(D.queue);
+  const [selected, setSelected] = React.useState(null);
+  const [toast, setToast] = React.useState(null);
+  const [confirm, setConfirm] = React.useState(null);
+  const held = queue.filter(q => q.state === 'hold').length;
+  const apply = (id, state) => {
+    setQueue(qs => qs.map(q => q.id === id ? { ...q, state } : q));
+    const q = queue.find(x => x.id === id);
+    setToast(state === 'allow' ? { state: 'allow', title: 'Action allowed', body: q.agent + ' will run it now. The verdict is signed and logged.' } : { state: 'block', title: 'Action blocked', body: q.team + ' has been notified. The verdict is signed and logged.' });
+    setTimeout(() => setToast(null), 4000);
+  };
+  const decide = (id, state, ask) => ask ? setConfirm(id) : apply(id, state);
+  const open = (id) => { setView('guard'); setSelected(id); };
+  const titles = { overview: 'Overview', guard: 'Agent Guard', rank: 'AgentRank', gateway: 'Agent Gateway', insights: 'Agent Insights' };
+  let body;
+  if (view === 'overview') body = <Overview data={D} queue={queue} open={open} />;
+  else if (view === 'guard') body = <GuardQueue queue={queue} selected={selected} setSelected={setSelected} decide={decide} />;
+  else if (view === 'rank') body = <AgentRankView agents={D.agents} />;
+  else body = <div style={{ padding: 48, textAlign: 'center', color: 'var(--text-secondary)', fontSize: 14 }}>{titles[view]} is not part of this UI kit yet.</div>;
+  return (<>
+    <ConsoleShell view={view} setView={setView} held={held} title={titles[view]}
+      actions={view === 'overview' ? <Button size="sm" onClick={() => setView('guard')}>Review held actions</Button> : null}>{body}</ConsoleShell>
+    {toast && <div style={{ position: 'fixed', right: 24, bottom: 24, zIndex: 50 }}><Toast state={toast.state} title={toast.title} onClose={() => setToast(null)}>{toast.body}</Toast></div>}
+    {confirm && <Dialog title="Block this action?" confirm="Block action" danger onCancel={() => setConfirm(null)} onConfirm={() => { apply(confirm, 'block'); setConfirm(null); }}>
+      The agent stops and the requesting team is notified. The decision is signed and logged.</Dialog>}
+  </>);
+}
+DS917Ready.then(() => ReactDOM.createRoot(document.getElementById('root')).render(<App />));
+</script></body></html>
