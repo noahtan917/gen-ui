@@ -4,7 +4,7 @@ GenUI behavior is **one spec**; **presentation** depends on what the host can ru
 
 ## Canonical model output
 
-Always think in **GenUI JSON** ([`GENUI.md`](GENUI.md), [`contracts/`](contracts/)) plus the token file for [`defaultBrandPack`](session-config.json) under `branding/{id}/tokens.json` (unless the user explicitly requests another allowed pack) via `themeRef`. Adapters map that to the host UI.
+Always think in **GenUI JSON** ([`GENUI.md`](GENUI.md), [`contracts/`](contracts/)) plus the token file for [`defaultBrandPack`](session-config.json) under `branding/{id}/tokens.json` (unless the user explicitly requests another allowed pack) via `themeRef`. Adapters map that to the host UI. When [`session-config.json`](session-config.json) has `openuiOutput: true`, every chat reply also ends with one fenced OpenUI Lang program for the same UI.
 
 ## Profiles
 

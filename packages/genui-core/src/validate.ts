@@ -47,7 +47,7 @@ export function validateGenUIDocument(input: unknown): ValidationResult {
       "Ensure genuiVersion matches semver (e.g. 1.0.0).",
       "Button and Form components must include actionId referencing actions.",
       "Every actionId must exist in the actions map.",
-      "Use only allowlisted types: Stack, Text, Button, Card, Image, Form, Select.",
+      "Use only allowlisted types: Stack, Text, Button, Card, Image, Form, Select, Chart.",
     ],
   };
 }

@@ -31,6 +31,15 @@ describe("validateGenUIDocument", () => {
     expect(result.document?.genuiVersion).toBe("1.0.0");
   });
 
+  it("rejects a Chart without series", () => {
+    const result = validateGenUIDocument({
+      ...validDoc,
+      components: [{ id: "seats", type: "Chart", props: { ariaLabel: "Seats", data: [] } }],
+    });
+    expect(result.success).toBe(false);
+    expect(result.errors.some((error) => error.message.includes("series"))).toBe(true);
+  });
+
   it("rejects button without actionId", () => {
     const result = validateGenUIDocument({
       ...validDoc,

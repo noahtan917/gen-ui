@@ -32,6 +32,7 @@ const MAPPED_PROPS: Record<CatalogEntry["name"], string[]> = {
   Image: ["src", "alt"],
   Form: ["submitLabel"],
   Select: ["stateKey", "options", "label"],
+  Chart: ["chartType", "ariaLabel", "series", "data", "stateKey", "unit", "context"],
 };
 
 /** An OpenUI Lang source fragment, already serialized. */
@@ -116,6 +117,9 @@ export function genuiToOpenUILang(input: GenUIDocument): OpenUIExportResult {
   const stateKeys = new Set(Object.keys(initialState));
   walk(doc.components, (node) => {
     if (node.type === "Select") stateKeys.add(String(node.props.stateKey ?? node.id));
+    if (node.type === "Chart" && typeof node.props.stateKey === "string" && node.props.stateKey) {
+      stateKeys.add(node.props.stateKey);
+    }
   });
   for (const action of Object.values(doc.actions)) {
     if (action.type === "state.update") Object.keys(action.updates).forEach((k) => stateKeys.add(k));
@@ -206,6 +210,19 @@ export function genuiToOpenUILang(input: GenUIDocument): OpenUIExportResult {
           value: IDENTIFIER.test(key) ? new Expr(`$${key}`) : String(initialState[key] ?? ""),
           options: p.options ?? [],
           label: p.label,
+        };
+      }
+      case "Chart": {
+        const key = typeof p.stateKey === "string" ? p.stateKey : "";
+        return {
+          ariaLabel: p.ariaLabel ?? "Chart",
+          series: p.series ?? [],
+          data: p.data ?? [],
+          chartType: p.chartType,
+          unit: p.unit,
+          stateKey: key || undefined,
+          filter: key && IDENTIFIER.test(key) ? new Expr(`$${key}`) : undefined,
+          action: actionExpr(node),
         };
       }
     }

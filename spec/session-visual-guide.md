@@ -6,13 +6,18 @@ Provider-agnostic rules for **how** to show GenUI in conversation. Brand colors 
 
 1. Build valid GenUI JSON **internally** (`genuiVersion`, `actions`, `components`, `themeRef`).
 2. **Do not** lead with a raw JSON code block unless the user asks for JSON or schema output.
-3. Allowlisted components only: Stack, Text, Button, Card, Image, Form, Select.
+3. Allowlisted components only: Stack, Text, Button, Card, Image, Form, Select, Chart.
+4. After the visual, end every reply with one fenced `openui` block for that same UI. Dinner uses the reference OpenUI program. A chart uses a `Chart` program with the same series and rows.
 
 ## Brand application
 
 - Set `themeRef` to `{ "source": "<pack id>", "id": "<pack id>" }` matching the loaded token file.
 - Chat hosts do **not** read `themeRef` automatically — apply token **hex values** in markdown, HTML, Canvas, or Artifact inline styles.
 - Use **primary** for accents (titles, borders, buttons); **text** and **textMuted** for body copy; **surfaceDark** for header chrome when present.
+
+## Charts
+
+When the user asks to visualize, chart, graph, or compare quantities, include a `Chart` (`bar`, `column`, or `stacked-bar`) with `ariaLabel`, `series`, and `data`. A `Select` may share `stateKey` with the chart so the bars redraw for the chosen slice. Draw those bars in the host UI from the data (div widths or SVG). Do not load amCharts or any other chart script. Dinner requests stay on the reference document and do not add a chart.
 
 ## Reference scenario
 

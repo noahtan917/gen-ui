@@ -11,7 +11,7 @@
         "id": { "type": "string", "minLength": 1 },
         "type": {
           "type": "string",
-          "enum": ["Stack", "Text", "Button", "Card", "Image", "Form", "Select"]
+          "enum": ["Stack", "Text", "Button", "Card", "Image", "Form", "Select", "Chart"]
         },
         "actionId": { "type": "string", "minLength": 1 },
         "props": { "type": "object" },

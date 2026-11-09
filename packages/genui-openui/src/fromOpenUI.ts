@@ -38,7 +38,7 @@ const AST_KINDS = new Set([
 ]);
 const CATALOG_NAMES = new Set<string>(catalog.map((c) => c.name));
 const RETRY_HINTS = [
-  "Use only GenUI components: Stack, Text, Button, Card, Image, Form, Select.",
+  "Use only GenUI components: Stack, Text, Button, Card, Image, Form, Select, Chart.",
   "Actions may use @ToAssistant(message, context?) or @Set($var, value) only.",
   "@OpenUrl, @Run, @Reset, Query(), Mutation() and @functions are not allowed in GenUI.",
   "Select must bind its value to a $variable.",
@@ -342,6 +342,21 @@ class Converter {
           set("stateKey", String(binding.n).replace(/^\$/, ""));
           set("label", toLiteral(p.label, `${at}/label`));
           set("options", toLiteral(p.options, `${at}/options`));
+          break;
+        }
+        case "Chart": {
+          set("ariaLabel", toLiteral(p.ariaLabel, `${at}/ariaLabel`));
+          set("series", toLiteral(p.series, `${at}/series`));
+          set("data", toLiteral(p.data, `${at}/data`));
+          set("chartType", toLiteral(p.chartType, `${at}/chartType`));
+          set("unit", toLiteral(p.unit, `${at}/unit`));
+          const binding = p.filter as Node | undefined;
+          if (isAST(binding) && binding.k === "StateRef") {
+            set("stateKey", String(binding.n).replace(/^\$/, ""));
+          } else {
+            set("stateKey", toLiteral(p.stateKey, `${at}/stateKey`));
+          }
+          converted = this.convertAction(p.action, key, undefined, `${at}/action`);
           break;
         }
       }

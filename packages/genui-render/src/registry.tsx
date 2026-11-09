@@ -1,5 +1,6 @@
 import { buildInteractionContext, type GenUIComponent } from "@gen-ui/core";
-import type { ReactNode } from "react";
+import { Fragment, type ReactNode } from "react";
+import { renderChart } from "./chart.js";
 
 export interface RenderContext {
   onInteract: (
@@ -25,6 +26,7 @@ const ALLOWLIST = new Set([
   "Image",
   "Form",
   "Select",
+  "Chart",
 ]);
 
 export function isAllowlisted(type: string): boolean {
@@ -57,7 +59,9 @@ export const defaultRegistry: Record<string, ComponentRenderer> = {
           gap,
         }}
       >
-        {component.children?.map((child) => renderChild(child))}
+        {component.children?.map((child) => (
+          <Fragment key={child.id}>{renderChild(child)}</Fragment>
+        ))}
       </div>
     );
   },
@@ -101,7 +105,9 @@ export const defaultRegistry: Record<string, ComponentRenderer> = {
       <>
         {title ? <h3 className="genui-card__title">{title}</h3> : null}
         {subtitle ? <p className="genui-card__subtitle">{subtitle}</p> : null}
-        {component.children?.map((child) => renderChild(child))}
+        {component.children?.map((child) => (
+          <Fragment key={child.id}>{renderChild(child)}</Fragment>
+        ))}
       </>
     );
 
@@ -164,6 +170,10 @@ export const defaultRegistry: Record<string, ComponentRenderer> = {
     );
   },
 
+  Chart(component, ctx) {
+    return renderChart(component, ctx);
+  },
+
   Form(component, ctx, renderChild) {
     const actionId = component.actionId!;
     return (
@@ -184,7 +194,9 @@ export const defaultRegistry: Record<string, ComponentRenderer> = {
           );
         }}
       >
-        {component.children?.map((child) => renderChild(child))}
+        {component.children?.map((child) => (
+          <Fragment key={child.id}>{renderChild(child)}</Fragment>
+        ))}
         <button type="submit" className="genui-button">
           {String(component.props.submitLabel ?? "Submit")}
         </button>

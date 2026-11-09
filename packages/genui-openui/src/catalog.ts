@@ -64,8 +64,28 @@ export const selectProps = z.object({
   label: z.string().optional(),
 });
 
+const chartFilter = z.string().nullish();
+markReactive(chartFilter);
+
+export const chartProps = z.object({
+  ariaLabel: z.string(),
+  series: z.array(
+    z.object({
+      key: z.string(),
+      label: z.string(),
+      color: z.string().optional(),
+    }),
+  ),
+  data: z.array(z.record(z.string(), z.union([z.string(), z.number()]))),
+  chartType: z.enum(["bar", "column", "stacked-bar"]).nullish(),
+  unit: z.string().nullish(),
+  stateKey: z.string().nullish(),
+  filter: chartFilter,
+  action: action().nullish(),
+});
+
 export interface CatalogEntry {
-  name: "Stack" | "Text" | "Button" | "Card" | "Image" | "Form" | "Select";
+  name: "Stack" | "Text" | "Button" | "Card" | "Image" | "Form" | "Select" | "Chart";
   description: string;
   props: z.ZodObject;
 }
@@ -106,6 +126,12 @@ export const catalog: readonly CatalogEntry[] = [
     description: "Dropdown bound to a $variable, e.g. Select($cuisine, [{value: \"jp\", label: \"Japanese\"}], \"Cuisine\").",
     props: selectProps,
   },
+  {
+    name: "Chart",
+    description:
+      'Bar, column, or stacked-bar chart. series is [{key, label, color?}]; data rows include label and one number per series key. Pass filter as $stateKey (and the same stateKey string) to show only the selected rows. Optional action runs when a category is clicked.',
+    props: chartProps,
+  },
 ];
 
 nodeSchema = z.union([
@@ -116,6 +142,7 @@ nodeSchema = z.union([
   imageProps,
   formProps,
   selectProps,
+  chartProps,
 ]);
 
 /** Root component name for OpenUI programs (`root = Stack(...)`). */

@@ -3,11 +3,18 @@ import { genuiToOpenUILang } from "@gen-ui/openui";
 import { GenUIOpenUIRenderer } from "@gen-ui/openui/react";
 import { GenUIRenderer } from "@gen-ui/render";
 import { useCallback, useMemo, useRef, useState } from "react";
+import { chartDemoDocument } from "./chart-document.js";
 import { mealDemoDocument } from "./sample-document.js";
 import { useAssistantReply } from "./useAssistantReply.js";
 import "./app.css";
 
 type RenderFormat = "genui" | "openui";
+type Scenario = "meals" | "chart";
+
+const SCENARIOS: { id: Scenario; label: string; document: typeof mealDemoDocument }[] = [
+  { id: "meals", label: "Meals", document: mealDemoDocument },
+  { id: "chart", label: "Chart", document: chartDemoDocument },
+];
 
 const FORMATS: { id: RenderFormat; label: string }[] = [
   { id: "genui", label: "GenUI JSON" },
@@ -30,8 +37,10 @@ export function App() {
   );
 
   const [format, setFormat] = useState<RenderFormat>("genui");
+  const [scenario, setScenario] = useState<Scenario>("meals");
+  const activeDocument = SCENARIOS.find((item) => item.id === scenario)?.document ?? mealDemoDocument;
 
-  const validation = useMemo(() => validateGenUIDocument(mealDemoDocument), []);
+  const validation = useMemo(() => validateGenUIDocument(activeDocument), [activeDocument]);
   // Same document, converted to OpenUI Lang (openui.com) and rendered by OpenUI's runtime.
   const openui = useMemo(
     () => (validation.document ? genuiToOpenUILang(validation.document) : null),
@@ -98,10 +107,31 @@ export function App() {
       <header className="app-header">
         <span className="app-header__brand">917V</span>
         <h1>GenUI Demo</h1>
-        <p>917V Blue #2F63D6 — click a meal card and the assistant answers automatically.</p>
+        <p>
+          {scenario === "chart"
+            ? "917V Blue #2F63D6 — switch chamber and click a bar. Counts are sample data."
+            : "917V Blue #2F63D6 — click a meal card and the assistant answers automatically."}
+        </p>
       </header>
       <div className="app-grid">
         <section className="app-panel">
+          <div className="format-toggle" role="radiogroup" aria-label="Demo scenario">
+            {SCENARIOS.map(({ id, label, document }) => (
+              <button
+                key={id}
+                type="button"
+                role="radio"
+                aria-checked={scenario === id}
+                className={`format-toggle__option${scenario === id ? " format-toggle__option--active" : ""}`}
+                onClick={() => {
+                  setScenario(id);
+                  setUiState(document.state ?? {});
+                }}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
           <div className="format-toggle" role="radiogroup" aria-label="Render format">
             {FORMATS.map(({ id, label }) => (
               <button
@@ -118,12 +148,14 @@ export function App() {
           </div>
           {format === "genui" ? (
             <GenUIRenderer
+              key={scenario}
               document={validation.document}
               onAIRequest={onAIRequest}
               onStateChange={onGenUIState}
             />
           ) : (
             <GenUIOpenUIRenderer
+              key={scenario}
               code={openui?.code ?? null}
               themeRef={validation.document.themeRef}
               onAIRequest={onAIRequest}
@@ -147,7 +179,11 @@ export function App() {
               <pre className="assistant-reply__text">{replyText}</pre>
             </div>
           ) : (
-            <p className="muted">Click a meal card to get ingredients, steps, and timing.</p>
+            <p className="muted">
+              {scenario === "chart"
+                ? "Click a bar to explain that sample row."
+                : "Click a meal card to get ingredients, steps, and timing."}
+            </p>
           )}
           <details className="app-details">
             <summary>Request details</summary>

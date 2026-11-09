@@ -28,6 +28,7 @@ export function interpolatePrompt(
  * - Button: `props.context`
  * - Card: `meal`/`cuisine`/`title`/`subtitle` from the card, then UI state, then `props.context`
  * - Form: UI state, then submitted form fields
+ * - Chart: UI state, then `props.context`. The renderer adds the clicked row `label`.
  */
 export function buildInteractionContext(
   component: GenUIComponent,
@@ -50,6 +51,8 @@ export function buildInteractionContext(
     }
     case "Form":
       return { ...state, ...formFields };
+    case "Chart":
+      return { ...state, ...propsContext };
     default:
       return { ...propsContext };
   }

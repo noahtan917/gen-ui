@@ -58,6 +58,7 @@ Supported `type` values in v1:
 | `Image` | No | `src`, `alt` |
 | `Form` | **Yes** | `actionId` on submit |
 | `Select` | No | Bound to `stateKey` |
+| `Chart` | Optional | Quantitative view. `chartType`: `bar`, `column`, or `stacked-bar`. Requires `ariaLabel`, `series` (`{key, label, color?}[]`), and `data` (rows with `label` plus one number per series key). Optional `stateKey` shows only rows whose field equals `state[stateKey]` — pair it with a `Select` on the same key. Optional `unit`. Optional `actionId` fires `ai.request` when a category is clicked; the event context includes UI state and that row's `label`. Do not embed chart scripts. Default series colors start with brand primary `#2F63D6`, then `#DB6E4F`, `#8EA1BD`, `#52BCD5`, `#DA4E8F`. |
 
 Every node requires: `id`, `type`, `props`.
 
@@ -67,7 +68,7 @@ Interactive nodes **must** include `actionId` referencing a key in `actions`.
 
 1. Read [`branding-extraction.md`](branding-extraction.md) when targeting an existing website.
 2. Emit **only** JSON matching [`contracts/genui-document.schema.json`](contracts/genui-document.schema.json).
-3. Prefer composing `Stack` + `Card` + `Text` + `Button` over bespoke layouts.
+3. Prefer composing `Stack` + `Card` + `Text` + `Button` over bespoke layouts. Use `Chart` when the user asks to visualize, chart, graph, or compare quantities.
 4. Bind real behaviors: clicks must map to meaningful `ai.request` prompts with context.
 5. On validation errors, fix the document using error paths returned by the runtime.
 

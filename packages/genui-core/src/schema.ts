@@ -8,6 +8,7 @@ export const componentTypes = [
   "Image",
   "Form",
   "Select",
+  "Chart",
 ] as const;
 
 export type ComponentType = (typeof componentTypes)[number];
@@ -37,6 +38,56 @@ export const componentSchema: z.ZodType<GenUIComponent> = z.lazy(() =>
           message: `${component.type} requires actionId`,
           path: ["actionId"],
         });
+      }
+      if (component.type === "Chart") {
+        const ariaLabel = component.props.ariaLabel;
+        const series = component.props.series;
+        const data = component.props.data;
+        const chartType = component.props.chartType;
+        if (typeof ariaLabel !== "string" || ariaLabel.trim() === "") {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: "Chart requires props.ariaLabel",
+            path: ["props", "ariaLabel"],
+          });
+        }
+        if (!Array.isArray(series) || series.length === 0) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: "Chart requires props.series with at least one {key, label}",
+            path: ["props", "series"],
+          });
+        } else {
+          series.forEach((entry, index) => {
+            const item = entry as { key?: unknown; label?: unknown };
+            if (!item || typeof item.key !== "string" || typeof item.label !== "string") {
+              ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: "Each Chart series needs string key and label",
+                path: ["props", "series", index],
+              });
+            }
+          });
+        }
+        if (!Array.isArray(data)) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: "Chart requires props.data to be an array of rows",
+            path: ["props", "data"],
+          });
+        }
+        if (
+          chartType !== undefined &&
+          chartType !== "bar" &&
+          chartType !== "column" &&
+          chartType !== "stacked-bar"
+        ) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: 'Chart chartType must be "bar", "column", or "stacked-bar"',
+            path: ["props", "chartType"],
+          });
+        }
       }
     }),
 );

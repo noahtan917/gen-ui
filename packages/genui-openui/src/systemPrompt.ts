@@ -3,7 +3,8 @@ import { genuiSchemaLibrary } from "./library.js";
 
 /** GenUI safety rules layered on top of OpenUI's generated prompt. */
 export const GENUI_OPENUI_RULES: readonly string[] = [
-  "Use only the GenUI components listed above: Stack, Text, Button, Card, Image, Form, Select.",
+  "Use only the GenUI components listed above: Stack, Text, Button, Card, Image, Form, Select, Chart.",
+  "Use Chart for visualize, chart, graph, or compare-quantities requests. chartType is bar, column, or stacked-bar. Do not load a chart library.",
   "Allowed action steps are @ToAssistant(message, context?) and @Set($var, value). Never use @OpenUrl, @Run, @Reset, Query() or Mutation().",
   "Every clickable Card, Button and Form must have an action. @ToAssistant messages must be complete, specific prompts (for example \"Help me cook Miso ramen (Japanese): ingredients, steps, total time.\").",
   "Put structured data for the assistant in the @ToAssistant context object, e.g. {meal: \"Miso ramen\", cuisine: \"Japanese\"}.",

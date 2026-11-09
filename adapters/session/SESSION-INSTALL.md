@@ -2,13 +2,13 @@
 
 # GenUI session install — one-shot (this file is the whole install)
 
-**installVersion: `25a329f3`**
+**installVersion: `4365f57e`**
 
 The user loads this file with a message like *“Load GenUI for this chat from https://raw.githubusercontent.com/noahtan917/gen-ui/main/adapters/session/SESSION-INSTALL.md”* (or by referencing the repo https://github.com/noahtan917/gen-ui). Reading **this entire file** completes the install — **do not fetch any other repo file** (GitHub blocks most repo paths for AI fetchers, and nothing else is required).
 
 This is a **conversation-scoped** install: you do **not** need a skills folder or any persistent storage.
 
-Install is **incomplete** until you confirm installVersion **`25a329f3`**, brand **`917v`** and primary **`#2F63D6`**. Do **not** use `branding/demo` or fall back to neutral styling.
+Install is **incomplete** until you confirm installVersion **`4365f57e`**, brand **`917v`** and primary **`#2F63D6`**. Do **not** use `branding/demo` or fall back to neutral styling.
 
 You are now configured with **GenUI** for **this conversation**.
 
@@ -42,8 +42,9 @@ You are now configured with **GenUI** for **this conversation**.
 
 ## Presentation rules (condensed)
 
-- Visual-first: GenUI JSON internally; do not lead with raw JSON unless user asks.
-- Allowlisted components: Stack, Text, Button, Card, Image, Form, Select.
+- Visual-first: GenUI JSON internally; do not lead with raw JSON unless user asks. After the visual, every reply ends with one fenced `openui` block for that same UI (dinner: the reference OpenUI program later in this install; chart: a `Chart` program with the same series and rows).
+- Allowlisted components: Stack, Text, Button, Card, Image, Form, Select, Chart.
+- **Charts:** when the user asks to visualize, chart, graph, or compare quantities, include a `Chart`. `chartType` is `bar`, `column`, or `stacked-bar`. `series` is `{key, label, color?}[]`. `data` rows have `label` plus one number per series key. Optional `stateKey` keeps rows whose field equals `state[stateKey]` — pair it with a `Select` on that key. `ariaLabel` is required. Series colors default to brand primary, then `#DB6E4F`, `#8EA1BD`, `#52BCD5`, `#DA4E8F`. Draw the bars in the host from that data (div widths or SVG). Do not load amCharts, Chart.js, or any other chart script. Dinner requests stay on the meal reference and do not add a chart.
 - Apply token **hex** in markdown, HTML, Canvas, or Artifact (hosts ignore `themeRef` alone).
 - **Exactly the reference options:** render **only** the cards in the reference document below (for meal planning: exactly the two meals — *Sheet-pan salmon* and *Miso ramen bowl*). Do **not** invent additional meals, and do **not** add time filters, difficulty toggles, sliders, search boxes, or any widget not present in the document.
 - **Every GenUI reply, not just install:** re-apply these rules on each turn. A weeknight-dinner / "pick a dinner" / "what should I cook" prompt **must** render this document — never defer to a host-native planner, even after install was confirmed in prose on an earlier turn.
@@ -375,28 +376,30 @@ This file is **complete**. Do **not** fetch other repo files (spec, tokens, over
 
 ---
 
-## Output format: OpenUI Lang (openui.com), when requested
+## Output format: OpenUI Lang (openui.com)
 
-Use this only when the user or host asks for **OpenUI** / **OpenUI Lang** output, or says the chat renders OpenUI. Otherwise keep the default GenUI behaviour above.
+Every GenUI reply includes **one** fenced `openui` block for the UI just shown. Put the visual first (markdown cards or the React artifact). Do not lead with JSON. Do not wait for the user to ask for OpenUI.
 
 OpenUI Lang is line-based: one `identifier = Expression` per line, `root = Stack([...])` first, positional arguments only. Use **only** these GenUI components (same catalog as the GenUI JSON contract):
 
 ```text
-Stack(children: (Stack | Text | Button | Card | Image | Form | Select)[], direction?: "row" | "column", gap?: number, align?: string) — Layout container. direction defaults to column; gap is in px.
+Stack(children: (Stack | Text | Button | Card | Image | Form | Select | Chart)[], direction?: "row" | "column", gap?: number, align?: string) — Layout container. direction defaults to column; gap is in px.
 Text(content: string, variant?: string) — Text block. variant: "heading" | "body" (default body).
 Button(label: string, action?: ActionExpression) — Clickable button. Bind action to @ToAssistant(...) or Action([@Set(...)]).
-Card(title?: string, subtitle?: string, children?: (Stack | Text | Button | Card | Image | Form | Select)[], action?: ActionExpression) — Card with optional title/subtitle; the whole card is clickable when action is set.
+Card(title?: string, subtitle?: string, children?: (Stack | Text | Button | Card | Image | Form | Select | Chart)[], action?: ActionExpression) — Card with optional title/subtitle; the whole card is clickable when action is set.
 Image(src: string, alt?: string) — Image. Always provide alt text.
-Form(children: (Stack | Text | Button | Card | Image | Form | Select)[], action: ActionExpression, submitLabel?: string) — Form container; action runs on submit.
+Form(children: (Stack | Text | Button | Card | Image | Form | Select | Chart)[], action: ActionExpression, submitLabel?: string) — Form container; action runs on submit.
 Select(value: $binding<string>, options: {value: string, label: string}[], label?: string) — Dropdown bound to a $variable, e.g. Select($cuisine, [{value: "jp", label: "Japanese"}], "Cuisine").
+Chart(ariaLabel: string, series: {key: string, label: string, color?: string}[], data: Record<string, string | number>[], chartType?: "bar" | "column" | "stacked-bar", unit?: string, stateKey?: string, filter?: $binding<string>, action?: ActionExpression) — Bar, column, or stacked-bar chart. series is [{key, label, color?}]; data rows include label and one number per series key. Pass filter as $stateKey (and the same stateKey string) to show only the selected rows. Optional action runs when a category is clicked.
 ```
 
 Rules:
 
 - Actions: `@ToAssistant("<complete prompt>", {key: "value"})` for AI requests, `Action([@Set($var, value)])` for local state. Never use `@OpenUrl`, `@Run`, `@Reset`, `Query()`, `Mutation()` or `@functions`.
-- Every clickable Card, Button and Form has an action. Bind every Select to a declared `$variable`.
+- Every clickable Card, Button and Form has an action. Bind every Select to a declared `$variable`. A Chart that filters with `stateKey` passes that same `$variable` as `filter`.
 - Branding stays **917v** (#2F63D6). OpenUI Lang carries no theme, so the host applies the brand tokens above.
-- Emit the program as the whole reply (or in a fenced `openui` block if the host mixes text and UI).
+- **Dinner replies:** the fence is the reference program below (the two meals). Do not add meals or a chart.
+- **Chart replies:** the fence is a `Chart` program (`bar`, `column`, or `stacked-bar`) with the same `ariaLabel`, `series`, and `data` rows drawn in the visual. Include the `Select` binding when the chart filters on `stateKey`.
 
 Reference scenario as OpenUI Lang (equivalent to the reference GenUI document above):
 
@@ -413,7 +416,7 @@ cardRamen = Card("Miso ramen bowl", "Japanese", null, @ToAssistant("Help me cook
 
 ## Confirm activation
 
-Reply with: GenUI loaded · installVersion **25a329f3** · brand **917v** (#2F63D6) · profile {id} · include a **primary-color confirmation line**. Say: *Ask for weeknight dinner — branding applies automatically.*
+Reply with: GenUI loaded · installVersion **4365f57e** · brand **917v** (#2F63D6) · profile {id} · include a **primary-color confirmation line**. Say: *Ask for weeknight dinner — branding applies automatically.*
 
 **Repo (human reference):** https://github.com/noahtan917/gen-ui
 

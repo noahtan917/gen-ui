@@ -1,6 +1,6 @@
 ---
 name: genui
-description: Renders GenUI interactive option pickers as a branded custom React Artifact (brand {{BRAND_ID}}, primary {{PRIMARY_HEX}}). Use whenever the user asks to pick, choose, or plan between options such as "help me pick a weeknight dinner" or "what should I cook", or mentions GenUI. Always build the custom Artifact from the inlined reference document instead of Claude's built-in meal or recipe planner.
+description: Renders GenUI option pickers and charts as branded UI (brand {{BRAND_ID}}, primary {{PRIMARY_HEX}}). Use when the user asks to pick or plan between options such as a weeknight dinner, or to visualize, chart, graph, or compare quantities, or mentions GenUI. Dinner prompts use the inlined meal reference. Chart prompts use a Chart component drawn in the host, never a third-party chart script or a host-native planner.
 ---
 
 <!-- GENERATED: do not edit; run pnpm generate:session-artifacts -->

@@ -28,6 +28,7 @@ const INTERACTIVITY: Record<CatalogEntry["name"], Interactivity> = {
   Text: "never",
   Image: "never",
   Select: "never",
+  Chart: "ifAction",
   // OpenUI convention: a Button without an action sends its label.
   Button: "always",
   Card: "ifAction",
@@ -84,6 +85,34 @@ function adapt(type: CatalogEntry["name"]) {
   return GenUIOpenUIComponent;
 }
 
+/** Chart reads `filter` as the OpenUI binding for `stateKey` and draws with the GenUI registry. */
+function GenUIOpenUIChart({ props, statementId }: ComponentRenderProps<Props>) {
+  const triggerAction = useTriggerAction();
+  const formName = useFormName();
+  const field = useStateField<string>("filter", props.filter as string);
+  const { action, filter: _filter, children: _children, ...rest } = props;
+  const stateKey = typeof rest.stateKey === "string" ? rest.stateKey : "";
+  const selected = field.value == null ? "" : String(field.value);
+  const component: GenUIComponent = {
+    id: statementId ?? "chart",
+    type: "Chart",
+    props: rest,
+    ...(action != null ? { actionId: "openui" } : {}),
+  };
+  const ctx: RenderContext = {
+    onInteract: (_actionId, _componentId, context) => {
+      void triggerAction(
+        typeof context.label === "string" && context.label ? context.label : "Chart",
+        formName,
+        action as Parameters<typeof triggerAction>[2],
+      );
+    },
+    state: stateKey ? { [stateKey]: selected } : NO_STATE,
+    setStateKey: noop,
+  };
+  return <>{defaultRegistry.Chart(component, ctx, () => null)}</>;
+}
+
 /** Select binds its value to an OpenUI `$variable` (two-way). */
 function GenUIOpenUISelect({ props, statementId }: ComponentRenderProps<Props>) {
   const field = useStateField<string>("value", props.value as string);
@@ -112,7 +141,8 @@ export const genuiOpenUILibrary = createLibrary({
       name: entry.name,
       description: entry.description,
       props: entry.props,
-      component: entry.name === "Select" ? GenUIOpenUISelect : adapt(entry.name),
+      component:
+        entry.name === "Select" ? GenUIOpenUISelect : entry.name === "Chart" ? GenUIOpenUIChart : adapt(entry.name),
     }),
   ),
 });

@@ -30,7 +30,7 @@ Per-model findings: [LIMITATIONS-AND-CAUSES.md — Cross-provider test results](
 | Integration | Status | Entry | Notes |
 |-------------|--------|-------|-------|
 | OpenUI hosts (`@openuidev/react-lang`) | Supported (interop) | `@gen-ui/openui`, `@gen-ui/openui/react` | GenUI ↔ OpenUI Lang, GenUI component library, `onAction` → `onAIRequest`. Rules: [spec/openui-interop.md](../spec/openui-interop.md) |
-| Chat session OpenUI output | Enabled (installVersion `96b9f578`) | `openuiOutput: true` in `spec/session-config.json` | Generated session artifacts include an OpenUI Lang section, used only when the user asks for OpenUI output. Chat hosts show it as code, not rendered UI |
+| Chat session OpenUI output | Enabled | `openuiOutput: true` in `spec/session-config.json` | Every GenUI reply ends with one fenced OpenUI Lang program for the UI just shown. Chat hosts show that fence as code, not rendered UI |
 
 ## Capability distinction
 

@@ -36,6 +36,79 @@ describe("GenUIRenderer", () => {
     expect(onAIRequest.mock.calls[0][0].prompt).toContain("Mediterranean");
   });
 
+  it("filters a stacked bar chart from Select state and explains the clicked row", async () => {
+    const user = userEvent.setup();
+    const onAIRequest = vi.fn();
+    const chartDoc: GenUIDocument = {
+      genuiVersion: "1.0.0",
+      state: { chamber: "senate" },
+      actions: {
+        explainBar: {
+          type: "ai.request",
+          promptTemplate:
+            "Explain the {{label}} bar on the sample {{chamber}} seat chart. These counts are sample data, not a live tally.",
+          contextKeys: ["label", "chamber"],
+        },
+      },
+      components: [
+        {
+          id: "layout",
+          type: "Stack",
+          props: { direction: "column", gap: 12 },
+          children: [
+            {
+              id: "chamber",
+              type: "Select",
+              props: {
+                stateKey: "chamber",
+                label: "Chamber",
+                options: [
+                  { value: "senate", label: "Senate" },
+                  { value: "house", label: "House" },
+                ],
+              },
+            },
+            {
+              id: "seats",
+              type: "Chart",
+              actionId: "explainBar",
+              props: {
+                chartType: "stacked-bar",
+                ariaLabel: "Sample seat share before and after",
+                stateKey: "chamber",
+                unit: "seats",
+                series: [
+                  { key: "democrats", label: "Democrats" },
+                  { key: "republicans", label: "Republicans" },
+                ],
+                data: [
+                  { label: "Before", chamber: "senate", democrats: 47, republicans: 53 },
+                  { label: "After", chamber: "senate", democrats: 54, republicans: 44 },
+                  { label: "Before", chamber: "house", democrats: 213, republicans: 220 },
+                  { label: "After", chamber: "house", democrats: 214, republicans: 219 },
+                ],
+              },
+            },
+          ],
+        },
+      ],
+    };
+    render(<GenUIRenderer document={chartDoc} onAIRequest={onAIRequest} />);
+
+    expect(screen.getByRole("group", { name: /sample seat share/i })).toBeTruthy();
+    expect(screen.getByText("100 seats")).toBeTruthy();
+    expect(screen.getByText("98 seats")).toBeTruthy();
+
+    await user.selectOptions(screen.getByLabelText("Chamber"), "house");
+    expect(screen.getAllByText("433 seats")).toHaveLength(2);
+    expect(screen.queryByText("100 seats")).toBeNull();
+
+    await user.click(screen.getByRole("button", { name: /Before/i }));
+    expect(onAIRequest).toHaveBeenCalledOnce();
+    expect(onAIRequest.mock.calls[0][0].context.label).toBe("Before");
+    expect(onAIRequest.mock.calls[0][0].prompt).toContain("house");
+  });
+
   it("renders fallback for unknown type", () => {
     const badDoc = {
       ...mealDoc,

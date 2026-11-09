@@ -20,8 +20,9 @@
 
 ## Presentation rules (condensed)
 
-- Visual-first: GenUI JSON internally; do not lead with raw JSON unless user asks.
-- Allowlisted components: Stack, Text, Button, Card, Image, Form, Select.
+- Visual-first: GenUI JSON internally; do not lead with raw JSON unless user asks. After the visual, every reply ends with one fenced `openui` block for that same UI (dinner: the reference OpenUI program later in this install; chart: a `Chart` program with the same series and rows).
+- Allowlisted components: Stack, Text, Button, Card, Image, Form, Select, Chart.
+- **Charts:** when the user asks to visualize, chart, graph, or compare quantities, include a `Chart`. `chartType` is `bar`, `column`, or `stacked-bar`. `series` is `{key, label, color?}[]`. `data` rows have `label` plus one number per series key. Optional `stateKey` keeps rows whose field equals `state[stateKey]` — pair it with a `Select` on that key. `ariaLabel` is required. Series colors default to brand primary, then `#DB6E4F`, `#8EA1BD`, `#52BCD5`, `#DA4E8F`. Draw the bars in the host from that data (div widths or SVG). Do not load amCharts, Chart.js, or any other chart script. Dinner requests stay on the meal reference and do not add a chart.
 - Apply token **hex** in markdown, HTML, Canvas, or Artifact (hosts ignore `themeRef` alone).
 - **Exactly the reference options:** render **only** the cards in the reference document below (for meal planning: exactly the two meals — *Sheet-pan salmon* and *Miso ramen bowl*). Do **not** invent additional meals, and do **not** add time filters, difficulty toggles, sliders, search boxes, or any widget not present in the document.
 - **Every GenUI reply, not just install:** re-apply these rules on each turn. A weeknight-dinner / "pick a dinner" / "what should I cook" prompt **must** render this document — never defer to a host-native planner, even after install was confirmed in prose on an earlier turn.

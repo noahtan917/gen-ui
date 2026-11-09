@@ -1,4 +1,7 @@
-import type { AIRequestPayload } from "@gen-ui/core";
+import type { AIRequestPayload, GenUIDocument } from "@gen-ui/core";
+import { genuiToOpenUILang } from "@gen-ui/openui";
+import { chartDemoDocument } from "./chart-document.js";
+import { mealDemoDocument } from "./sample-document.js";
 
 type Ingredient = { qty: number; text: string };
 
@@ -62,14 +65,40 @@ function ingredientLines(items: Ingredient[], servings: number): string {
   return items.map((item) => `- ${formatQty(item.qty * servings)} ${item.text}`).join("\n");
 }
 
+function openuiProgram(document: GenUIDocument): string {
+  return genuiToOpenUILang(document).code.trimEnd();
+}
+
+const MEAL_OPENUI = openuiProgram(mealDemoDocument);
+const CHART_OPENUI = openuiProgram(chartDemoDocument);
+
+function withOpenUI(prose: string, program: string): string {
+  return `${prose}\n\n\`\`\`openui\n${program}\n\`\`\``;
+}
+
 function buildReply(payload: AIRequestPayload): string {
+  if (typeof payload.context.chamber === "string" && payload.prompt.includes("seat chart")) {
+    const chamber = payload.context.chamber;
+    const label = String(payload.context.label ?? "the chart");
+    return withOpenUI(
+      `Sample ${chamber} chart · ${label}
+
+The bars are drawn by the Chart component from the document's series and rows. Democrats, Republicans, and uncalled or vacant seats stay in that order.
+
+These counts are sample data for the demo, not a live news tally.
+
+(Resolved from prompt: ${payload.prompt})`,
+      CHART_OPENUI,
+    );
+  }
   const meal = String(payload.context.meal ?? "your meal");
   const cuisine = String(payload.context.cuisine ?? "home-style");
   const servings = servingsOf(payload);
   const heading = servings === 1 ? "1 serving" : `${formatQty(servings)} servings`;
   const recipe = MEAL_RECIPES[meal];
   if (recipe) {
-    return `Weeknight plan: ${meal} (${cuisine})
+    return withOpenUI(
+      `Weeknight plan: ${meal} (${cuisine})
 
 Ingredients (${heading})
 ${ingredientLines(recipe.ingredients, servings)}
@@ -77,9 +106,12 @@ ${ingredientLines(recipe.ingredients, servings)}
 Steps
 ${recipe.steps}
 
-${recipe.time}`;
+${recipe.time}`,
+      MEAL_OPENUI,
+    );
   }
-  return `Weeknight plan: ${meal} (${cuisine})
+  return withOpenUI(
+    `Weeknight plan: ${meal} (${cuisine})
 
 I'll keep this flexible since this demo only has full scripts for salmon and ramen.
 
@@ -96,7 +128,9 @@ Steps
 
 Total time: about 30–40 minutes for a typical weeknight.
 
-(Resolved from prompt: ${payload.prompt})`;
+(Resolved from prompt: ${payload.prompt})`,
+    MEAL_OPENUI,
+  );
 }
 
 function sleep(ms: number, signal?: AbortSignal): Promise<void> {

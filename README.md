@@ -23,7 +23,7 @@ pnpm test
 pnpm demo
 ```
 
-Open the demo at the URL Vite prints (default `http://localhost:5173`). **917V brand** (blue `#2F63D6`, light header) — click **Sheet-pan salmon** and the **Assistant** panel streams a weeknight cooking plan automatically (demo mock, no API key).
+Open the demo at the URL Vite prints (default `http://localhost:5173`). **917V brand** (blue `#2F63D6`, light header) — **Meals** shows the dinner cards; click **Sheet-pan salmon** and the **Assistant** panel streams a weeknight cooking plan (demo mock, no API key). **Chart** draws a sample stacked bar chart and redraws it when you change chamber.
 
 Chat skill install generates branded UI in the host’s chat; **click → auto-answer** requires this reference host (`pnpm demo`) or your product’s `react-host` integration.
 

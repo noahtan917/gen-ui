@@ -17,6 +17,7 @@ OpenUI programs use a GenUI library whose components have the **same names** as 
 | `Image` | `Image(src, alt?)` |
 | `Form` | `Form(children, action, submitLabel?)` |
 | `Select` | `Select($binding, options, label?)`, where `value` is a two-way `$variable` binding |
+| `Chart` | `Chart(ariaLabel, series, data, chartType?, unit?, stateKey?, filter?, action?)`. `filter` is the `$variable` for `stateKey`. |
 
 The generated signature list is in [`adapters/session/examples/openui-signatures.txt`](../adapters/session/examples/openui-signatures.txt) (a golden file).
 
@@ -41,7 +42,7 @@ The generated signature list is in [`adapters/session/examples/openui-signatures
 
 Allowed:
 
-- the seven catalog components
+- the GenUI catalog components (`Stack`, `Text`, `Button`, `Card`, `Image`, `Form`, `Select`, `Chart`)
 - string, number, boolean, null, array and object literals
 - `$variables` and `+` string concatenation
 - `@ToAssistant`, and the legacy `{type: "continue_conversation"}` object

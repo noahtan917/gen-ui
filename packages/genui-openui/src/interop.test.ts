@@ -93,6 +93,51 @@ const servingsDoc: GenUIDocument = {
 };
 
 describe("GenUI → OpenUI Lang", () => {
+  it("round-trips a Chart filtered by Select state", () => {
+    const doc: GenUIDocument = {
+      genuiVersion: "1.0.0",
+      state: { chamber: "senate" },
+      actions: {
+        explainBar: {
+          type: "ai.request",
+          promptTemplate: "Explain the {{label}} bar on the sample {{chamber}} seat chart.",
+        },
+      },
+      components: [
+        {
+          id: "seats",
+          type: "Chart",
+          actionId: "explainBar",
+          props: {
+            chartType: "stacked-bar",
+            ariaLabel: "Sample seats",
+            stateKey: "chamber",
+            series: [{ key: "democrats", label: "Democrats", color: "#2F63D6" }],
+            data: [
+              { label: "Before", chamber: "senate", democrats: 47 },
+              { label: "Before", chamber: "house", democrats: 213 },
+            ],
+          },
+        },
+      ],
+    };
+    const exported = genuiToOpenUILang(doc);
+    expect(exported.code).toContain("$chamber");
+    const imported = openUILangToGenUI(exported.code);
+    expect(imported.errors).toEqual([]);
+    const chart = imported.document!.components[0];
+    expect(chart).toMatchObject({
+      type: "Chart",
+      actionId: "explainBar",
+      props: {
+        stateKey: "chamber",
+        chartType: "stacked-bar",
+        series: doc.components[0].props.series,
+        data: doc.components[0].props.data,
+      },
+    });
+  });
+
   it("matches the golden OpenUI program for the reference meal document", () => {
     const { code, warnings } = genuiToOpenUILang(mealDoc);
     expectGolden("meal-planning.openui", code);
@@ -219,7 +264,7 @@ describe("OpenUI-native programs", () => {
     ['root = Stack([b])\nb = Button("Go", Action([@ToAssistant("a"), @Set($x, "b")]))', /one action type/],
     ['root = Stack([s])\ns = Select("fixed", [])', /bound to a \$variable/],
     ['root = Stack([t])\nt = Text(@Count([1, 2]))', /Unsupported expression/],
-    ['root = Stack([Chart("x")])', /unknown-component/],
+    ['root = Stack([Gauge("x")])', /unknown-component/],
     ['root = Stack([f])\nf = Form([])', /missing-required/],
     ['root = Stack([t])\nq = Query("tool", {})\nt = Text("x")', /Query\(\) is not allowed/],
   ])("rejects unsupported construct %#", (code, message) => {
@@ -284,7 +329,7 @@ describe("system prompt", () => {
   it("lists every GenUI component signature and the GenUI safety rules", () => {
     const signatures = genuiOpenUISignatures();
     expectGolden("openui-signatures.txt", `${signatures}\n`);
-    for (const name of ["Stack", "Text", "Button", "Card", "Image", "Form", "Select"]) {
+    for (const name of ["Stack", "Text", "Button", "Card", "Image", "Form", "Select", "Chart"]) {
       expect(signatures).toMatch(new RegExp(`^${name}\\(`, "m"));
     }
     const prompt = genuiOpenUISystemPrompt();

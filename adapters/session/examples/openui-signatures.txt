@@ -1,7 +1,8 @@
-Stack(children: (Stack | Text | Button | Card | Image | Form | Select)[], direction?: "row" | "column", gap?: number, align?: string) — Layout container. direction defaults to column; gap is in px.
+Stack(children: (Stack | Text | Button | Card | Image | Form | Select | Chart)[], direction?: "row" | "column", gap?: number, align?: string) — Layout container. direction defaults to column; gap is in px.
 Text(content: string, variant?: string) — Text block. variant: "heading" | "body" (default body).
 Button(label: string, action?: ActionExpression) — Clickable button. Bind action to @ToAssistant(...) or Action([@Set(...)]).
-Card(title?: string, subtitle?: string, children?: (Stack | Text | Button | Card | Image | Form | Select)[], action?: ActionExpression) — Card with optional title/subtitle; the whole card is clickable when action is set.
+Card(title?: string, subtitle?: string, children?: (Stack | Text | Button | Card | Image | Form | Select | Chart)[], action?: ActionExpression) — Card with optional title/subtitle; the whole card is clickable when action is set.
 Image(src: string, alt?: string) — Image. Always provide alt text.
-Form(children: (Stack | Text | Button | Card | Image | Form | Select)[], action: ActionExpression, submitLabel?: string) — Form container; action runs on submit.
+Form(children: (Stack | Text | Button | Card | Image | Form | Select | Chart)[], action: ActionExpression, submitLabel?: string) — Form container; action runs on submit.
 Select(value: $binding<string>, options: {value: string, label: string}[], label?: string) — Dropdown bound to a $variable, e.g. Select($cuisine, [{value: "jp", label: "Japanese"}], "Cuisine").
+Chart(ariaLabel: string, series: {key: string, label: string, color?: string}[], data: Record<string, string | number>[], chartType?: "bar" | "column" | "stacked-bar", unit?: string, stateKey?: string, filter?: $binding<string>, action?: ActionExpression) — Bar, column, or stacked-bar chart. series is [{key, label, color?}]; data rows include label and one number per series key. Pass filter as $stateKey (and the same stateKey string) to show only the selected rows. Optional action runs when a category is clicked.

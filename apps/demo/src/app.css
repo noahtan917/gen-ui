@@ -282,6 +282,137 @@
   color: var(--text-primary);
 }
 
+.genui-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+  color: var(--text-primary);
+  font-family: var(--font-text);
+  font-size: 13px;
+}
+
+.genui-chart__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+}
+
+.genui-chart__legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.genui-chart__swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+.genui-chart__rows {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.genui-chart__row,
+.genui-chart__column-button {
+  display: grid;
+  grid-template-columns: 88px minmax(0, 1fr) 72px;
+  gap: 8px;
+  align-items: center;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+}
+
+.genui-chart__row[type="button"],
+.genui-chart__column-button {
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+}
+
+.genui-chart__row[type="button"]:hover,
+.genui-chart__column-button:hover {
+  background: var(--surface-page);
+}
+
+.genui-chart__label,
+.genui-chart__value,
+.genui-chart__tick {
+  font-variant-numeric: tabular-nums;
+}
+
+.genui-chart__value {
+  text-align: right;
+  font-family: var(--font-display);
+  font-weight: var(--weight-semibold);
+}
+
+.genui-chart__tracks {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.genui-chart__track {
+  display: flex;
+  height: 14px;
+  overflow: hidden;
+  background: var(--surface-page);
+  border-radius: 0 4px 4px 0;
+}
+
+.genui-chart__segment {
+  display: block;
+  height: 100%;
+  min-width: 0;
+}
+
+.genui-chart__columns {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  height: 180px;
+}
+
+.genui-chart__column,
+.genui-chart__column-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  height: 100%;
+  min-width: 48px;
+  grid-template-columns: none;
+}
+
+.genui-chart__column-plot {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  height: 140px;
+}
+
+.genui-chart__column-bar {
+  display: block;
+  width: 14px;
+  border-radius: 4px 4px 0 0;
+}
+
+.genui-chart__empty {
+  margin: 0;
+  color: var(--text-secondary);
+}
+
 .format-toggle {
   display: inline-flex;
   gap: var(--space-1);
