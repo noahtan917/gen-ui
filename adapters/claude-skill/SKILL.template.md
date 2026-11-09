@@ -5,12 +5,14 @@ description: Renders GenUI option pickers and charts as branded UI (brand {{BRAN
 
 <!-- GENERATED: do not edit; run pnpm generate:session-artifacts -->
 
-# GenUI (Claude Skill)
+# GenUI
 
 **installVersion: `{{INSTALL_VERSION}}`**
 
-This is the persistent form of the GenUI session install (same rules as `adapters/session/SESSION-INSTALL.md` in {{REPO_URL}}). Everything required is inlined below — do **not** fetch anything from GitHub.
+This file is the skill. Reading it finishes activation. Do **not** fetch other repo files and do **not** load `SESSION-INSTALL.md`. Do **not** use `demo` or `youtube`. Brand is **{{BRAND_ID}}**, primary **{{PRIMARY_HEX}}**.
 
-**As a Skill:** skip the “Confirm activation” step below unless the user asks whether GenUI is active (then reply with the confirmation line including installVersion **{{INSTALL_VERSION}}**). Go straight to rendering the reference Artifact for option-picking prompts.
+When the user said “install this skill for this session” with {{REPO_URL}}, or pasted this file and said “Use this skill”, reply once with: GenUI loaded · installVersion **{{INSTALL_VERSION}}** · brand **{{BRAND_ID}}** ({{PRIMARY_HEX}}) · profile {id} · and a primary-color line. Then wait for their request.
+
+**Uploaded Skill:** skip that confirmation unless the user asks whether GenUI is active. Go straight to rendering the reference Artifact for option-picking prompts.
 
 {{BODY}}

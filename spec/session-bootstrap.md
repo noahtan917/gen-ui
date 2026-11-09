@@ -1,27 +1,25 @@
 # Session bootstrap (all chat / web GenAI providers)
 
-Single install flow for **this conversation**. One user message is enough — **no follow-up commands** for brand, spec, or tokens.
+Single skill load for **this conversation**. One user message is enough — **no follow-up commands** for brand, spec, or tokens.
 
 ## Trigger (minimal — this is all the user should need)
 
 ```text
-Load GenUI for this chat from https://raw.githubusercontent.com/noahtan917/gen-ui/main/adapters/session/SESSION-INSTALL.md
+install this skill for this session https://github.com/noahtan917/gen-ui
 ```
 
-The **raw URL must be in the user message** (OpenSpec 005): hosts such as Claude web only fetch URLs the user supplied or that appeared in earlier results, and GitHub's `robots.txt` blocks `/tree/`, `/raw/`, `/commits/` for AI fetchers. A bare repo URL (`{REPO_URL}`) is still honored, but is not reliable.
+Claude opens root [SKILL.md](../SKILL.md) from that repository URL. GitHub’s `robots.txt` blocks `/tree/`, `/raw/`, and `/commits/` for AI fetchers and allows the `SKILL.md` blob. Do **not** send the user to `adapters/session/SESSION-INSTALL.md` on `main` — that URL is cached and has served an old YouTube brand.
 
 Optional: `Provider: chatgpt-web` (only if auto-detect is wrong).  
 **Do not require** `Brand:`, extra load commands, or paste instructions — those are automatic (see [ON-INSTALL.md](../adapters/session/ON-INSTALL.md)).
 
-## Primary install path (fetch-capable hosts)
+## Primary path (fetch-capable hosts)
 
-When the user sends the raw URL (or references `{REPO_URL}`), the model **must** fetch and read **in full**:
+When the user sends the prompt above, the model **must** read root `SKILL.md` **in full**.
 
-`https://raw.githubusercontent.com/{owner}/{repo}/main/adapters/session/SESSION-INSTALL.md`
+That generated file inlines [session-config.json](session-config.json), brand tokens, reference scenario, reference Artifact layout, provider overlays, and presentation rules. It is the **whole** skill — **no further fetches**. **Do not** browse the repo piecemeal, and **do not** load `SESSION-INSTALL.md`.
 
-That generated file inlines [session-config.json](session-config.json), brand tokens, reference scenario, reference Artifact layout, provider overlays, and presentation rules. It is the **whole** install — **no further fetches**. **Do not** browse the repo piecemeal or install from `GENUI.md` alone.
-
-Install is **invalid** if the model cannot confirm `installVersion`, `defaultBrandPack`, and token **primary** from that artifact. A mismatched `installVersion` means a stale cached copy — re-load from a commit-pinned raw URL (`.../gen-ui/<sha>/adapters/session/SESSION-INSTALL.md`) or paste.
+Install is **invalid** if the model cannot confirm `installVersion`, brand **917v**, and token **primary** `#2F63D6` from that file. A mismatched `installVersion` means a stale cached copy — use a commit-pinned blob (`https://github.com/noahtan917/gen-ui/blob/<sha>/SKILL.md`) or paste root `SKILL.md`.
 
 ## Configuration (SSOT for maintainers)
 
@@ -30,14 +28,14 @@ Edit [session-config.json](session-config.json) and `branding/{defaultBrandPack}
 | Field | Purpose |
 |-------|---------|
 | `defaultBrandPack` | Active brand for all providers |
-| `forbiddenBrandPacks` | Never use for session (e.g. legacy `demo`) |
+| `forbiddenBrandPacks` | Never use for chat (e.g. legacy `demo`). `youtube` is an older pack and is also forbidden |
 | `referenceDocument` | Default scenario JSON |
 
-Generated outputs: `SESSION-INSTALL.md`, `PASTE-BUNDLE.md`, `adapters/claude-skill/genui/SKILL.md`, `adapters/claude-skill/genui.zip`. `pnpm lint:adapters` fails if any is out of sync.
+Generated outputs: root `SKILL.md`, `SESSION-INSTALL.md`, `PASTE-BUNDLE.md`, `adapters/claude-skill/genui/SKILL.md`, `adapters/claude-skill/genui.zip`. Root `SKILL.md` and the Claude skill file are the same body. `pnpm lint:adapters` fails if any is out of sync.
 
 ## Paste path (no GitHub fetch)
 
-**Gemini chat**, or any host whose fetch fails: user pastes [PASTE-BUNDLE.md](../adapters/session/PASTE-BUNDLE.md) (same generated body as SESSION-INSTALL).
+**Gemini chat**, or any host whose fetch fails: user pastes root [SKILL.md](../SKILL.md) and says `Use this skill.`
 
 ## Persistent path (Claude web)
 
@@ -45,10 +43,10 @@ Upload generated [adapters/claude-skill/genui.zip](../adapters/claude-skill/genu
 
 ## Automatic on install (mandatory for the model)
 
-1. Load **SESSION-INSTALL.md** (fetch) or **PASTE-BUNDLE.md** (paste) in full.
+1. Read root **SKILL.md** (fetch the blob, or the user’s paste) in full.
 2. **Provider:** infer overlay (`claude-web`, `chatgpt-web`, `gemini-app`, …).
-3. **Presentation:** rules inside the artifact + [session-visual-guide.md](session-visual-guide.md) if fetched optionally.
-4. **Host limits:** [adapters/session/providers/{provider_id}.md](../adapters/session/providers/) — capabilities only.
+3. **Presentation:** rules inside the skill. Do not fetch [session-visual-guide.md](session-visual-guide.md).
+4. **Host limits:** overlays are inlined in the skill. Do not fetch [adapters/session/providers/](../adapters/session/providers/).
 
 ## Deep load (coding agents / debugging only — never in chat install)
 
@@ -60,18 +58,19 @@ Coding agents with a local checkout may read:
 4. `adapters/session/interactive-ui-guide.md`
 5. `adapters/session/providers/{provider_id}.md`
 
-Chat hosts must **not** fetch these — everything needed is inlined in the one-shot artifact.
+Chat hosts must **not** fetch these — everything needed is inlined in root `SKILL.md`.
 
 ## After load (confirmation)
 
-- GenUI loaded · installVersion · brand **{defaultBrandPack}** · profile {id}
-- Visible **primary** color from loaded tokens
-- Do **not** ask user to enable branding or reload spec
+- GenUI loaded · installVersion · brand **917v** · profile {id}
+- Visible **primary** `#2F63D6`
+- Do **not** ask the user to enable branding or reload spec
+- Do **not** use `demo` or `youtube`
 
 ## Session rules (provider-agnostic)
 
-1. **SSOT:** one-shot artifact for chat install; config file for repo maintenance.
-2. **Branding:** `defaultBrandPack` unless user explicitly requests another allowed pack.
+1. **SSOT:** root `SKILL.md` for chat; config file for repo maintenance.
+2. **Branding:** `defaultBrandPack` unless the user explicitly requests another allowed pack.
 3. **Interaction-first:** `ai.request` + **Send this next:**
 4. **Reference scenario:** `referenceDocument` in config.
 5. **Profile:** rendering profile + thin provider overlay.
@@ -80,5 +79,5 @@ Chat hosts must **not** fetch these — everything needed is inlined in the one-
 
 | Context | Entry |
 |---------|--------|
-| Chat / web GenAI | SESSION-INSTALL or PASTE-BUNDLE + `adapters/session/` |
+| Chat / web GenAI | Root [SKILL.md](../SKILL.md) |
 | Cursor / Claude Code / Gemini CLI | [adapters/README.md](../adapters/README.md) |

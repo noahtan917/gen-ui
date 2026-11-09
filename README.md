@@ -2,17 +2,17 @@
 
 Centralized engineering specification, JSON Schema contracts, provider adapters, and a reference runtime for interactive AI-generated user interfaces.
 
-## AI session install (Claude, ChatGPT, …)
+## Install the skill (Claude, ChatGPT, …)
 
-**Users:** send this one message (the raw URL must be in your message — GitHub blocks AI fetchers from browsing the repo):
+**Users:** send this one message:
 
 ```text
-Load GenUI for this chat from https://raw.githubusercontent.com/noahtan917/gen-ui/main/adapters/session/SESSION-INSTALL.md
+install this skill for this session https://github.com/noahtan917/gen-ui
 ```
 
-**AI assistants:** if asked to install GenUI from this repo, fetch and read **only** that file in full — it is the whole install. Do not browse other repo files; never use `branding/demo`.
+**AI assistants:** if asked to install this skill from this repo, read [SKILL.md](SKILL.md) only. It is the whole skill. Do not browse other repo files, do not load `SESSION-INSTALL.md`, and never use `demo` or `youtube`. Brand is **917v**, primary **#2F63D6**.
 
-**Claude web (persistent):** upload [adapters/claude-skill/genui.zip](adapters/claude-skill/genui.zip) as a Skill. **Fetch blocked / Gemini:** paste [PASTE-BUNDLE.md](adapters/session/PASTE-BUNDLE.md) ([guide](docs/install-gemini.md)). Details: [INSTALL-SKILL.md](INSTALL-SKILL.md).
+**Fetch blocked / Gemini:** paste [SKILL.md](SKILL.md) and say `Use this skill.` **Persistent on Claude web:** upload [adapters/claude-skill/genui.zip](adapters/claude-skill/genui.zip). Details: [INSTALL-SKILL.md](INSTALL-SKILL.md).
 
 ## Quick start
 
@@ -27,9 +27,9 @@ Open the demo at the URL Vite prints (default `http://localhost:5173`). **917V b
 
 Chat skill install generates branded UI in the host’s chat; **click → auto-answer** requires this reference host (`pnpm demo`) or your product’s `react-host` integration.
 
-## Chat / web GenAI (session install)
+## Chat / web GenAI
 
-One user prompt: [INSTALL-SKILL.md](INSTALL-SKILL.md) · One-shot artifact: [adapters/session/SESSION-INSTALL.md](adapters/session/SESSION-INSTALL.md) (raw URL above).
+One user prompt: [INSTALL-SKILL.md](INSTALL-SKILL.md) · Skill file: [SKILL.md](SKILL.md).
 
 Maintainers: [spec/session-config.json](spec/session-config.json) → `pnpm generate:session-artifacts` · Bootstrap: [spec/session-bootstrap.md](spec/session-bootstrap.md)
 
@@ -37,6 +37,7 @@ Maintainers: [spec/session-config.json](spec/session-config.json) → `pnpm gene
 
 | Path | Purpose |
 |------|---------|
+| [`SKILL.md`](SKILL.md) | Chat skill. The repo-URL prompt loads this file |
 | [`spec/`](spec/) | Authoritative GenUI specification and contracts |
 | [`adapters/session/`](adapters/session/) | Centralized chat session skill + per-provider overlays |
 | [`adapters/claude-skill/`](adapters/claude-skill/) | Generated Claude Skill (`genui.zip`) for persistent install on claude.ai |

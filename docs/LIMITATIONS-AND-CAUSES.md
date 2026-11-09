@@ -10,6 +10,8 @@ GenUI delivers **one specification** across many AI products, but **each chat ho
 
 This is a **platform capability gap**, not a failure of the centralized skill.
 
+**Current state:** chat install is root [`SKILL.md`](../SKILL.md). Prompt: `install this skill for this session https://github.com/noahtan917/gen-ui`. Brand is **917v**, primary **#2F63D6**. Do not use `demo` or `youtube`. Sections below that name YouTube red or `installVersion` `401e4c93` are the **5 Nov 2026** test log, when the session brand was still YouTube. They are not the live brand.
+
 ---
 
 ## Root cause #1 — Three different layers (often confused)
@@ -55,9 +57,9 @@ We document four profiles in [spec/rendering-profiles.md](../spec/rendering-prof
 
 | Observation | Cause | Mitigation |
 |-------------|-------|------------|
-| Gemini says it cannot clone/pull the repo | **No file fetch** from arbitrary URLs in chat | Paste [PASTE-BUNDLE.md](../adapters/session/PASTE-BUNDLE.md) or use a **Gem** with instructions |
-| Claude fails with repo URL (“robots disallowed”) | GitHub robots.txt + link-provenance + cache — see **L13** / root cause #8 | Raw SESSION-INSTALL URL in the message; Claude Skill zip; paste |
-| Skill not persistent in chat | Session-only unless **Skill / Project / Gem** | Claude: upload `adapters/claude-skill/genui.zip`; others: Gem or Project knowledge |
+| Gemini says it cannot clone/pull the repo | **No file fetch** from arbitrary URLs in chat | Paste root [SKILL.md](../SKILL.md) and say `Use this skill.`, or use a **Gem** with that file |
+| Claude serves an old brand from a cached file | GitHub robots.txt blocks folder browsing; a stable `main` raw URL can be cached — see **L13** / root cause #8 | Root `SKILL.md` via `install this skill for this session` plus the repo URL; paste that file if the `installVersion` is stale |
+| Skill not persistent in chat | Session-only unless **Skill / Project / Gem** | Claude: upload `adapters/claude-skill/genui.zip`; others: Gem or Project knowledge with root `SKILL.md` |
 
 ---
 
@@ -75,7 +77,7 @@ Observed behavior (raw URL, no paste): Gemini could not read the install, descri
 | No Artifact panel | JSON becomes the only “structured” artifact in the thread |
 | Enterprise/partner portals (e.g. Globe) | Same chat UI limits; may add policy banners |
 
-**Mitigation:** Always paste [PASTE-BUNDLE.md](../adapters/session/PASTE-BUNDLE.md) on Gemini. To hide the JSON, follow up with: *Don’t show JSON; markdown cards with Send this next only.* Proposed: change the Gemini overlay to “no JSON unless the user asks.”
+**Mitigation:** Always paste root [SKILL.md](../SKILL.md) on Gemini and say `Use this skill.` To hide the JSON, follow up with: *Don’t show JSON; markdown cards with Send this next only.* The Nov 5 paste used the YouTube pack; the current skill uses **917v**.
 
 ---
 
@@ -109,7 +111,7 @@ Observed behavior (raw URL, no paste): Gemini could not read the install, descri
 | # | Limitation | Cause | Mitigation / status |
 |---|------------|-------|---------------------|
 | L1 | Not identical UI across all AI chats | Host renderers differ | Rendering profiles + overlays |
-| L2 | Gemini cannot install from GitHub URL | No repo fetch in chat | PASTE-BUNDLE, Gem instructions |
+| L2 | Gemini cannot install from GitHub URL | No repo fetch in chat | Paste root `SKILL.md` |
 | L3 | Gemini appends the full JSON after the cards | “Optional” JSON allowed + no collapse in Gemini | Visual-first bundle; user follow-up prompt; proposed “no JSON unless asked” overlay |
 | L4 | No auto AI reply on click in markdown hosts | No shared runtime in chat | Chat-bridge; use **`pnpm demo`** for click→answer |
 | L5 | Chat ≠ coding agent | Cursor/CLI vs web chat | Separate adapter paths, same spec |
@@ -118,9 +120,9 @@ Observed behavior (raw URL, no paste): Gemini could not read the install, descri
 | L8 | v1 component allowlist | Security / validation | Extensible catalog in spec minor versions |
 | L9 | Enterprise Gemini variants | Partner policies, model tier | Test on exact portal you demo |
 | L10 | ChatGPT generic recipe UI | Host **native widgets** (images, badges) override GenUI; model improvises meals | Strict [chatgpt-web.md](../adapters/session/providers/chatgpt-web.md) overlay; user follow-up prompt; prefer `pnpm demo` for brand proof |
-| L11 | Partial repo browse on URL install | Host reads random spec files, skips tokens | Fetch [SESSION-INSTALL.md](../adapters/session/SESSION-INSTALL.md) one-shot; [README.md](../README.md) / [GENUI-SESSION.md](../GENUI-SESSION.md) hooks |
+| L11 | Partial repo browse on URL install | Host reads random spec files, skips tokens | Read root [SKILL.md](../SKILL.md) only. [README.md](../README.md) and [GENUI-SESSION.md](../GENUI-SESSION.md) say the same |
 | L12 | Claude web native interactive planner | Host ships a prefab meal UI (card grid, time filter, “Plan this” chips) instead of a custom Artifact; model invents meals; install rules not re-applied on later turns | Hardened install rules (exact reference options, rebuild Artifact every turn, forbidden-substitution list) + strict [claude-web.md](../adapters/session/providers/claude-web.md) overlay; drift-recovery prompt (root cause #7); prefer `pnpm demo` for proof |
-| L13 | Claude web cannot install from repo URL (“robots disallowed”, reads outdated files) | GitHub `robots.txt` blocks `/tree/`, `/raw/`, `/commits/` for AI fetchers; Claude only fetches user-supplied/previously-seen URLs; fetch results can be cached | Raw SESSION-INSTALL URL in the user message (self-contained, no follow-up fetch); `installVersion` stamp exposes stale copies; commit-pinned URL; Claude Skill zip; paste (root cause #8) |
+| L13 | Claude web can serve a stale skill (“robots disallowed”, old YouTube brand) | GitHub `robots.txt` blocks `/tree/`, `/raw/`, `/commits/` for AI fetchers; a stable `main` file URL can be cached. Before root `SKILL.md` existed, the repo-URL prompt browsed the tree and fell back to a cached `SESSION-INSTALL.md` (`401e4c93`, youtube) | Root `SKILL.md` (blob pages are allowed). Confirm `installVersion`. If it is stale, paste `SKILL.md` or use a commit-pinned blob |
 | L14 | Grok embellishes the reference picker (new heading, tagline, stock food photo) | Model optimizes for an appealing answer even after repeating the “no stock photos” rule; Markdown overlay doesn’t require the heading verbatim | Proposed: Markdown overlays require the document heading verbatim and forbid images not in the document; retest (root cause #9) |
 | L15 | OpenUI Lang cannot carry branding or every GenUI detail | OpenUI Lang has no theme/meta slot; positional catalog; GenUI safe-rendering forbids OpenUI's URL/tool actions | `themeRef`/`meta` passed out-of-band; `genui` provenance in `@ToAssistant` context keeps `ai.request` lossless; documented normalizations and rejections in [spec/openui-interop.md](../spec/openui-interop.md) |
 
@@ -184,7 +186,7 @@ Observed: *“Install the GenUI skill for this session from https://github.com/n
 | Outdated content | Fetch results can be served from cache, so fixes on `main` may not reach the model |
 | “Skills folder is read-only” | “Install the skill” wording targets Claude’s persistent Skills feature |
 
-**Mitigation (shipped, OpenSpec 005):** the install prompt carries the **raw** SESSION-INSTALL URL and says “load … for this chat”; SESSION-INSTALL inlines everything (reference layout, overlays) and forbids follow-up fetches; `installVersion` in the confirmation exposes stale copies (fix: commit-pinned URL); persistent install via generated Claude Skill (`adapters/claude-skill/genui.zip`); paste works on any host.
+**Mitigation (historical, OpenSpec 005):** a raw SESSION-INSTALL URL was the workaround while the skill lived off the repo root. That `main` URL is cached. **Current mitigation:** root `SKILL.md` and the prompt `install this skill for this session` plus the repo URL. `installVersion` in the confirmation still exposes a stale copy (fix: paste `SKILL.md`, or a commit-pinned blob). Persistent install remains the generated Claude Skill (`adapters/claude-skill/genui.zip`).
 
 ---
 
@@ -202,7 +204,9 @@ Observed (Nov 5, raw URL): install confirmed as a styled dark card with red **YO
 
 ---
 
-## Cross-provider test results (Nov 5, 2026)
+## Cross-provider test results (Nov 5, 2026) — historical
+
+The session brand that day was **youtube** (`#FF0000`), `installVersion` `401e4c93`. It is **not** the current brand. Current brand is **917v** / `#2F63D6`, loaded from root `SKILL.md`.
 
 Install file `installVersion 401e4c93`, brand **youtube** (#FF0000). Fresh chat per provider → install → *Help me pick a weeknight dinner*.
 

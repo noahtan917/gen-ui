@@ -2,24 +2,28 @@
 
 ## Architecture
 
-- **One skill:** [spec/session-config.json](../spec/session-config.json) + [spec/session-bootstrap.md](../spec/session-bootstrap.md) + [adapters/session/SKILL.md](../adapters/session/SKILL.md)
-- **Many hosts:** thin files in [adapters/session/providers/](../adapters/session/providers/)
+- **One skill:** root [SKILL.md](../SKILL.md), generated from [spec/session-config.json](../spec/session-config.json)
+- **Many hosts:** thin files in [adapters/session/providers/](../adapters/session/providers/), inlined into the skill
 - **Same interactivity semantics:** [spec/interaction-contract.md](../spec/interaction-contract.md)
 - **Host-specific packaging:** [spec/rendering-profiles.md](../spec/rendering-profiles.md)
 
-## After first push to GitHub
+## Prompt
 
-Replace `{REPO_URL}` in [INSTALL-SKILL.md](../INSTALL-SKILL.md). No code changes required when the repo name is final.
+```text
+install this skill for this session https://github.com/noahtan917/gen-ui
+```
+
+Details: [INSTALL-SKILL.md](../INSTALL-SKILL.md).
 
 ## Fetch failures
 
 If the model cannot read GitHub (see [LIMITATIONS L13](LIMITATIONS-AND-CAUSES.md)):
 
-1. Make sure the install message contains the **raw** SESSION-INSTALL URL, not only the repo URL ([INSTALL-SKILL.md](../INSTALL-SKILL.md)).
-2. Stale copy (wrong `installVersion`)? Use a commit-pinned raw URL.
-3. Still blocked? Paste [PASTE-BUNDLE.md](../adapters/session/PASTE-BUNDLE.md) — it is self-contained (tokens, overlays, reference layout inlined).
+1. The install message is the repo URL above. The model reads root `SKILL.md`, not `SESSION-INSTALL.md`.
+2. Stale copy (wrong `installVersion`)? Use a commit-pinned blob of `SKILL.md`, or paste the file.
+3. Still blocked? Paste [SKILL.md](../SKILL.md) and say `Use this skill.`
 
 ## Persistent install (optional)
 
 - **Claude web:** upload [adapters/claude-skill/genui.zip](../adapters/claude-skill/genui.zip) as a Skill (Settings → Capabilities → Skills).
-- **Others:** upload `SESSION-INSTALL.md` to a Claude Project / custom GPT / Gemini Gem knowledge base — still one spec, not per-provider copies.
+- **Others:** paste root `SKILL.md` into a Claude Project / custom GPT / Gemini Gem — still one spec, not per-provider copies.

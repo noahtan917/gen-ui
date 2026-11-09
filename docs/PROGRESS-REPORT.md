@@ -25,7 +25,7 @@ The goal matches the demo you saw elsewhere (install skill → branded UI → cl
 | Static AI responses instead of interactive UI | GenUI JSON + `ai.request` actions + host rendering |
 | Random visuals                                | `themeRef` + [session-config.json](../spec/session-config.json) brand pack |
 | Chat vs coding agent confusion                | Separate **rendering profiles** and entry paths    |
-| “Install from GitHub” fails on some hosts     | Raw install URL (Claude, ChatGPT, DeepSeek, Grok); **PASTE-BUNDLE** for Gemini |
+| “Install from GitHub” fails on some hosts     | Root `SKILL.md` via the repo-URL prompt; paste `SKILL.md` for Gemini |
 
 ---
 
@@ -139,7 +139,7 @@ Click **Sheet-pan salmon** → **Assistant** panel streams the weeknight plan (n
 ### B. Chat AI (multi-provider story)
 
 1. **Claude web** (if Artifacts + URL fetch): install prompt from [`INSTALL-SKILL.md`](../INSTALL-SKILL.md)
-2. **Gemini:** paste [`PASTE-BUNDLE.md`](../adapters/session/PASTE-BUNDLE.md) — _cannot fetch GitHub_
+2. **Gemini:** paste [`SKILL.md`](../SKILL.md) and say `Use this skill.` — _cannot fetch GitHub_
 3. Ask: _Help me pick a weeknight dinner — show GenUI meal options I can click._
 
 ### C. Cursor
@@ -227,7 +227,7 @@ Per-model detail: [PRESENTATION.md slides 10–10e](PRESENTATION.md) and [LIMITA
 | Resource               | URL                                                                                       |
 | ---------------------- | ----------------------------------------------------------------------------------------- |
 | Repo                   | https://github.com/noahtan917/gen-ui                                                      |
-| Paste install (Gemini) | https://raw.githubusercontent.com/noahtan917/gen-ui/main/adapters/session/PASTE-BUNDLE.md |
+| Skill                     | https://github.com/noahtan917/gen-ui/blob/main/SKILL.md                                   |
 | Architecture           | [docs/architecture.md](architecture.md)                                                   |
 | Provider matrix        | [docs/provider-matrix.md](provider-matrix.md)                                             |
 | Limitations report     | [docs/LIMITATIONS-AND-CAUSES.md](LIMITATIONS-AND-CAUSES.md)                               |

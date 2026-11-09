@@ -1,19 +1,18 @@
 # Install GenUI on Gemini (web / app)
 
-Gemini **cannot** fetch files from GitHub inside the chat. **Only Gemini** needs paste; Claude/ChatGPT should fetch [SESSION-INSTALL.md](../adapters/session/SESSION-INSTALL.md) from the repo URL ([INSTALL-SKILL.md](../INSTALL-SKILL.md)).
+Gemini **cannot** fetch files from GitHub inside the chat. Paste root [SKILL.md](../SKILL.md). Claude and ChatGPT use the repo-URL prompt in [INSTALL-SKILL.md](../INSTALL-SKILL.md).
 
-## Option A — Paste bundle (fastest)
+## Option A — Paste the skill (fastest)
 
-1. Open in your browser (copy all text):
-   - https://raw.githubusercontent.com/noahtan917/gen-ui/main/adapters/session/PASTE-BUNDLE.md
+1. Open [SKILL.md](../SKILL.md) in your browser and copy all text.
 2. Paste the **entire file** into Gemini.
 3. Add only:
 
    ```text
-   Apply as GenUI skill for this session.
+   Use this skill.
    ```
 
-   917V branding (#2F63D6) and full rules are inside the bundle — no `Brand:` command.
+   917V branding (#2F63D6) and the full rules are inside the file — no `Brand:` command.
 
 4. Then ask:
 
@@ -24,7 +23,7 @@ Gemini **cannot** fetch files from GitHub inside the chat. **Only Gemini** needs
 ## Option B — Gemini Gem (persistent)
 
 1. Create a new **Gem**.
-2. In instructions, paste [PASTE-BUNDLE.md](../adapters/session/PASTE-BUNDLE.md) (or the raw URL content).
+2. In instructions, paste [SKILL.md](../SKILL.md).
 3. Save. Every chat with that Gem starts with GenUI loaded.
 
 ## Option C — Gemini CLI (developers)
@@ -38,7 +37,7 @@ Use [adapters/gemini/GEMINI.md](../adapters/gemini/GEMINI.md) in a cloned repo �
 - GenUI JSON may follow the cards (`themeRef: 917v`); ask *Don’t show JSON* to hide it
 - Gemini chat is Markdown, so the primary hex may not appear as color
 
-If the reply shows only JSON or `themeRef: demo` / blue `#2563eb`, the bundle wasn’t pasted — Gemini can’t read the GitHub URL.
+If the reply shows only JSON, `themeRef: demo` / blue `#2563eb`, or YouTube red `#FF0000`, the skill file was not pasted — Gemini can’t read the GitHub URL.
 
 ## Local full runtime (click → auto-answer)
 

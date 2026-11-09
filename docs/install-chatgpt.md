@@ -1,14 +1,14 @@
 # Install GenUI on ChatGPT (web)
 
-ChatGPT can **load** the skill from a public GitHub URL (as in your test). Visual output may still **differ from Claude** — see [LIMITATIONS-AND-CAUSES.md](LIMITATIONS-AND-CAUSES.md) (L10).
+Send the same prompt as Claude. ChatGPT opens root [SKILL.md](../SKILL.md). Visual output may still **differ from Claude** — see [LIMITATIONS-AND-CAUSES.md](LIMITATIONS-AND-CAUSES.md) (L10).
 
 ## Install
 
 ```text
-Install the GenUI skill for this session from https://github.com/noahtan917/gen-ui
+install this skill for this session https://github.com/noahtan917/gen-ui
 ```
 
-On repo URL install, the model must fetch [SESSION-INSTALL.md](../adapters/session/SESSION-INSTALL.md) in full (see [INSTALL-SKILL.md](../INSTALL-SKILL.md)).
+The model must read root `SKILL.md` in full (see [INSTALL-SKILL.md](../INSTALL-SKILL.md)). Do not load `SESSION-INSTALL.md`.
 
 ## Ask (strict demo)
 
@@ -23,7 +23,7 @@ Do not use stock photo recipe cards.
 Paste:
 
 ```text
-You drifted from GenUI. Use exactly two options from meal-planning.document.json:
+You drifted from GenUI. Use exactly two options from the skill reference document:
 1) Sheet-pan salmon (Mediterranean)
 2) Miso ramen bowl (Japanese)
 Style with 917V #2F63D6, a light header, and flat cards. Each option needs Send this next with the planMeal prompt.

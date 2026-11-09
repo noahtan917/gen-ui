@@ -24,7 +24,7 @@ Noah Tan · 917 · `github.com/noahtan917/gen-ui`
 
 - AI generates **interactive** UI, not static text
 - **One engineering spec**, not a copy per Claude / Gemini / DeepSeek
-- UI respects **brand tokens** (demo today; 917v / customer sites later)
+- UI respects **brand tokens** (917v / `#2F63D6` for chat; customer sites later)
 - Clicks produce **structured follow-up prompts** for the model
 
 *Same pattern as destination or product cards: user clicks an option, the system knows exactly what to ask the AI next.*
@@ -103,13 +103,13 @@ Example (meal demo):
 | “Click” in Gemini | User sends **Send this next** — chat-bridge, not npm runtime |
 | Claude: extra meals, time filter, blue chips | Host’s **native planner** replaced the custom Artifact |
 | Claude: “robots disallowed” on repo URL install | GitHub blocks AI fetchers from browsing the repo; Claude only opens links it was given |
-| ChatGPT: right meals, but no YouTube red | ChatGPT chat is **Markdown — no colour**; Canvas not chosen by the model |
+| ChatGPT: right meals, but no brand color in Markdown (Nov 5 brand was YouTube red) | ChatGPT chat is **Markdown — no colour**; Canvas not chosen by the model |
 | DeepSeek: correct text cards, nothing clickable | Chat renders **Markdown only** — text profile by design |
 | Grok: different heading + stock food photo | Model **embellishes** the reference (L14) — rules say “no stock photos” but it still adds one |
 | Gemini: correct cards, then the full JSON | Markdown profile allows “optional” JSON; Gemini can’t collapse it (L3) |
 | Click doesn’t send the prompt by itself | Chat hosts give the UI **no way to post into the conversation** |
 
-**Mitigations:** raw-URL install, Claude Skill, `PASTE-BUNDLE.md`, visual-first rules, **`pnpm demo`** for real clicks.
+**Mitigations:** root `SKILL.md` via the repo-URL prompt, Claude Skill zip, paste `SKILL.md`, visual-first rules, **`pnpm demo`** for real clicks. Current brand is **917v** / `#2F63D6`. Slides 10–10e record the **5 Nov 2026** test, when the brand was still YouTube red.
 
 *Full report: `docs/LIMITATIONS-AND-CAUSES.md` — use for Q&A.*
 
@@ -122,13 +122,15 @@ Example (meal demo):
 - GitHub’s `robots.txt` blocks AI fetchers from repo folders (`/tree/`, `/raw/`, `/commits/`) → “robots disallowed”
 - Claude only opens links in the user’s message or earlier results — it won’t build the raw link itself
 - Fetches can be cached → Claude read an **outdated** install
-- **Fixed (OpenSpec 005):** the prompt carries the **raw** install URL; one self-contained file; `installVersion` stamp exposes stale copies; persistent **Claude Skill** zip
+- **Current fix:** root `SKILL.md`. Prompt: `install this skill for this session https://github.com/noahtan917/gen-ui`. GitHub allows that blob and blocks folder browsing.
+- A stable `main` raw URL can still be cached. `installVersion` exposes a stale copy.
+- The Nov 5 failure mode (no root `SKILL.md`, cached YouTube install) is L13.
 
 **2. ChatGPT loads the rules but not the branding (L10)**
 
 - Install confirmed and the **two reference meals** were correct
 - Earlier runs added a host-inserted food photo; the **Nov 5 retest** with `installVersion 401e4c93` showed clean text cards — no photo, no native recipe carousel
-- Chat text is Markdown — **no way to colour it**, so `#FF0000` can’t be applied there
+- Chat text is Markdown — **no way to colour it**, so the Nov 5 primary `#FF0000` could not be applied there. Current primary is **#2F63D6**; Markdown hosts still cannot draw it.
 - Branded UI is only possible in **Canvas** (HTML/React preview) — *proposed*, not shipped
 
 **3. Clicking an option doesn’t send the prompt (L4)**
@@ -144,7 +146,7 @@ Example (meal demo):
 
 ## Slide 10 — Cross-provider test: is GenUI AI-agnostic?
 
-**Test (Nov 5, 2026):** fresh chat per provider → install → *Help me pick a weeknight dinner*. Install file `installVersion 401e4c93`, brand **youtube** (#FF0000).
+**Test (Nov 5, 2026, historical):** fresh chat per provider → install → *Help me pick a weeknight dinner*. Install file `installVersion 401e4c93`, brand **youtube** (#FF0000). **Not the current brand.** Current brand is **917v** / `#2F63D6` from root `SKILL.md`.
 
 | Provider | Install path | Install confirmed | Exactly the 2 meals + **Send this next** | Brand red visible | Drift |
 |----------|--------------|-------------------|------------------------------------------|-------------------|-------|
@@ -239,21 +241,20 @@ Example (meal demo):
 
 ---
 
-## Slide 12 — Multi-provider session skill
+## Slide 12 — Chat skill
 
 **Install for this conversation — one message**
 
 ```text
-Load GenUI for this chat from
-https://raw.githubusercontent.com/noahtan917/gen-ui/main/adapters/session/SESSION-INSTALL.md
+install this skill for this session https://github.com/noahtan917/gen-ui
 ```
 
-- One generated file holds everything: config, brand tokens, reference document, reference layout, host overlays
-- Confirmation must repeat `installVersion` → stale copies are visible
+- Root `SKILL.md` holds everything: config, brand tokens, reference document, reference layout, host overlays
+- Confirmation must repeat `installVersion`, brand **917v**, primary **#2F63D6**
 - **Claude web (persistent):** upload `adapters/claude-skill/genui.zip` as a Skill
-- **Gemini / any blocked fetch:** paste `PASTE-BUNDLE.md`
+- **Gemini / any blocked fetch:** paste `SKILL.md` and say `Use this skill.`
 
-*Tested expectation vs reality: a bare repo URL is not enough on Claude or Gemini — the raw link, the Skill, or paste are the reliable paths.*
+*The repo URL works because `SKILL.md` is at the root. A cached `SESSION-INSTALL.md` on `main` is not the install path.*
 
 ---
 
@@ -342,10 +343,10 @@ No Artifact runtime, and the Markdown profile allows optional developer JSON —
 The model decorated the reference despite repeating the rules back (L14). Install and options were right; the fix is stricter wording for Markdown hosts.
 
 **Why did Claude say “robots disallowed”?**  
-GitHub’s `robots.txt` blocks AI fetchers from repo folders, and Claude only opens links it was given. Fix: put the raw `SESSION-INSTALL.md` URL in the message, or upload the Claude Skill (L13, OpenSpec 005).
+GitHub’s `robots.txt` blocks AI fetchers from repo folders. The current prompt opens root `SKILL.md`, which is a blob page GitHub allows. A cached `SESSION-INSTALL.md` from 4 Nov still said YouTube red; confirm `installVersion` against `SKILL.md`.
 
-**Why doesn’t ChatGPT show the YouTube red?**  
-ChatGPT chat is Markdown with no colour support. The rules loaded (right two meals, no photos on the Nov 5 retest); the host can’t draw the brand outside Canvas (L10).
+**Why doesn’t ChatGPT show the brand color?**  
+ChatGPT chat is Markdown with no colour support. On the Nov 5 retest the rules loaded (right two meals) while the brand was still YouTube red; the host can’t draw **#2F63D6** outside Canvas either (L10).
 
 **Why is there no interactive UI on DeepSeek?**  
 DeepSeek chat only renders Markdown, so GenUI uses the text profile: branded text cards + **Send this next:**. The test result met every rule the host can support (two meals, exact prompts); colour and clicks are host limits. An HTML preview path is still to be tested.

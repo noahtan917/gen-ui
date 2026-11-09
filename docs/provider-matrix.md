@@ -13,7 +13,7 @@
 
 Per-model findings: [LIMITATIONS-AND-CAUSES.md — Cross-provider test results](LIMITATIONS-AND-CAUSES.md#cross-provider-test-results-nov-5-2026).
 
-**Install:** [INSTALL-SKILL.md](../INSTALL-SKILL.md) (raw SESSION-INSTALL URL in the message) · **Claude persistent:** [genui.zip Skill](../adapters/claude-skill/) · **Bootstrap SSOT:** [spec/session-bootstrap.md](../spec/session-bootstrap.md)
+**Install:** [INSTALL-SKILL.md](../INSTALL-SKILL.md) (`install this skill for this session` plus the repo URL; reads root [SKILL.md](../SKILL.md)) · **Claude persistent:** [genui.zip Skill](../adapters/claude-skill/) · **Bootstrap SSOT:** [spec/session-bootstrap.md](../spec/session-bootstrap.md)
 
 ## Coding agents
 

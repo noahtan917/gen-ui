@@ -1,10 +1,10 @@
 <!-- GENERATED: do not edit; run pnpm generate:session-artifacts -->
 
-# GenUI session skill — paste this entire file (= full install, no other commands)
+# GenUI skill — paste this entire file
 
 **installVersion: `{{INSTALL_VERSION}}`**
 
-For any host that **cannot fetch** the raw install URL (Gemini chat, or Claude / ChatGPT when the fetch is blocked or stale). Same policy as SESSION-INSTALL.md. Do **not** fetch any repo file — everything required is below.
+Paste path when the host cannot open {{REPO_URL}}. Prefer pasting root `SKILL.md` (same rules). Do **not** fetch any repo file. Do **not** use `demo` or `youtube`.
 
 You are now configured with **GenUI** for **this conversation**.
 

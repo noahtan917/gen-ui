@@ -1,14 +1,14 @@
 <!-- GENERATED: do not edit; run pnpm generate:session-artifacts -->
 
-# GenUI session install — one-shot (this file is the whole install)
+# GenUI — generated copy of the skill
 
-**installVersion: `4365f57e`**
+**installVersion: `325dca6a`**
 
-The user loads this file with a message like *“Load GenUI for this chat from https://raw.githubusercontent.com/noahtan917/gen-ui/main/adapters/session/SESSION-INSTALL.md”* (or by referencing the repo https://github.com/noahtan917/gen-ui). Reading **this entire file** completes the install — **do not fetch any other repo file** (GitHub blocks most repo paths for AI fetchers, and nothing else is required).
+The chat skill is root `SKILL.md` in https://github.com/noahtan917/gen-ui. This file is the same generated body for maintainers. Reading it also finishes activation. Do **not** fetch other repo files. Do **not** treat a cached copy of this path on `main` as newer than root `SKILL.md`.
 
-This is a **conversation-scoped** install: you do **not** need a skills folder or any persistent storage.
+This is **conversation-scoped**: you do **not** need a skills folder or any persistent storage.
 
-Install is **incomplete** until you confirm installVersion **`4365f57e`**, brand **`917v`** and primary **`#2F63D6`**. Do **not** use `branding/demo` or fall back to neutral styling.
+Activation is **incomplete** until you confirm installVersion **`325dca6a`**, brand **`917v`** and primary **`#2F63D6`**. Do **not** use `demo` or `youtube`.
 
 You are now configured with **GenUI** for **this conversation**.
 
@@ -18,7 +18,7 @@ You are now configured with **GenUI** for **this conversation**.
 
 **Brand rules:** Use that primary only for the primary button, links, the selected state, and focus. Cards are flat: `radius.md`, a 1px keyline, no drop shadow. Buttons and inputs use `radius.sm` and are at least 44px tall; hover is `primaryHover` and press is `primaryPressed`. Sentence case. Use the text and display font stacks from the tokens below.
 
-**Forbidden for session install:** ``demo`` (e.g. legacy demo blue). Do **not** use neutral styling when tokens are inlined below.
+**Forbidden:** `demo` and `youtube` (older packs, including legacy demo blue and YouTube red). Do **not** use them or neutral styling when tokens are inlined below. The only brand is `917v`, primary **#2F63D6**.
 
 **Provider profile:** auto-detect host → `markdown-ui-host` or `embedded-ui-host`.
 
@@ -325,8 +325,8 @@ Brand and meals: **only** session-config.json + loaded tokens — not this file.
 - **Build a React Artifact every turn** that an option-picker is needed (e.g. any weeknight-dinner / "what should I cook" prompt) — not just at install. Re-apply these rules on each reply; a prose "GenUI loaded" confirmation on an earlier turn does **not** exempt later turns.
 - Bind the Artifact to **exactly** the cards in the reference document (for meal planning: the two meals only). Do **not** invent extra options.
 - Style using colors from the loaded brand token file (see config `defaultBrandPack`); use the token **primary** for accents, not Claude's default.
-- Layout example: meal-artifact.reference.tsx (inlined in SESSION-INSTALL — do not fetch) — copy structure, not hardcoded colors from this file.
-- **Install:** the user message must contain the raw SESSION-INSTALL URL (Claude only fetches user-supplied links; GitHub robots-blocks repo browsing). Persistent alternative: the generated Claude Skill (`adapters/claude-skill/genui.zip`).
+- Layout example: meal-artifact.reference.tsx (inlined below — do not fetch) — copy structure, not hardcoded colors from this file.
+- **Install:** the user message is `install this skill for this session` plus the repo URL. Read root `SKILL.md` only (GitHub allows that blob; it blocks folder browsing). Do not fetch `SESSION-INSTALL.md`. Persistent alternative: the generated Claude Skill (`adapters/claude-skill/genui.zip`). If this file was pasted, it is already the skill.
 - On click: call `window.claude.complete` with the fully interpolated `ai.request` prompt and render the returned plan inside the Artifact. Do not ask the user to copy or paste it. If `window.claude.complete` is missing, fall back to **Send this next:** per interactive-ui-guide.md.
 - **Do not** emit Claude's native patterns here: the built-in meal/recipe planner, card-grid pickers, time/"weeknight" filters, "Plan this"-style chips, invented meals, or blue/default chrome.
 - If Artifacts unavailable → `markdown-ui-host` per session-visual-guide.md.
@@ -346,7 +346,7 @@ Brand and meals: **only** session-config.json + loaded tokens — not this file.
 
 Use `embedded-ui-host` only when Gemini Canvas explicitly supports an interactive panel (product-dependent).
 
-**GitHub:** Gemini chat **cannot** fetch from a URL. User must paste ../PASTE-BUNDLE.md (same policy as ../SESSION-INSTALL.md; see ../../../docs/install-gemini.md).
+**GitHub:** Gemini chat **cannot** fetch from a URL. User must paste root `SKILL.md` and say `Use this skill.` (see ../../../docs/install-gemini.md).
 
 Interactions: session-visual-guide.md.
 
@@ -372,7 +372,7 @@ Brand, scenario, and colors: session-config.json + session-visual-guide.md only.
 
 ## No further fetches
 
-This file is **complete**. Do **not** fetch other repo files (spec, tokens, overlays, examples) — they are already inlined above, and GitHub blocks most repo paths for AI fetchers. If a fetch was attempted and failed, **ignore the failure and continue**: the install is still valid.
+This file is **complete**. Do **not** fetch other repo files and do **not** load `SESSION-INSTALL.md`. Spec, tokens, overlays, and examples are already inlined above, and GitHub blocks most repo paths for AI fetchers. If a fetch was attempted and failed, **ignore the failure and continue**: the skill is still valid.
 
 ---
 
@@ -416,7 +416,7 @@ cardRamen = Card("Miso ramen bowl", "Japanese", null, @ToAssistant("Help me cook
 
 ## Confirm activation
 
-Reply with: GenUI loaded · installVersion **4365f57e** · brand **917v** (#2F63D6) · profile {id} · include a **primary-color confirmation line**. Say: *Ask for weeknight dinner — branding applies automatically.*
+Reply with: GenUI loaded · installVersion **325dca6a** · brand **917v** (#2F63D6) · profile {id} · include a **primary-color confirmation line**. Say: *Ask for weeknight dinner — branding applies automatically.*
 
 **Repo (human reference):** https://github.com/noahtan917/gen-ui
 

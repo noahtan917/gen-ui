@@ -1,14 +1,14 @@
 <!-- GENERATED: do not edit; run pnpm generate:session-artifacts -->
 
-# GenUI session install — one-shot (this file is the whole install)
+# GenUI — generated copy of the skill
 
 **installVersion: `{{INSTALL_VERSION}}`**
 
-The user loads this file with a message like *“Load GenUI for this chat from {{RAW_SESSION_INSTALL_URL}}”* (or by referencing the repo {{REPO_URL}}). Reading **this entire file** completes the install — **do not fetch any other repo file** (GitHub blocks most repo paths for AI fetchers, and nothing else is required).
+The chat skill is root `SKILL.md` in {{REPO_URL}}. This file is the same generated body for maintainers. Reading it also finishes activation. Do **not** fetch other repo files. Do **not** treat a cached copy of this path on `main` as newer than root `SKILL.md`.
 
-This is a **conversation-scoped** install: you do **not** need a skills folder or any persistent storage.
+This is **conversation-scoped**: you do **not** need a skills folder or any persistent storage.
 
-Install is **incomplete** until you confirm installVersion **`{{INSTALL_VERSION}}`**, brand **`{{BRAND_ID}}`** and primary **`{{PRIMARY_HEX}}`**. Do **not** use `branding/demo` or fall back to neutral styling.
+Activation is **incomplete** until you confirm installVersion **`{{INSTALL_VERSION}}`**, brand **`{{BRAND_ID}}`** and primary **`{{PRIMARY_HEX}}`**. Do **not** use `demo` or `youtube`.
 
 You are now configured with **GenUI** for **this conversation**.
 

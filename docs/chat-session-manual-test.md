@@ -4,13 +4,13 @@ Repeat on each host you care about.
 
 ## Prerequisites
 
-- Public `{REPO_URL}` pointing at this repo
-- Host can fetch GitHub raw files **or** you paste [PASTE-BUNDLE.md](../adapters/session/PASTE-BUNDLE.md) (includes **917v** #2F63D6)
-- Current `installVersion` from the top of [SESSION-INSTALL.md](../adapters/session/SESSION-INSTALL.md) on GitHub
+- Public repo https://github.com/noahtan917/gen-ui
+- Host can open root [SKILL.md](../SKILL.md) **or** you paste that file (includes **917v** #2F63D6)
+- Current `installVersion` from the top of [SKILL.md](../SKILL.md) on GitHub
 
 ## Steps
 
-1. **Fresh chat.** Send the raw-URL install prompt from [INSTALL-SKILL.md](../INSTALL-SKILL.md) (add `Provider:` only if auto-detect is wrong).
+1. **Fresh chat.** Send: `install this skill for this session https://github.com/noahtan917/gen-ui` ([INSTALL-SKILL.md](../INSTALL-SKILL.md)). Add `Provider:` only if auto-detect is wrong.
 2. Confirm assistant acknowledges **installVersion** (must match GitHub) + brand + rendering profile, and reports **no** “robots disallowed” / extra fetch attempts.
 3. Ask: *Help me pick a weeknight dinner — show clickable meal options.*
 4. Verify:
@@ -28,9 +28,9 @@ If the host shows its own planner instead, see [LIMITATIONS-AND-CAUSES.md](LIMIT
 
 Run the dinner checks (steps 3–6) for each:
 
-- [ ] Raw-URL prompt (primary)
+- [ ] Repo-URL prompt (primary): `install this skill for this session https://github.com/noahtan917/gen-ui`
 - [ ] Uploaded Skill ([genui.zip](../adapters/claude-skill/genui.zip)) — no install message; ask for dinner directly
-- [ ] PASTE-BUNDLE pasted
+- [ ] Root `SKILL.md` pasted, then `Use this skill.`
 
 ## Expected profile by provider
 

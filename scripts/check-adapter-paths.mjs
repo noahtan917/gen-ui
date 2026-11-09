@@ -1,7 +1,7 @@
 import { readFileSync, existsSync, readdirSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { buildSessionArtifacts, RAW_SESSION_INSTALL_URL } from "./lib/session-artifacts.mjs";
+import { buildSessionArtifacts, RAW_SESSION_INSTALL_URL, REPO_URL } from "./lib/session-artifacts.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -33,6 +33,7 @@ const adapterFiles = [
   "INSTALL-SKILL.md",
   "GENUI-SESSION.md",
   "README.md",
+  "SKILL.md",
 ];
 
 const sessionProviders = [
@@ -156,39 +157,43 @@ for (const [rel, expected] of generated.files) {
   }
 }
 
-const skillMd = generated.files.get("adapters/claude-skill/genui/SKILL.md");
-const frontmatter = /^---\nname: ([a-z0-9-]{1,64})\ndescription: (.+)\n---\n/.exec(skillMd);
+const skillMd = generated.files.get("SKILL.md");
+const claudeSkillMd = generated.files.get("adapters/claude-skill/genui/SKILL.md");
+if (skillMd !== claudeSkillMd) {
+  fail("Root SKILL.md must be the same body as adapters/claude-skill/genui/SKILL.md");
+}
+const frontmatter = /^---\nname: ([a-z0-9-]{1,64})\ndescription: (.+)\n---\n/.exec(skillMd ?? "");
 if (!frontmatter) {
-  fail("Claude Skill SKILL.md must start with name/description frontmatter");
+  fail("Root SKILL.md must start with name/description frontmatter");
 } else if (frontmatter[2].length > 1024) {
   fail(`Claude Skill description is ${frontmatter[2].length} chars (max 1024)`);
 }
 
-// User-facing install prompts must carry the raw URL so link-provenance hosts can fetch it.
+const installPrompt = `install this skill for this session ${REPO_URL}`;
 for (const rel of ["INSTALL-SKILL.md", "README.md", "GENUI-SESSION.md", "spec/session-bootstrap.md"]) {
-  if (!readFileSync(join(root, rel), "utf8").includes(RAW_SESSION_INSTALL_URL)) {
-    fail(`${rel} must include the raw install URL ${RAW_SESSION_INSTALL_URL}`);
+  const text = readFileSync(join(root, rel), "utf8");
+  if (!text.includes(installPrompt)) {
+    fail(`${rel} must include the repo-URL install prompt`);
+  }
+  if (!text.includes("SKILL.md")) {
+    fail(`${rel} must name root SKILL.md`);
+  }
+  if (text.includes(RAW_SESSION_INSTALL_URL)) {
+    fail(`${rel} must not send hosts to the cached raw main SESSION-INSTALL URL`);
   }
 }
 
 const sessionSkill = readFileSync(join(root, "adapters/session/SKILL.md"), "utf8");
-if (!sessionSkill.includes("SESSION-INSTALL")) {
-  fail("adapters/session/SKILL.md must reference SESSION-INSTALL.md");
+if (!sessionSkill.includes("SKILL.md")) {
+  fail("adapters/session/SKILL.md must point at root SKILL.md");
 }
-
-const install = readFileSync(join(root, "INSTALL-SKILL.md"), "utf8");
-if (!install.includes("SESSION-INSTALL")) {
-  fail("INSTALL-SKILL.md must reference SESSION-INSTALL.md");
-}
-
-const readme = readFileSync(join(root, "README.md"), "utf8");
-if (!readme.includes("SESSION-INSTALL")) {
-  fail("README.md must reference SESSION-INSTALL.md");
+if (sessionSkill.includes(RAW_SESSION_INSTALL_URL)) {
+  fail("adapters/session/SKILL.md must not send hosts to the cached raw main SESSION-INSTALL URL");
 }
 
 const bootstrap = readFileSync(join(root, "spec/session-bootstrap.md"), "utf8");
-if (!bootstrap.includes("SESSION-INSTALL")) {
-  fail("session-bootstrap.md must reference SESSION-INSTALL as primary path");
+if (!bootstrap.includes("SKILL.md")) {
+  fail("session-bootstrap.md must reference root SKILL.md as the primary path");
 }
 
 const gemini = readFileSync(join(root, "adapters/gemini/GEMINI.md"), "utf8");

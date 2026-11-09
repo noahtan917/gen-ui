@@ -133,6 +133,7 @@ export function buildSessionArtifacts(root) {
   const skillMd = render(templates.claudeSkill);
 
   const files = new Map([
+    ["SKILL.md", skillMd],
     [`${SESSION_DIR}/SESSION-INSTALL.md`, render(templates.sessionInstall)],
     [`${SESSION_DIR}/PASTE-BUNDLE.md`, render(templates.pasteBundle)],
     [`${CLAUDE_SKILL_DIR}/${CLAUDE_SKILL_NAME}/SKILL.md`, skillMd],

@@ -1,6 +1,8 @@
 # Demo brand UI guidelines
 
-Use with [tokens.json](tokens.json) as `themeRef` for GenUI output.
+Legacy pack for local tests only. Chat skill install uses [branding/917v/tokens.json](../917v/tokens.json) (`#2F63D6`). Do **not** use this pack, or the older `youtube` pack, in a chat skill.
+
+Use with [tokens.json](tokens.json) as `themeRef` only when a local test explicitly asks for the demo pack.
 
 ## Layout
 
@@ -17,7 +19,3 @@ Use with [tokens.json](tokens.json) as `themeRef` for GenUI output.
 
 - Option cards: title + short subtitle; entire card clickable when `actionId` is set
 - Do not introduce off-brand gradients or fonts outside `typography.fontFamily`
-
-## Adding 917v later
-
-Copy this folder to `branding/917v/`, replace tokens, set `Brand: 917v` in session install.

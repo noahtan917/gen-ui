@@ -4,7 +4,7 @@
 
 **Brand rules:** Use that primary only for the primary button, links, the selected state, and focus. Cards are flat: `radius.md`, a 1px keyline, no drop shadow. Buttons and inputs use `radius.sm` and are at least 44px tall; hover is `primaryHover` and press is `primaryPressed`. Sentence case. Use the text and display font stacks from the tokens below.
 
-**Forbidden for session install:** `{{FORBIDDEN_PACKS}}` (e.g. legacy demo blue). Do **not** use neutral styling when tokens are inlined below.
+**Forbidden:** {{FORBIDDEN_PACKS}} and `youtube` (older packs, including legacy demo blue and YouTube red). Do **not** use them or neutral styling when tokens are inlined below. The only brand is `{{BRAND_ID}}`, primary **{{PRIMARY_HEX}}**.
 
 **Provider profile:** auto-detect host → `markdown-ui-host` or `embedded-ui-host`.
 
@@ -63,7 +63,7 @@ Detect your host and apply its overlay. Capabilities only; brand and scenario al
 
 ## No further fetches
 
-This file is **complete**. Do **not** fetch other repo files (spec, tokens, overlays, examples) — they are already inlined above, and GitHub blocks most repo paths for AI fetchers. If a fetch was attempted and failed, **ignore the failure and continue**: the install is still valid.
+This file is **complete**. Do **not** fetch other repo files and do **not** load `SESSION-INSTALL.md`. Spec, tokens, overlays, and examples are already inlined above, and GitHub blocks most repo paths for AI fetchers. If a fetch was attempted and failed, **ignore the failure and continue**: the skill is still valid.
 
 ---
 
