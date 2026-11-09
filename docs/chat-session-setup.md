@@ -10,7 +10,7 @@
 ## Prompt
 
 ```text
-install this skill for this session https://github.com/noahtan917/gen-ui
+install this skill for this session https://github.com/noahtan917/gen-ui/blob/main/SKILL.md
 ```
 
 Details: [INSTALL-SKILL.md](../INSTALL-SKILL.md).

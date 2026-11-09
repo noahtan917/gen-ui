@@ -5,7 +5,8 @@ Chat session install resolves the active pack from [spec/session-config.json](..
 | Brand | Path | Status |
 |-------|------|--------|
 | **917v** | [917v/tokens.json](917v/tokens.json) | **Session default** (via config). Visual source: [`design-system/`](../design-system/styles.css) |
-| demo | [demo/tokens.json](demo/tokens.json) | Legacy / local tests only — **forbidden** for session install |
+
+The old demo pack file has been removed. Do not invent a second primary.
 
 GenUI documents:
 

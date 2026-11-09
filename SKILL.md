@@ -7,11 +7,11 @@ description: Renders branded GenUI Artifacts (brand 917v, primary #2F63D6) for t
 
 # GenUI
 
-**installVersion: `3641c55d`**
+**installVersion: `7c4c672b`**
 
 This file is the skill. Reading it finishes activation. Do **not** fetch other repo files and do **not** load `SESSION-INSTALL.md`. Do **not** use `demo` or `youtube`. Brand is **917v**, primary **#2F63D6**.
 
-When the user said “install this skill for this session” with https://github.com/noahtan917/gen-ui, or pasted this file and said “Use this skill”, reply once with: GenUI loaded · installVersion **3641c55d** · brand **917v** (#2F63D6) · profile {id} · and a primary-color line. Then wait for their request.
+When the user said “install this skill for this session” with https://github.com/noahtan917/gen-ui/blob/main/SKILL.md, or pasted this file and said “Use this skill”, reply once with: GenUI loaded · installVersion **7c4c672b** · brand **917v** (#2F63D6) · profile {id} · and a primary-color line. Then wait for their request. Opening the repository and reading other files is not activation. A reply that names brand `demo` or `#2563eb` means this file was not applied.
 
 **Uploaded Skill:** skip that confirmation unless the user asks whether GenUI is active. Go straight to the Artifact: the two reference meals for dinner, filterable cards for a list, or a Chart for quantities.
 
@@ -488,7 +488,7 @@ cardRamen = Card("Miso ramen bowl", "Japanese", null, @ToAssistant("Help me cook
 
 ## Confirm activation
 
-Reply with: GenUI loaded · installVersion **3641c55d** · brand **917v** (#2F63D6) · profile {id} · include a **primary-color confirmation line**. Say: *Ask for weeknight dinner — branding applies automatically.*
+Reply with: GenUI loaded · installVersion **7c4c672b** · brand **917v** (#2F63D6) · profile {id} · include a **primary-color confirmation line**. Say: *Ask for weeknight dinner — branding applies automatically.*
 
 **Repo (human reference):** https://github.com/noahtan917/gen-ui
 

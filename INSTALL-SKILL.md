@@ -19,7 +19,7 @@ You only need **one message**. It is the repository URL. Claude opens root [SKIL
 ## Copy this
 
 ```text
-install this skill for this session https://github.com/noahtan917/gen-ui
+install this skill for this session https://github.com/noahtan917/gen-ui/blob/main/SKILL.md
 ```
 
 Expected confirmation: **GenUI loaded · installVersion `xxxxxxxx` · brand 917v (#2F63D6) · profile …**

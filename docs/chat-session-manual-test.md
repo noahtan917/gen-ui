@@ -10,7 +10,7 @@ Repeat on each host you care about.
 
 ## Steps
 
-1. **Fresh chat.** Send: `install this skill for this session https://github.com/noahtan917/gen-ui` ([INSTALL-SKILL.md](../INSTALL-SKILL.md)). Add `Provider:` only if auto-detect is wrong.
+1. **Fresh chat.** Send: `install this skill for this session https://github.com/noahtan917/gen-ui/blob/main/SKILL.md` ([INSTALL-SKILL.md](../INSTALL-SKILL.md)). Add `Provider:` only if auto-detect is wrong.
 2. Confirm assistant acknowledges **installVersion** (must match GitHub) + brand + rendering profile, and reports **no** “robots disallowed” / extra fetch attempts.
 3. Ask: *Help me pick a weeknight dinner — show clickable meal options.*
 4. Verify:
@@ -28,7 +28,7 @@ If the host shows its own planner instead, see [LIMITATIONS-AND-CAUSES.md](LIMIT
 
 Run the dinner checks (steps 3–6) for each:
 
-- [ ] Repo-URL prompt (primary): `install this skill for this session https://github.com/noahtan917/gen-ui`
+- [ ] Repo-URL prompt (primary): `install this skill for this session https://github.com/noahtan917/gen-ui/blob/main/SKILL.md`
 - [ ] Uploaded Skill ([genui.zip](../adapters/claude-skill/genui.zip)) — no install message; ask for dinner directly
 - [ ] Root `SKILL.md` pasted, then `Use this skill.`
 

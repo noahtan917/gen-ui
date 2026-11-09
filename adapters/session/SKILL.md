@@ -9,7 +9,7 @@ description: >-
 
 On **install** (`install this skill for this session` plus the repo URL), read **only** the root skill file:
 
-`SKILL.md` at https://github.com/noahtan917/gen-ui
+`SKILL.md` at https://github.com/noahtan917/gen-ui/blob/main/SKILL.md
 
 Do **not** load `adapters/session/SESSION-INSTALL.md`. Do **not** browse the repo. Follow [spec/session-bootstrap.md](../../spec/session-bootstrap.md) and [ON-INSTALL.md](ON-INSTALL.md).
 

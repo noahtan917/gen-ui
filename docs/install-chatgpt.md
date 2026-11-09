@@ -5,7 +5,7 @@ Send the same prompt as Claude. ChatGPT opens root [SKILL.md](../SKILL.md). Visu
 ## Install
 
 ```text
-install this skill for this session https://github.com/noahtan917/gen-ui
+install this skill for this session https://github.com/noahtan917/gen-ui/blob/main/SKILL.md
 ```
 
 The model must read root `SKILL.md` in full (see [INSTALL-SKILL.md](../INSTALL-SKILL.md)). Do not load `SESSION-INSTALL.md`.

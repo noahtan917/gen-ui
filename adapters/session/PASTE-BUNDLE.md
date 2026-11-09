@@ -2,7 +2,7 @@
 
 # GenUI skill — paste this entire file
 
-**installVersion: `3641c55d`**
+**installVersion: `7c4c672b`**
 
 Paste path when the host cannot open https://github.com/noahtan917/gen-ui. Prefer pasting root `SKILL.md` (same rules). Do **not** fetch any repo file. Do **not** use `demo` or `youtube`.
 
@@ -481,7 +481,7 @@ cardRamen = Card("Miso ramen bowl", "Japanese", null, @ToAssistant("Help me cook
 
 ## Confirm activation
 
-Reply with: GenUI loaded · installVersion **3641c55d** · brand **917v** (#2F63D6) · profile {id} · include a **primary-color confirmation line**. Say: *Ask for weeknight dinner — branding applies automatically.*
+Reply with: GenUI loaded · installVersion **7c4c672b** · brand **917v** (#2F63D6) · profile {id} · include a **primary-color confirmation line**. Say: *Ask for weeknight dinner — branding applies automatically.*
 
 **Repo (human reference):** https://github.com/noahtan917/gen-ui
 

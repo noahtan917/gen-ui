@@ -5,10 +5,10 @@ Single skill load for **this conversation**. One user message is enough — **no
 ## Trigger (minimal — this is all the user should need)
 
 ```text
-install this skill for this session https://github.com/noahtan917/gen-ui
+install this skill for this session https://github.com/noahtan917/gen-ui/blob/main/SKILL.md
 ```
 
-Claude opens root [SKILL.md](../SKILL.md) from that repository URL. GitHub’s `robots.txt` blocks `/tree/`, `/raw/`, and `/commits/` for AI fetchers and allows the `SKILL.md` blob. Do **not** send the user to `adapters/session/SESSION-INSTALL.md` on `main` — that URL is cached and has served an old YouTube brand.
+That message is the skill file. Read that blob only. GitHub’s `robots.txt` blocks `/tree/`, `/raw/`, and `/commits/` for AI fetchers and allows the `SKILL.md` blob. Do **not** open the repository root and do **not** send the user to `adapters/session/SESSION-INSTALL.md` on `main` — that URL is cached and has served an old YouTube brand.
 
 Optional: `Provider: chatgpt-web` (only if auto-detect is wrong).  
 **Do not require** `Brand:`, extra load commands, or paste instructions — those are automatic (see [ON-INSTALL.md](../adapters/session/ON-INSTALL.md)).

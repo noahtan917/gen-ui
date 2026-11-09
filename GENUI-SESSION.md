@@ -7,7 +7,7 @@ Activation is incomplete until you confirm the `installVersion`, brand **917v**,
 The user message is:
 
 ```text
-install this skill for this session https://github.com/noahtan917/gen-ui
+install this skill for this session https://github.com/noahtan917/gen-ui/blob/main/SKILL.md
 ```
 
 Human docs: [INSTALL-SKILL.md](INSTALL-SKILL.md)

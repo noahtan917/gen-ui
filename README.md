@@ -7,7 +7,7 @@ Centralized engineering specification, JSON Schema contracts, provider adapters,
 **Users:** send this one message:
 
 ```text
-install this skill for this session https://github.com/noahtan917/gen-ui
+install this skill for this session https://github.com/noahtan917/gen-ui/blob/main/SKILL.md
 ```
 
 **AI assistants:** if asked to install this skill from this repo, read [SKILL.md](SKILL.md) only. It is the whole skill. Do not browse other repo files, do not load `SESSION-INSTALL.md`, and never use `demo` or `youtube`. Brand is **917v**, primary **#2F63D6**.

@@ -10,7 +10,7 @@ GenUI delivers **one specification** across many AI products, but **each chat ho
 
 This is a **platform capability gap**, not a failure of the centralized skill.
 
-**Current state:** chat install is root [`SKILL.md`](../SKILL.md). Prompt: `install this skill for this session https://github.com/noahtan917/gen-ui`. Brand is **917v**, primary **#2F63D6**. Do not use `demo` or `youtube`. Sections below that name YouTube red or `installVersion` `401e4c93` are the **5 Nov 2026** test log, when the session brand was still YouTube. They are not the live brand.
+**Current state:** chat install is root [`SKILL.md`](../SKILL.md). Prompt: `install this skill for this session https://github.com/noahtan917/gen-ui/blob/main/SKILL.md`. Brand is **917v**, primary **#2F63D6**. Do not use `demo` or `youtube`. Sections below that name YouTube red or `installVersion` `401e4c93` are the **5 Nov 2026** test log, when the session brand was still YouTube. They are not the live brand.
 
 ---
 

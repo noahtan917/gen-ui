@@ -2,13 +2,13 @@
 
 # GenUI — generated copy of the skill
 
-**installVersion: `3641c55d`**
+**installVersion: `7c4c672b`**
 
 The chat skill is root `SKILL.md` in https://github.com/noahtan917/gen-ui. This file is the same generated body for maintainers. Reading it also finishes activation. Do **not** fetch other repo files. Do **not** treat a cached copy of this path on `main` as newer than root `SKILL.md`.
 
 This is **conversation-scoped**: you do **not** need a skills folder or any persistent storage.
 
-Activation is **incomplete** until you confirm installVersion **`3641c55d`**, brand **`917v`** and primary **`#2F63D6`**. Do **not** use `demo` or `youtube`.
+Activation is **incomplete** until you confirm installVersion **`7c4c672b`**, brand **`917v`** and primary **`#2F63D6`**. Do **not** use `demo` or `youtube`.
 
 You are now configured with **GenUI** for **this conversation**.
 
@@ -485,7 +485,7 @@ cardRamen = Card("Miso ramen bowl", "Japanese", null, @ToAssistant("Help me cook
 
 ## Confirm activation
 
-Reply with: GenUI loaded · installVersion **3641c55d** · brand **917v** (#2F63D6) · profile {id} · include a **primary-color confirmation line**. Say: *Ask for weeknight dinner — branding applies automatically.*
+Reply with: GenUI loaded · installVersion **7c4c672b** · brand **917v** (#2F63D6) · profile {id} · include a **primary-color confirmation line**. Say: *Ask for weeknight dinner — branding applies automatically.*
 
 **Repo (human reference):** https://github.com/noahtan917/gen-ui
 

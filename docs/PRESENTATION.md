@@ -122,7 +122,7 @@ Example (meal demo):
 - GitHub’s `robots.txt` blocks AI fetchers from repo folders (`/tree/`, `/raw/`, `/commits/`) → “robots disallowed”
 - Claude only opens links in the user’s message or earlier results — it won’t build the raw link itself
 - Fetches can be cached → Claude read an **outdated** install
-- **Current fix:** root `SKILL.md`. Prompt: `install this skill for this session https://github.com/noahtan917/gen-ui`. GitHub allows that blob and blocks folder browsing.
+- **Current fix:** root `SKILL.md`. Prompt: `install this skill for this session https://github.com/noahtan917/gen-ui/blob/main/SKILL.md`. GitHub allows that blob and blocks folder browsing.
 - A stable `main` raw URL can still be cached. `installVersion` exposes a stale copy.
 - The Nov 5 failure mode (no root `SKILL.md`, cached YouTube install) is L13.
 
@@ -246,7 +246,7 @@ Example (meal demo):
 **Install for this conversation — one message**
 
 ```text
-install this skill for this session https://github.com/noahtan917/gen-ui
+install this skill for this session https://github.com/noahtan917/gen-ui/blob/main/SKILL.md
 ```
 
 - Root `SKILL.md` holds everything: config, brand tokens, reference document, reference layout, host overlays

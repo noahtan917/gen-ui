@@ -7,6 +7,7 @@ import { join } from "node:path";
 import { createStoredZip } from "./zip.mjs";
 
 export const REPO_URL = "https://github.com/noahtan917/gen-ui";
+export const SKILL_BLOB_URL = `${REPO_URL}/blob/main/SKILL.md`;
 export const REPO_RAW_BASE = "https://raw.githubusercontent.com/noahtan917/gen-ui/main";
 export const SESSION_INSTALL_PATH = "adapters/session/SESSION-INSTALL.md";
 export const RAW_SESSION_INSTALL_URL = `${REPO_RAW_BASE}/${SESSION_INSTALL_PATH}`;
@@ -115,6 +116,7 @@ export function buildSessionArtifacts(root) {
       .replaceAll("{{REFERENCE_ARTIFACT_TSX}}", referenceArtifact)
       .replaceAll("{{PROVIDER_OVERLAYS}}", providerOverlays)
       .replaceAll("{{REPO_URL}}", REPO_URL)
+      .replaceAll("{{SKILL_BLOB_URL}}", SKILL_BLOB_URL)
       .replaceAll("{{RAW_SESSION_INSTALL_URL}}", RAW_SESSION_INSTALL_URL);
 
   let bodyTemplate = templates.body;

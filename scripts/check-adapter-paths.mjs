@@ -1,7 +1,7 @@
 import { readFileSync, existsSync, readdirSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { buildSessionArtifacts, RAW_SESSION_INSTALL_URL, REPO_URL } from "./lib/session-artifacts.mjs";
+import { buildSessionArtifacts, RAW_SESSION_INSTALL_URL, SKILL_BLOB_URL } from "./lib/session-artifacts.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -85,7 +85,7 @@ for (const rel of requiredSpecFiles) {
   }
 }
 
-for (const brandFile of ["branding/demo/tokens.json", "branding/917v/tokens.json"]) {
+for (const brandFile of ["branding/917v/tokens.json"]) {
   if (!existsSync(join(root, brandFile))) {
     fail(`Missing ${brandFile}`);
   }
@@ -169,7 +169,7 @@ if (!frontmatter) {
   fail(`Claude Skill description is ${frontmatter[2].length} chars (max 1024)`);
 }
 
-const installPrompt = `install this skill for this session ${REPO_URL}`;
+const installPrompt = `install this skill for this session ${SKILL_BLOB_URL}`;
 for (const rel of ["INSTALL-SKILL.md", "README.md", "GENUI-SESSION.md", "spec/session-bootstrap.md"]) {
   const text = readFileSync(join(root, rel), "utf8");
   if (!text.includes(installPrompt)) {
