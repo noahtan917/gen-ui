@@ -79,7 +79,7 @@ Plain, specific, sentence case. No exclamation marks, no hype. Numbers with unit
 - Place logos and icons from `assets/` and `icons/`; never redraw. Use the 917V icon set, not Lucide, in production.
 - No gradients (except product-sanctioned ones such as Procure's AI pill), glows, robots or emoji.
 - Status colors only for status, always with a word.
-- A requested color that is not a token does not override `--action`, the blue scale, surfaces, or text. Product theme files under `tokens/themes/` stay valid for that product. Anything else is ignored.
+- A requested color that is not a token does not proceed. Do not rebuild the screen, recolor a bar, or invent a parallel palette (for example red `#D62F2F` and a light tint). Keep `--action`, the blue scale, surfaces, and text. Product theme files under `tokens/themes/` stay valid for that product.
 
 ## Files
 `styles.css`, `tokens/` (+ `tokens/themes/`), `components/` (React, `loader.js` → `window.DS917`), `assets/`, `icons/`, `ui_kits/`, `readme.md`, and `917V Design System.dc.html` (docs site; check it before building anything new). `figma/917V Design System (standalone).html` is the offline build.
