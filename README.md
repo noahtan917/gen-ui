@@ -42,7 +42,7 @@ Maintainers: [spec/session-config.json](spec/session-config.json) → `pnpm gene
 | [`adapters/session/`](adapters/session/) | Centralized chat session skill + per-provider overlays |
 | [`adapters/claude-skill/`](adapters/claude-skill/) | Generated Claude Skill (`genui.zip`) for persistent install on claude.ai |
 | [`adapters/`](adapters/) | Coding-agent entry points (Cursor, Gemini CLI, Claude Code, OpenAI) |
-| [`branding/`](branding/) | Brand token packs (`917v` session default, legacy `demo`) |
+| [`branding/`](branding/) | Session brand pack `917v` |
 | [`design-system/`](design-system/) | 917V design system from `917v-ds`: tokens, components, dashboard chart |
 | [`INSTALL-SKILL.md`](INSTALL-SKILL.md) | Copy-paste install prompt for any chat provider |
 | [`packages/genui-core`](packages/genui-core) | Validate and normalize GenUI documents |
@@ -64,11 +64,10 @@ Project skill path: [`.cursor/skills/genui/SKILL.md`](adapters/cursor/.cursor/sk
 
 See [adapters/README.md](adapters/README.md).
 
-## Progress & presentation
+## Docs
 
-- [docs/PROGRESS-REPORT.md](docs/PROGRESS-REPORT.md) — status, architecture, demo script  
-- [docs/PRESENTATION.md](docs/PRESENTATION.md) — slide-by-slide deck for stakeholders  
-- [docs/LIMITATIONS-AND-CAUSES.md](docs/LIMITATIONS-AND-CAUSES.md) — provider limits, root causes, mitigations  
+- [docs/architecture.md](docs/architecture.md) — layers and the chat-bridge path
+- [docs/provider-matrix.md](docs/provider-matrix.md) — which host uses which overlay  
 
 ## License
 

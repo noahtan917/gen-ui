@@ -31,7 +31,7 @@ Edit [session-config.json](session-config.json) and `branding/{defaultBrandPack}
 | `forbiddenBrandPacks` | Never use for chat (e.g. legacy `demo`). `youtube` is an older pack and is also forbidden |
 | `referenceDocument` | Default scenario JSON |
 
-Generated outputs: root `SKILL.md`, `SESSION-INSTALL.md`, `PASTE-BUNDLE.md`, `adapters/claude-skill/genui/SKILL.md`, `adapters/claude-skill/genui.zip`. Root `SKILL.md` and the Claude skill file are the same body. `pnpm lint:adapters` fails if any is out of sync.
+Generated outputs: root `SKILL.md`, `adapters/claude-skill/genui/SKILL.md`, and `adapters/claude-skill/genui.zip`. Root `SKILL.md` and the Claude skill file are the same body. `pnpm lint:adapters` fails if any is out of sync.
 
 ## Paste path (no GitHub fetch)
 

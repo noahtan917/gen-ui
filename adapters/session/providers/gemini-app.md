@@ -6,7 +6,7 @@ Rules: [spec/session-bootstrap.md](../../../spec/session-bootstrap.md), [spec/se
 
 Use `embedded-ui-host` only when Gemini Canvas explicitly supports an interactive panel (product-dependent).
 
-**GitHub:** Gemini chat **cannot** fetch from a URL. User must paste root `SKILL.md` and say `Use this skill.` (see [../../../docs/install-gemini.md](../../../docs/install-gemini.md)).
+**GitHub:** Gemini chat **cannot** fetch from a URL. User must paste root `SKILL.md` and say `Use this skill.`
 
 Interactions: [session-visual-guide.md](../../../spec/session-visual-guide.md).
 

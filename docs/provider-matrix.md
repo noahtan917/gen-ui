@@ -9,9 +9,9 @@
 | ChatGPT web | `chatgpt-web` | [chatgpt-web.md](../adapters/session/providers/chatgpt-web.md) | embedded or markdown | ✅ Raw URL; Markdown, no colour |
 | Gemini app | `gemini-app` | [gemini-app.md](../adapters/session/providers/gemini-app.md) | embedded or markdown | ✅ Paste only; JSON appended |
 | DeepSeek chat | `deepseek-chat` | [deepseek-chat.md](../adapters/session/providers/deepseek-chat.md) | markdown-ui-host | ✅ Raw URL; Markdown, no colour |
-| Grok chat | `grok-chat` | [grok-chat.md](../adapters/session/providers/grok-chat.md) | markdown-ui-host | ⚠️ Raw URL; heading + photo drift (L14) |
+| Grok chat | `grok-chat` | [grok-chat.md](../adapters/session/providers/grok-chat.md) | markdown-ui-host | ⚠️ Raw URL; heading + photo drift |
 
-Per-model findings: [LIMITATIONS-AND-CAUSES.md — Cross-provider test results](LIMITATIONS-AND-CAUSES.md#cross-provider-test-results-nov-5-2026).
+Visual system: [design-system/](../design-system/).
 
 **Install:** [INSTALL-SKILL.md](../INSTALL-SKILL.md) (`install this skill for this session` plus the repo URL; reads root [SKILL.md](../SKILL.md)) · **Claude persistent:** [genui.zip Skill](../adapters/claude-skill/) · **Bootstrap SSOT:** [spec/session-bootstrap.md](../spec/session-bootstrap.md)
 

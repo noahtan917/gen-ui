@@ -21,10 +21,6 @@ const adapterFiles = [
   "adapters/claude-code/CLAUDE.md",
   "adapters/openai/AGENTS.md",
   "adapters/session/SKILL.md",
-  "adapters/session/PASTE-BUNDLE.md",
-  "adapters/session/PASTE-BUNDLE.template.md",
-  "adapters/session/SESSION-INSTALL.md",
-  "adapters/session/SESSION-INSTALL.template.md",
   "adapters/session/session-artifact-body.template.md",
   "adapters/session/ON-INSTALL.md",
   "adapters/claude-skill/SKILL.template.md",
@@ -99,8 +95,6 @@ for (const rel of [...adapterFiles, ...sessionProviders]) {
   }
   const text = readFileSync(full, "utf8");
   const skipSpecRef =
-    rel.includes("PASTE-BUNDLE.template") ||
-    rel.includes("SESSION-INSTALL.template") ||
     rel.includes("session-artifact-body.template") ||
     rel === "GENUI-SESSION.md" ||
     rel === "README.md";
@@ -126,8 +120,6 @@ for (const rel of sessionProviders) {
   }
 }
 
-assertGeneratedArtifact("adapters/session/PASTE-BUNDLE.md", "PASTE-BUNDLE.md");
-assertGeneratedArtifact("adapters/session/SESSION-INSTALL.md", "SESSION-INSTALL.md");
 assertGeneratedArtifact("adapters/claude-skill/genui/SKILL.md", "Claude Skill SKILL.md");
 
 // Every generated file on disk must equal a fresh in-memory build (OpenSpec 005).

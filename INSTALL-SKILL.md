@@ -81,8 +81,6 @@ Help me pick a weeknight dinner
 
 Expect **exactly** the two reference meals (salmon / ramen), session brand styling (#2F63D6), and **Send this next** lines — on every dinner request, not just the first. On Claude web this should be a custom Artifact, not Claude’s built-in meal planner (no invented meals, time filters, or “Plan this” chips).
 
-If the host drifts to its own planner, use the recovery prompt in [docs/LIMITATIONS-AND-CAUSES.md](docs/LIMITATIONS-AND-CAUSES.md) (L12 Claude, L10 ChatGPT via [docs/install-chatgpt.md](docs/install-chatgpt.md)).
-
 ---
 
 ## Why this prompt
@@ -115,6 +113,5 @@ cd gen-ui && pnpm install && pnpm build && pnpm demo
 | Skill file | [SKILL.md](SKILL.md) |
 | Claude (persistent) | [adapters/claude-skill/](adapters/claude-skill/) |
 | Claude / ChatGPT | Repo-URL prompt (above) |
-| Gemini | [docs/install-gemini.md](docs/install-gemini.md) |
-| Limits | [docs/LIMITATIONS-AND-CAUSES.md](docs/LIMITATIONS-AND-CAUSES.md) |
+| Gemini | Paste [SKILL.md](SKILL.md) and say `Use this skill.` |
 | Provider overlays | [adapters/session/providers/](adapters/session/providers/) |

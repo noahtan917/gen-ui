@@ -71,8 +71,6 @@ export function buildSessionArtifacts(root) {
 
   const templates = {
     body: read(root, `${SESSION_DIR}/session-artifact-body.template.md`),
-    sessionInstall: read(root, `${SESSION_DIR}/SESSION-INSTALL.template.md`),
-    pasteBundle: read(root, `${SESSION_DIR}/PASTE-BUNDLE.template.md`),
     claudeSkill: read(root, `${CLAUDE_SKILL_DIR}/SKILL.template.md`),
   };
 
@@ -136,8 +134,6 @@ export function buildSessionArtifacts(root) {
 
   const files = new Map([
     ["SKILL.md", skillMd],
-    [`${SESSION_DIR}/SESSION-INSTALL.md`, render(templates.sessionInstall)],
-    [`${SESSION_DIR}/PASTE-BUNDLE.md`, render(templates.pasteBundle)],
     [`${CLAUDE_SKILL_DIR}/${CLAUDE_SKILL_NAME}/SKILL.md`, skillMd],
     [
       `${CLAUDE_SKILL_DIR}/${CLAUDE_SKILL_NAME}.zip`,

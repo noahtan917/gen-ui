@@ -75,6 +75,6 @@ flowchart TB
 | Provider context drift | Adapters are thin; spec is SSOT |
 | Agents emit invalid JSON | Zod/JSON Schema + retry hints in spec |
 
-## Trish (deferred)
+## Trish design system
 
-See [docs/future-trish-integration.md](../../docs/future-trish-integration.md).
+The 917V design system is vendored in [design-system/](../../design-system/).
