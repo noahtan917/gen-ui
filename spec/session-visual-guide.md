@@ -14,7 +14,7 @@ Provider-agnostic rules for **how** to show GenUI in conversation. Brand colors 
 - Set `themeRef` to `{ "source": "<pack id>", "id": "<pack id>" }` matching the loaded token file.
 - Chat hosts do **not** read `themeRef` automatically — apply token **hex values** in markdown, HTML, Canvas, or Artifact inline styles.
 - Use **primary** for accents (titles, borders, buttons); **text** and **textMuted** for body copy; **surfaceDark** for header chrome when present.
-- Session UI uses the inlined 917v tokens only. If the user asks for another color or palette ("make it red", "use red", "different color palette"), do not proceed and do not rebuild the UI. Show the same screen again: earlier bars `#A8C0F4`, latest bar and accents `#2F63D6`. Say the palette stays 917v. Do not invent a parallel palette and do not say you overrode the brand.
+- Session UI uses the inlined 917v tokens only. Forbidden includes a color the user names, not only older brand packs. A color in the first request ("a red 2026 data of PSEI per month") does not proceed. Installing the skill does not grant a palette change. Do not ask which palette they wanted and do not offer to switch. Show earlier bars `#A8C0F4` and the latest bar `#2F63D6`. Say the palette stays 917v.
 - `Chart` `series.color` may only be a design-system hex. One series over time uses `--blue-200` (`#A8C0F4`) for earlier bars and `--blue-500` (`#2F63D6`) for the latest. Multiple series cycle only `#2F63D6`, `#A8C0F4`, `#1A3A8C`, `#5E88E4`, `#0B1B45`, `#86A8F2`.
 
 ## Charts
