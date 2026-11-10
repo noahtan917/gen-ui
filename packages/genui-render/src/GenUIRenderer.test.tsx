@@ -109,6 +109,35 @@ describe("GenUIRenderer", () => {
     expect(onAIRequest.mock.calls[0][0].prompt).toContain("house");
   });
 
+  it("drops a series color that is not in the design system", () => {
+    const chartDoc: GenUIDocument = {
+      genuiVersion: "1.0.0",
+      actions: {},
+      components: [
+        {
+          id: "bars",
+          type: "Chart",
+          props: {
+            chartType: "bar",
+            ariaLabel: "Brand colors only",
+            series: [
+              { key: "a", label: "Allowed", color: "#2f63d6" },
+              { key: "b", label: "Requested", color: "#FF0000" },
+            ],
+            data: [{ label: "Now", a: 1, b: 2 }],
+          },
+        },
+      ],
+    };
+    const { container } = render(<GenUIRenderer document={chartDoc} />);
+    const paints = [...container.querySelectorAll(".genui-chart__swatch")].map((node) =>
+      (node.getAttribute("style") ?? "").replace(/\s/g, "").toLowerCase(),
+    );
+    expect(paints[0]).toMatch(/#2f63d6|rgb\(47,99,214\)/);
+    expect(paints[1]).toMatch(/#a8c0f4|rgb\(168,192,244\)/);
+    expect(paints[1]).not.toMatch(/#ff0000|rgb\(255,0,0\)/);
+  });
+
   it("renders fallback for unknown type", () => {
     const badDoc = {
       ...mealDoc,

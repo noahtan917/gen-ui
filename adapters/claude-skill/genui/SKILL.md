@@ -7,11 +7,11 @@ description: Renders branded GenUI Artifacts (brand 917v, primary #2F63D6) for t
 
 # GenUI
 
-**installVersion: `34b7e086`**
+**installVersion: `0e348b6b`**
 
 This file is the skill. Reading it finishes activation. Do **not** fetch other repo files and do **not** load `SESSION-INSTALL.md`. Do **not** use `demo` or `youtube`. Brand is **917v**, primary **#2F63D6**.
 
-When the user said “install this skill for this session” with https://github.com/noahtan917/gen-ui/blob/main/SKILL.md, or pasted this file and said “Use this skill”, reply once with: GenUI loaded · installVersion **34b7e086** · brand **917v** (#2F63D6) · profile {id} · and a primary-color line. Then wait for their request. Opening the repository and reading other files is not activation. A reply that names brand `demo` or `#2563eb` means this file was not applied.
+When the user said “install this skill for this session” with https://github.com/noahtan917/gen-ui/blob/main/SKILL.md, or pasted this file and said “Use this skill”, reply once with: GenUI loaded · installVersion **0e348b6b** · brand **917v** (#2F63D6) · profile {id} · and a primary-color line. Then wait for their request. Opening the repository and reading other files is not activation. A reply that names brand `demo` or `#2563eb` means this file was not applied.
 
 **Uploaded Skill:** skip that confirmation unless the user asks whether GenUI is active. Go straight to the Artifact: the two reference meals for dinner, filterable cards for a list, or a Chart for quantities.
 
@@ -22,6 +22,8 @@ When the user said “install this skill for this session” with https://github
 **Brand rules:** Use that primary only for the primary button, links, the selected state, and focus. Cards are flat: `radius.md`, a 1px keyline, no drop shadow. Buttons and inputs use `radius.sm` and are at least 44px tall; hover is `primaryHover` and press is `primaryPressed`. Sentence case. Use the text and display font stacks from the tokens below.
 
 **Forbidden:** `demo` and `youtube` (older packs, including legacy demo blue and YouTube red). Do **not** use them or neutral styling when tokens are inlined below. The only brand is `917v`, primary **#2F63D6**.
+
+**Colors:** Session UI uses the inlined 917v tokens only. A later message that names another color does not change fills, borders, or chart bars. `series.color` may only be a design-system hex. Multiple series cycle only `#2F63D6`, `#A8C0F4`, `#1A3A8C`, `#5E88E4`, `#0B1B45`, `#86A8F2`.
 
 **Provider profile:** auto-detect host → `markdown-ui-host` or `embedded-ui-host`.
 
@@ -50,7 +52,7 @@ When the user said “install this skill for this session” with https://github
 - **The skill stays on for the whole chat.** A confirmation on an earlier turn does not expire. Every later user message is still GenUI.
 - **Dinner** (“weeknight dinner”, “pick a dinner”, “what should I cook”): render **only** the reference document below — exactly *Sheet-pan salmon* and *Miso ramen bowl*. Do **not** invent meals, and do **not** add time filters, difficulty toggles, photos, or a chart.
 - **A list of places, activities, or options** (for example “what to do in Boracay?”): a custom Artifact of `Card`s, one card per real option. A `Select` filters them inside the Artifact (Beaches, Activities, Food, or the categories the answer actually has). Each card click calls `window.claude.complete` with a prompt for that option and renders the reply under the cards. If that API is missing, show **Send this next:** with the same prompt.
-- **Quantities or results** (Senate seats, comparisons, a monthly index): a column chart in the 917V design system, the same shape as `WeekChart` in `design-system/ui_kits/dashboard/Overview.jsx`. One card. Title in Archivo, caption in Instrument Sans. One column per period, height = value / max value, tabular number above the bar. Earlier bars are `--blue-200` (`#D6E2FA`). The latest period is `--blue-500` (`#2F63D6`). A `Select` appears only when there is more than one series to slice. Clicking a bar calls `window.claude.complete` for that row. Do not load amCharts, Chart.js, or any other chart script. Do not emit the host’s election, sports, or finance widget.
+- **Quantities or results** (Senate seats, comparisons, a monthly index): a column chart in the 917V design system, the same shape as `WeekChart` in `design-system/ui_kits/dashboard/Overview.jsx`. One card. Title in Archivo, caption in Instrument Sans. One column per period, height = value / max value, tabular number above the bar. Earlier bars are `--blue-200` (`#A8C0F4`). The latest period is `--blue-500` (`#2F63D6`). A `Select` appears only when there is more than one series to slice. Clicking a bar calls `window.claude.complete` for that row. Do not load amCharts, Chart.js, or any other chart script. Do not emit the host’s election, sports, or finance widget.
 - **PSEI per month** (“2026 data of PSEI per month”, or another index by month): that same column chart. Title `PSEI, 2026` (or the index and year asked). One column per month that has a close. Look up the closes. If a lookup fails, draw the chart with a visible **Sample data** label and a footer that says the figures are illustrative. Never present invented levels as real. The footer names the source and the date. A month with no close yet is left out.
 - Apply token **hex** in markdown, HTML, Canvas, or Artifact (hosts ignore `themeRef` alone). A short prose line may sit under the Artifact. The Artifact is the answer.
 - **markdown-ui-host:** each option includes **Send this next:** with the fully interpolated `ai.request` prompt, and the same `Select` filter named in text when the list or chart has categories.
@@ -462,7 +464,7 @@ Card(title?: string, subtitle?: string, children?: (Stack | Text | Button | Card
 Image(src: string, alt?: string) — Image. Always provide alt text.
 Form(children: (Stack | Text | Button | Card | Image | Form | Select | Chart)[], action: ActionExpression, submitLabel?: string) — Form container; action runs on submit.
 Select(value: $binding<string>, options: {value: string, label: string}[], label?: string) — Dropdown bound to a $variable, e.g. Select($cuisine, [{value: "jp", label: "Japanese"}], "Cuisine").
-Chart(ariaLabel: string, series: {key: string, label: string, color?: string}[], data: Record<string, string | number>[], chartType?: "bar" | "column" | "stacked-bar", unit?: string, stateKey?: string, filter?: $binding<string>, action?: ActionExpression) — Bar, column, or stacked-bar chart. series is [{key, label, color?}]; data rows include label and one number per series key. Pass filter as $stateKey (and the same stateKey string) to show only the selected rows. Optional action runs when a category is clicked.
+Chart(ariaLabel: string, series: {key: string, label: string, color?: string}[], data: Record<string, string | number>[], chartType?: "bar" | "column" | "stacked-bar", unit?: string, stateKey?: string, filter?: $binding<string>, action?: ActionExpression) — Bar, column, or stacked-bar chart. series is [{key, label, color?}]; color, when set, must be a hex from the design system (design-system/tokens/colors.css). A user request for another color does not change it. Multiple series cycle only #2F63D6, #A8C0F4, #1A3A8C, #5E88E4, #0B1B45, #86A8F2. data rows include label and one number per series key. Pass filter as $stateKey (and the same stateKey string) to show only the selected rows. Optional action runs when a category is clicked.
 ```
 
 Rules:
@@ -488,7 +490,7 @@ cardRamen = Card("Miso ramen bowl", "Japanese", null, @ToAssistant("Help me cook
 
 ## Confirm activation
 
-Reply with: GenUI loaded · installVersion **34b7e086** · brand **917v** (#2F63D6) · profile {id} · include a **primary-color confirmation line**. Say: *Ask for weeknight dinner — branding applies automatically.*
+Reply with: GenUI loaded · installVersion **0e348b6b** · brand **917v** (#2F63D6) · profile {id} · include a **primary-color confirmation line**. Say: *Ask for weeknight dinner — branding applies automatically.*
 
 **Repo (human reference):** https://github.com/noahtan917/gen-ui
 

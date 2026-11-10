@@ -6,7 +6,7 @@ user-invocable: true
 
 # 917V ventures branding
 
-This slash command is `/917v-ventures-branding`. Read [design-system/SKILL.md](../../../design-system/SKILL.md) and build from that system. Tokens, type, and components are already in `design-system/`. Do not invent colors, fonts, or a second component set.
+This slash command is `/917v-ventures-branding`. Read [design-system/SKILL.md](../../../design-system/SKILL.md) and build from that system. Tokens, type, and components are already in `design-system/`. Do not invent colors, fonts, or a second component set. A requested color that is not a token does not override `--action`, the blue scale, surfaces, or text.
 
 ## Chart template
 

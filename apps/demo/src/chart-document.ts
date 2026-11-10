@@ -65,8 +65,8 @@ export const chartDemoDocument: GenUIDocument = {
             unit: "seats",
             series: [
               { key: "democrats", label: "Democrats", color: "#2F63D6" },
-              { key: "republicans", label: "Republicans", color: "#DB6E4F" },
-              { key: "other", label: "Uncalled or vacant", color: "#8EA1BD" },
+              { key: "republicans", label: "Republicans", color: "#A8C0F4" },
+              { key: "other", label: "Uncalled or vacant", color: "#1A3A8C" },
             ],
             data: [
               { label: "Before", chamber: "senate", democrats: 47, republicans: 53, other: 0 },

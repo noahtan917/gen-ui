@@ -2,16 +2,54 @@ import { buildInteractionContext, type GenUIComponent } from "@gen-ui/core";
 import type { ReactNode } from "react";
 import type { RenderContext } from "./registry.js";
 
-const SERIES_COLORS = [
-  "#2F63D6",
-  "#DB6E4F",
-  "#8EA1BD",
-  "#52BCD5",
-  "#DA4E8F",
-  "#142741",
-  "#B45309",
-  "#3A6DBA",
-];
+/** Blue-scale cycle from design-system/tokens/colors.css. */
+const SERIES_COLORS = ["#2F63D6", "#A8C0F4", "#1A3A8C", "#5E88E4", "#0B1B45", "#86A8F2"];
+
+/** Hex values in design-system/tokens/colors.css. Compared case-insensitively. */
+const BRAND_HEX = new Set(
+  [
+    "#0A0C11",
+    "#FFFFFF",
+    "#2F63D6",
+    "#0B1B45",
+    "#1A3A8C",
+    "#A8C0F4",
+    "#EEF1F5",
+    "#12161F",
+    "#10141C",
+    "#737373",
+    "#EEF3FD",
+    "#DCE6FB",
+    "#86A8F2",
+    "#5E88E4",
+    "#2551B6",
+    "#13296A",
+    "#F4F6F9",
+    "#D8DEE7",
+    "#AEB8C8",
+    "#98A2B4",
+    "#667085",
+    "#586173",
+    "#3A4354",
+    "#1B212C",
+    "#252C39",
+    "#3F9BF0",
+    "#6E5BE0",
+    "#A35CE6",
+    "#1FA971",
+    "#E59E1A",
+    "#F26B3A",
+    "#EF4F6B",
+    "#6FA11F",
+    "#D64FA8",
+    "#7A2FB0",
+    "#1F9D63",
+    "#D99A21",
+    "#D2483B",
+    "#A9BCEB",
+    "#F1F3F7",
+  ].map((hex) => hex.toUpperCase()),
+);
 
 type ChartKind = "bar" | "column" | "stacked-bar";
 
@@ -40,7 +78,11 @@ function asNumber(value: unknown): number {
 }
 
 function hexColor(value: unknown, fallback: string): string {
-  return typeof value === "string" && /^#[0-9A-Fa-f]{6}$/.test(value) ? value : fallback;
+  if (typeof value !== "string") return fallback;
+  const match = /^#([0-9A-Fa-f]{6})$/.exec(value.trim());
+  if (!match) return fallback;
+  const hex = `#${match[1].toUpperCase()}`;
+  return BRAND_HEX.has(hex) ? hex : fallback;
 }
 
 function formatNumber(value: number): string {

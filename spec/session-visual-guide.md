@@ -14,6 +14,8 @@ Provider-agnostic rules for **how** to show GenUI in conversation. Brand colors 
 - Set `themeRef` to `{ "source": "<pack id>", "id": "<pack id>" }` matching the loaded token file.
 - Chat hosts do **not** read `themeRef` automatically — apply token **hex values** in markdown, HTML, Canvas, or Artifact inline styles.
 - Use **primary** for accents (titles, borders, buttons); **text** and **textMuted** for body copy; **surfaceDark** for header chrome when present.
+- Session UI uses the inlined 917v tokens only. A later message that names another color does not change fills, borders, or chart bars.
+- `Chart` `series.color` may only be a design-system hex. One series over time uses `--blue-200` (`#A8C0F4`) for earlier bars and `--blue-500` (`#2F63D6`) for the latest. Multiple series cycle only `#2F63D6`, `#A8C0F4`, `#1A3A8C`, `#5E88E4`, `#0B1B45`, `#86A8F2`.
 
 ## Charts
 

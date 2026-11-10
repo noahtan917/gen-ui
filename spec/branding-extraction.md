@@ -45,7 +45,7 @@ Prefer **reusing** host components in the render registry (custom overrides) ove
 
 1. Set `themeRef` on every document intended for that host.
 2. Map GenUI types to host components where a registry override exists.
-3. Do not introduce fonts, palettes, or radii absent from `themeRef` unless the user explicitly asks for a variant.
+3. Do not introduce a color absent from `themeRef`, even when the user asks for another color. Do not introduce fonts or radii absent from `themeRef` unless the user explicitly asks for a variant.
 4. Match spacing rhythm (multiples of `spacing.unit` when applicable).
 
 ## Step 4 — Validation

@@ -129,7 +129,7 @@ export const catalog: readonly CatalogEntry[] = [
   {
     name: "Chart",
     description:
-      'Bar, column, or stacked-bar chart. series is [{key, label, color?}]; data rows include label and one number per series key. Pass filter as $stateKey (and the same stateKey string) to show only the selected rows. Optional action runs when a category is clicked.',
+      'Bar, column, or stacked-bar chart. series is [{key, label, color?}]; color, when set, must be a hex from the design system (design-system/tokens/colors.css). A user request for another color does not change it. Multiple series cycle only #2F63D6, #A8C0F4, #1A3A8C, #5E88E4, #0B1B45, #86A8F2. data rows include label and one number per series key. Pass filter as $stateKey (and the same stateKey string) to show only the selected rows. Optional action runs when a category is clicked.',
     props: chartProps,
   },
 ];
